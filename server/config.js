@@ -1,10 +1,11 @@
 const joi = require('joi')
+const DEFAULT_PORT = 3000
 require('dotenv/config')
 
 // Define config schema
 const schema = joi.object().keys({
   env: joi.string().valid('dev', 'test', 'prod-green', 'prod-blue').default('dev'),
-  port: joi.number().default(3000),
+  port: joi.number().default(DEFAULT_PORT),
   adClientId: joi.string().required(),
   adClientSecret: joi.string().required(),
   adTenant: joi.string().required(),
