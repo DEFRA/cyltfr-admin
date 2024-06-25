@@ -18,14 +18,14 @@
 This is the CYLTFR management tool
 
 ## Prerequisites
-Node v20.x
+Node v20.x  
 Docker v20.10.0+
 
 ## Environment variables
 
 | name                    | description      | required |        default        |       valid        | notes |
 |-------------------------|------------------|:--------:|-----------------------|:------------------:|-------|
-| NODE_ENV                | Environment name |    no    | dev                   | dev,tst,pre,prd    |       |
+| NODE_ENV                | Environment name |    no    | dev                   | dev,test,prod-green,prod-blue    |       |
 | PORT                    | Port number      |    no    | 3000                  |                    |       |
 | AD_CLIENT_ID            | AD Client Id     |    yes   |                       |                    |       |
 | AD_CLIENT_SECRET        | AD Client Secret |    yes   |                       |                    |       |
