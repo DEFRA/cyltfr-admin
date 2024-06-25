@@ -6,21 +6,6 @@ function homeView (comments) {
     text: row[field.name] || ''
   })
 
-  const loadedAtMapper = (_field, row) => {
-    if (row.lastError) {
-      return { html: '<span class="error-text">Error</span>' }
-    }
-
-    const { loadedAt } = row
-    if (loadedAt) {
-      return {
-        html: `<span title="Last loaded at ${formatDate(loadedAt, DATETIMEFORMAT)}">✅</span>`,
-        attributes: { style: 'text-align: center;', 'data-sort': loadedAt }
-      }
-    }
-    return null
-  }
-
   const approvedMapper = (_field, row) => {
     const { approvedAt, approvedBy } = row
 
@@ -52,7 +37,6 @@ function homeView (comments) {
     { name: 'featureCount', title: 'Features' },
     { name: 'boundary', title: 'Boundary' },
     { name: 'approvedAt', title: 'Approved', mapper: approvedMapper },
-    { name: 'loadedAt', title: 'Loaded', mapper: loadedAtMapper }
   ]
 
   const head = fields.map(f => ({
