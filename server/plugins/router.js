@@ -4,7 +4,6 @@ const routes = [].concat(
   require('../routes/comment-file'),
   require('../routes/comment-create'),
   require('../routes/comment-edit'),
-  require('../routes/process'),
   require('../routes/shp2json'),
   require('../routes/comment-guidance'),
   require('../routes/comments-csv'),
