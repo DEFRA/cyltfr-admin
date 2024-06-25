@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-
-npm run build:webpack && npm run build:js && npm run build:css
