@@ -1,5 +1,5 @@
 FROM node:20-alpine AS node
-FROM ghcr.io/osgeo/gdal:alpine-small-3.8.4 as production
+FROM ghcr.io/osgeo/gdal:alpine-small-3.8.4 AS production
 COPY --from=node /usr/lib /usr/lib
 COPY --from=node /usr/local/share /usr/local/share
 COPY --from=node /usr/local/lib /usr/local/lib
