@@ -34,16 +34,10 @@ Docker v20.10.0+
 | IS_SECURE               | Secure cookie    |    no    | false                 |                    |       |
 | FORCE_HTTPS             | Force https      |    no    | false                 |                    |       |
 | HOME_PAGE               | Home page        |    no    | http://localhost:3000 |                    |       |
-| AWS_BUCKET_REGION       | Cookie password  |    yes   |                       |                    |       |
-| AWS_BUCKET_NAME         | Secure cookie    |    yes   |                       |                    |       |
-| HOLDING_COMMENTS_PREFIX | Force https      |    no    | holding-comments      |                    |       |
-| MANIFEST_FILENAME       | Home page        |    no    | manifest.json         |                    |       |
-| LTFRI_DB_HOST           | DB Host          |    yes   |                       |                    |       |
-| LTFRI_DB_PORT           | DB Port          |    yes   |                       |                    |       |
-| LTFRI_DB_NAME           | DB Name          |    yes   |                       |                    |       |
-| LTFRI_DB_USER           | DB User          |    yes   |                       |                    |       |
-| LTFRI_DB_PASSWORD       | DB Password      |    yes   |                       |                    |       |
-| LTFRI_DB_SCHEMA         | DB Schema        |    yes   |                       |                    |       |
+| AWS_BUCKET_REGION       |                  |    yes   |                       |                    |       |
+| AWS_BUCKET_NAME         |                  |    yes   |                       |                    |       |
+| HOLDING_COMMENTS_PREFIX |                  |    no    | holding-comments      |                    |       |
+| MANIFEST_FILENAME       |                  |    no    | manifest.json         |                    |       |
 
 ## Running the application
 
