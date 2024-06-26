@@ -10,8 +10,8 @@ USER root
 
 RUN set -xe \
     && apk update && apk upgrade \
-    && apk add bash make gcc g++ py-pip curl postgresql-client npm \
-    && bash --version && npm -v && node -v && psql --version && ogr2ogr --version \
+    && apk add bash make gcc g++ py-pip curl npm \
+    && bash --version && npm -v && node -v && ogr2ogr --version \
     && npm install -g npm \
     && rm -rf /var/cache/apk/* \
     && addgroup -S node \
@@ -38,8 +38,6 @@ RUN npm ci --omit=dev
 RUN npm run build
 
 COPY --chown=root:root ./server ./server
-
-COPY --chown=root:root ./dbscripts ./dbscripts
 
 # COPY --chown=node:node . .
 
