@@ -9,7 +9,7 @@ module.exports = {
   handler: async (request, h) => {
     const { auth, provider } = request
 
-    const comments = await provider.load()
+    const comments = await provider.getFile()
     const homeComments = auth.credentials.isApprover
       ? comments
       : comments.filter(c => c.createdBy === auth.credentials.profile.email)
