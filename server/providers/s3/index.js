@@ -1,77 +1,75 @@
+const { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3')
 const fs = require('fs')
-const s3 = require('../../s3')
 const config = require('../../config')
 const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`
 
+const s3Client = new S3Client({
+  region: config.awsBucketRegion
+})
+
 class S3Provider {
-  async load () {
-    const result = await this.getFile(manifestKey)
-
-    return JSON.parse(result.Body.toString())
+  async getFile(key) {
+    const fileKey = key ? key : manifestKey
+    const result = await s3Client.send(new GetObjectCommand({
+      Bucket: config.awsBucketName,
+      Key: fileKey,
+    }))
+    
+    return JSON.parse(await result.Body.transformToString())
   }
 
-  async save (comments) {
-    return s3.putObject({
+  async save(comments) {
+    await s3Client.send(new PutObjectCommand({
+      Bucket: config.awsBucketName,
       Key: manifestKey,
-      Body: JSON.stringify(comments, null, 2)
-    }).promise()
+      Body: JSON.stringify(comments, null, 2),
+    }))
   }
 
-  async addComment (item) {
-    const comments = await this.load()
+  async addComment(item) {
+    const comments = await this.getFile()
     comments.push(item)
     return this.save(comments)
   }
 
-  async getFile (key) {
-    const result = await s3.getObject({
-      Key: key
-    }).promise()
+  async uploadFile(keyname, filename) {
+    const data = await fs.promises.readFile(filename)
 
-    return result
-  }
-
-  async uploadFile (keyname, filename) {
-    const data = await new Promise((resolve, reject) => {
-      fs.readFile(filename, (err, readData) => {
-        if (err) {
-          reject(err)
-        } else {
-          resolve(readData)
-        }
-      })
-    })
-
-    await s3.putObject({
+    await s3Client.send(new PutObjectCommand({
+      Bucket: config.awsBucketName,
       Key: `${config.holdingCommentsPrefix}/${keyname}`,
-      Body: data
-    }).promise()
+      Body: data,
+    }))
   }
 
-  async uploadObject (keyname, data) {
-    await s3.putObject({
+  async uploadObject(keyname, data) {
+    await s3Client.send(new PutObjectCommand({
+      Bucket: config.awsBucketName,
       Key: `${config.holdingCommentsPrefix}/${keyname}`,
-      Body: data
-    }).promise()
+      Body: data,
+    }))
   }
 
-  async deleteFile (keyname) {
-    await s3.deleteObject({
-      Key: `${config.holdingCommentsPrefix}/${keyname}`
-    }).promise()
+  async deleteFile(keyname) {
+    await s3Client.send(new DeleteObjectCommand({
+      Bucket: config.awsBucketName,
+      Key: `${config.holdingCommentsPrefix}/${keyname}`,
+    }))
   }
 
-  async ensureManifestFile () {
+  async ensureManifestFile() {
     try {
-      await s3.getObject({
-        Key: manifestKey
-      }).promise()
+      await s3Client.send(new GetObjectCommand({
+        Bucket: config.awsBucketName,
+        Key: manifestKey,
+      }))
     } catch (err) {
-      if (err.code === 'NoSuchKey') {
-        await s3.putObject({
+      if (err.name === 'NoSuchKey') {
+        await s3Client.send(new PutObjectCommand({
+          Bucket: config.awsBucketName,
           Key: manifestKey,
-          Body: '[]'
-        }).promise()
+          Body: '[]',
+        }))
       } else {
         throw err
       }

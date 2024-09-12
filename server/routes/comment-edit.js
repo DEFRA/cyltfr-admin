@@ -13,11 +13,10 @@ module.exports = [
       const { params } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.load()
+      const comments = await provider.getFile()
       const comment = comments.find(c => c.id === id)
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
-      const geometryFile = await provider.getFile(key)
-      const geometry = JSON.parse(geometryFile.Body)
+      const geometry = await provider.getFile(key)
 
       return h.view('comment-view', commentView(comment, geometry, request.auth, capabilities))
     },
@@ -36,11 +35,10 @@ module.exports = [
       const { params } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.load()
+      const comments = await provider.getFile()
       const comment = comments.find(c => c.id === id)
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
-      const geometryFile = await provider.getFile(key)
-      const geometry = JSON.parse(geometryFile.Body)
+      const geometry = await provider.getFile(key)
       const features = geometry.features
       const type = comment.type
       const riskType = []
@@ -93,11 +91,10 @@ module.exports = [
       const { payload, params, auth } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.load()
+      const comments = await provider.getFile()
       const comment = comments.find(c => c.id === id)
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
-      const geometryFile = await provider.getFile(key)
-      const geometry = JSON.parse(geometryFile.Body)
+      const geometry = await provider.getFile(key)
       const features = geometry.features
       const formattedPayload = geometry
       const type = comment.type
@@ -173,7 +170,7 @@ module.exports = [
       const { params, auth } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.load()
+      const comments = await provider.getFile()
       const comment = comments.find(c => c.id === id)
 
       // Approve
@@ -203,7 +200,7 @@ module.exports = [
       const { params } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.load()
+      const comments = await provider.getFile()
       const comment = comments.find(c => c.id === id)
 
       // Undo approve
@@ -233,7 +230,7 @@ module.exports = [
       const { params, auth } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.load()
+      const comments = await provider.getFile()
       const comment = comments.find(c => c.id === id)
 
       // Only approvers or comment authors can delete
