@@ -111,7 +111,9 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                 <div class="form-group field field-string  govuk-form-group info" id="text_area_${featureIndex}">
                   <label class="control-label" for="features_${featureIndex}_properties_info">Enter the holding comment text</label>
                   <div id="features_${featureIndex}_properties_info__description" class="field-description">
-                    <p>For example: “The rivers and sea flood risk for this area has changed. For more information, email <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a>.”</p>
+                    <p>For example:</p>
+                    <p>For updates to when NaFRA2 data will be available: "Some of the rivers and sea flood risk data for this location is currently unavailable. We’ll publish this data by [month]."</p>
+                    <p>For other scenarios: “The rivers and sea flood risk for this area has changed. For more information, email <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a>.”</p>
                     <p>The holding comment text will display to public users in this area. Read <a href="/comment-guidance" target="_blank" previewlistener="true">comment guidance</a> before writing or pasting anything. The maximum number of characters is 150.</p>
                   </div>
                   <div>
