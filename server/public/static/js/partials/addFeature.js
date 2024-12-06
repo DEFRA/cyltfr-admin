@@ -112,12 +112,21 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <label class="control-label" for="features_${featureIndex}_properties_info">Enter the holding comment text</label>
                   <div id="features_${featureIndex}_properties_info__description" class="field-description">
                     <p>For example:</p>
-                    <p>For updates to when NaFRA2 data will be available: "Some of the rivers and sea flood risk data for this location is currently unavailable. We’ll publish this data by [month]."</p>
-                    <p>For other scenarios: “The rivers and sea flood risk for this area has changed. For more information, email <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a>.”</p>
-                    <p>The holding comment text will display to public users in this area. Read <a href="/comment-guidance" target="_blank" previewlistener="true">comment guidance</a> before writing or pasting anything. The maximum number of characters is 150.</p>
+                    <p>For updates to when NaFRA2 data will be available: "Some of the rivers and sea flood risk data for this location is 
+                      currently unavailable. We'll publish this data by [month]."</p>
+                    <p>For other scenarios (new modelling): "We will update this data to include new rivers and sea information for this area. 
+                      For information, email <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a>.”</p>
+                    <p>For flood alleviation schemes: "A flood management scheme in [Weston-Super-Mare] has been completed. We will include this 
+                      in our rivers and sea data. For information, email 
+                      <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a>.”</p>
+                    <p>Data currently being reviewed: "We are reviewing rivers and sea data for this area. For information, contact 
+                      <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a>.”</p>
+                    <p>The holding comment text will display to public users in this area. Read 
+                      <a href="/comment-guidance" target="_blank" previewlistener="true">comment guidance</a>
+                      before writing or pasting anything. The maximum number of characters is 180.</p>
                   </div>
                   <div>
-                    <textarea name="features_${featureIndex}_properties_info" rows="5" id="features_${featureIndex}_properties_info" maxlength="150" class="govuk-textarea"></textarea>
+                    <textarea name="features_${featureIndex}_properties_info" rows="5" id="features_${featureIndex}_properties_info" maxlength="180" class="govuk-textarea"></textarea>
                     <p class="govuk-hint govuk-character-count__message">You have <span class="remaining-chars-text"></span> characters remaining</p>
                   </div>
                 </div>
