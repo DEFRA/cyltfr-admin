@@ -41,15 +41,30 @@ function commentView (comment, geometry, auth, capabilities) {
       { text: comment.type === 'holding' ? 'Risk Override' : '' },
       { text: 'Valid from' },
       { text: 'Valid to' },
-      { text: '' }
+      { text: 'Map' },
+      ...(retval.allowDelete ? [{ text: 'Delete' }] : [])
     ],
-    rows: geometry.features.map((f, i) => ([
-      { text: f.properties.info },
-      { text: comment.type === 'holding' ? f.properties.riskOverride : '' },
-      { text: formatDate(f.properties.start, DATEFORMAT) },
-      { text: formatDate(f.properties.end, DATEFORMAT) },
-      { html: `<div id='map_${i}' class='comment-map'></div>` }
-    ]))
+    rows: geometry.features.map((f, i) => {
+      const row = [
+        { text: f.properties.info },
+        { text: comment.type === 'holding' ? f.properties.riskOverride : '' },
+        { text: formatDate(f.properties.start, DATEFORMAT) },
+        { text: formatDate(f.properties.end, DATEFORMAT) },
+        { html: `<div id='map_${i}' class='comment-map'></div>` }
+      ]
+
+      if (retval.allowDelete) {
+        row.push({
+          html: '<div style="float: right;"> ' +
+          `<form method="POST" action="/comment/edit/${comment.id}/deletesingle/${i}" style="display: inline-block;"` +
+          'onsubmit="return confirm(\'Are you sure you want to delete this comment and polygon?\')">' +
+          '<button class="govuk-button danger" type="submit">Delete</button>' +
+          '</form></div>'
+        })
+      }
+
+      return row
+    })
   }
 
   return retval
