@@ -58,6 +58,9 @@ module.exports = [
       }
     },
     options: {
+      payload: {
+        maxBytes: 809715200
+      },
       validate: {
         params: joi.object().keys({
           type: joi.string().valid('holding', 'llfa').required()

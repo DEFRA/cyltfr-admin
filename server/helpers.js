@@ -2,6 +2,7 @@ const spawn = require('child_process').spawn
 const moment = require('moment-timezone')
 const { DATEFORMAT } = require('./constants')
 const CONVERSION_BASE = 36
+const validGeometyTypes = ['Polygon', 'MultiPolygon']
 
 function shortId () {
   return Math.random().toString(CONVERSION_BASE).substring(2)
@@ -24,7 +25,7 @@ function updateAndValidateGeoJson (geojson, type) {
         : '',
       info: props.display2 || props.Data_Type || ''
     }
-    if (f.geometry.type !== 'Polygon') {
+    if (!validGeometyTypes.includes(f.geometry.type)) {
       throw new Error('Shape file contains invalid data. Must only contain Polygon types')
     }
   })
