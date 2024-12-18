@@ -5,6 +5,31 @@ const commentView = require('../models/comment-view')
 const commentEdit = require('../models/comment-edit')
 const capabilities = require('../models/capabilities')
 
+const handleCommentDelete = async (request, h) => {
+  const { params, auth } = request
+  const { id } = params
+  const provider = request.provider
+  const comments = await provider.getFile()
+  const comment = comments.find(c => c.id === id)
+
+  // Only approvers or comment authors can delete
+  const allowDelete = auth.credentials.isApprover ||
+  comment.createdBy === auth.credentials.profile.email
+
+  if (!allowDelete) {
+    return boom.badRequest('You cannot delete this comment')
+  }
+
+  // Delete the comment
+  const idx = comments.indexOf(comment)
+  comments.splice(idx, 1)
+
+  await provider.deleteFile(comment.keyname)
+  await provider.save(comments)
+
+  return h.redirect('/')
+}
+
 module.exports = [
   {
     method: 'GET',
@@ -227,11 +252,28 @@ module.exports = [
     method: 'POST',
     path: '/comment/edit/{id}/delete',
     handler: async (request, h) => {
+      return handleCommentDelete(request, h)
+    },
+    options: {
+      validate: {
+        params: joi.object().keys({
+          id: joi.string().required()
+        })
+      }
+    }
+  },
+  {
+    method: 'POST',
+    path: '/comment/edit/{id}/deletesingle/{index}',
+    handler: async (request, h) => {
       const { params, auth } = request
       const { id } = params
       const provider = request.provider
       const comments = await provider.getFile()
       const comment = comments.find(c => c.id === id)
+      const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
+      const geometry = await provider.getFile(key)
+      const features = geometry.features
 
       // Only approvers or comment authors can delete
       const allowDelete = auth.credentials.isApprover ||
@@ -241,21 +283,35 @@ module.exports = [
         return boom.badRequest('You cannot delete this comment')
       }
 
-      // Delete the comment
-      const idx = comments.indexOf(comment)
-      comments.splice(idx, 1)
+      features.splice(params.index, 1)
+      if (features.length === 0) {
+        return handleCommentDelete(request, h)
+      }
 
-      await provider.deleteFile(comment.keyname)
+      // Update the comment
+      Object.assign(comment, {
+        updatedAt: new Date(),
+        approvedAt: null,
+        approvedBy: null,
+        updatedBy: auth.credentials.profile.email,
+        featureCount: features.length
+      })
+
+      // Upload file to s3
+      await provider.uploadObject(`${comment.keyname}`, JSON.stringify(geometry))
+
       await provider.save(comments)
 
-      return h.redirect('/')
+      return h.redirect(`/comment/view/${id}`)
     },
     options: {
       validate: {
         params: joi.object().keys({
-          id: joi.string().required()
+          id: joi.string().required(),
+          index: joi.number().required()
         })
       }
     }
+
   }
 ]
