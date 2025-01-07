@@ -26,7 +26,7 @@
         {% if (allowDelete) %}
         <div style="float: right;">
           <form method="POST" action="/comment/edit/{{ comment.id }}/delete" style="display: inline-block;"
-            onsubmit="return confirm('Are you sure you want to delete all comments and all polygons?')">
+            onsubmit="return confirm('Are you sure you want to delete all comments?')">
             <button class="govuk-button danger" type="submit">Delete all</button>
           </form>
         </div>
