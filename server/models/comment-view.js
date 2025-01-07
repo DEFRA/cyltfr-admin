@@ -57,7 +57,7 @@ function commentView (comment, geometry, auth, capabilities) {
         row.push({
           html: '<div style="float: right;"> ' +
           `<form method="POST" action="/comment/edit/${comment.id}/deletesingle/${i}" style="display: inline-block;"` +
-          'onsubmit="return confirm(\'Are you sure you want to delete this comment and polygon?\')">' +
+          'onsubmit="return confirm(\'Are you sure you want to delete this comment?\')">' +
           '<button class="govuk-button danger" type="submit">Delete</button>' +
           '</form></div>'
         })
