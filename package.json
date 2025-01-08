@@ -1,6 +1,6 @@
 {
   "name": "risk-admin",
-  "version": "1.1.5",
+  "version": "5.0.0",
   "description": "LTFRI Admin Web App",
   "main": "index.js",
   "engines": {

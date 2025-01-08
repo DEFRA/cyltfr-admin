@@ -15,10 +15,16 @@
 [![Licence](https://img.shields.io/badge/licence-OGLv3-blue.svg)](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3)
 
 # Check Your Long Term Flood Risk Services (cyltfr-admin)
-This is the CYLTFR management tool
+This is the Check Your Long Term Flood Risk (CYLTFR) management tool.
+
+This repository is part of the CYLTFR service which also includes:\
+<https://github.com/DEFRA/cyltfr-app>\
+<https://github.com/DEFRA/cyltfr-service>\
+<https://github.com/DEFRA/cyltfr-data>
+
 
 ## Prerequisites
-Node v20.x  
+Node v20.x/ 
 Docker v20.10.0+
 
 ## Environment variables
@@ -74,19 +80,16 @@ Notes
 If you want to debug locally and not run the docker container but don't have `ogr2ogr` installed
 change the shp2json file to return the mock geojson on line 24.
 
-## Contributing to this project
-Please read our [contribution guidelines](https://github.com/DEFRA/cyltfr-admin/blob/develop/CONTRIBUTING.md)
-
 ## License
 THIS INFORMATION IS LICENSED UNDER THE CONDITIONS OF THE OPEN GOVERNMENT LICENCE found at:
 
-http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3
+<http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3>
 
 The following attribution statement MUST be cited in your products and applications when using this information.
 
-Contains public sector information licensed under the Open Government license v3
+>Contains public sector information licensed under the Open Government licence v3
 
 ### About the license
-The Open Government Licence (OGL) was developed by the Controller of Her Majesty's Stationery Office (HMSO) to enable information providers in the public sector to license the use and re-use of their information under a common open licence.
+The Open Government Licence (OGL) was developed by the Controller of His Majesty's Stationery Office (HMSO) to enable information providers in the public sector to license the use and re-use of their information under a common open licence.
 
 It is designed to encourage use and re-use of information freely and flexibly, with only a few conditions.
