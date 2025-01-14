@@ -21,9 +21,7 @@ module.exports = {
     const baseUrl = request.url.origin
     const rows = homeComments
       .map((comment, i) => {
-        const file = JSON.parse(files[i].Body.toString())
-
-        return file.features.map(feature => {
+        return files[i].features.map(feature => {
           const { start, end, info, riskType, riskOverride } = feature.properties
 
           let FloodRiskType = ''
