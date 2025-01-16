@@ -5,7 +5,7 @@ module.exports = {
   path: '/',
   handler: async (request, h) => {
     const { provider, auth } = request
-    const comments = await provider.load()
+    const comments = await provider.getFile()
 
     // Approvers can see all comments
     // Standard users only see their own

@@ -9,7 +9,7 @@ module.exports = {
   handler: async (request, h) => {
     const { auth, provider } = request
 
-    const comments = await provider.load()
+    const comments = await provider.getFile()
     const homeComments = auth.credentials.isApprover
       ? comments
       : comments.filter(c => c.createdBy === auth.credentials.profile.email)
@@ -21,9 +21,7 @@ module.exports = {
     const baseUrl = request.url.origin
     const rows = homeComments
       .map((comment, i) => {
-        const file = JSON.parse(files[i].Body.toString())
-
-        return file.features.map(feature => {
+        return files[i].features.map(feature => {
           const { start, end, info, riskType, riskOverride } = feature.properties
 
           let FloodRiskType = ''
