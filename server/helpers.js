@@ -14,7 +14,7 @@ function formatDate (str, format = DATEFORMAT) {
 
 function updateAndValidateGeoJson (geojson, type) {
   if (geojson.crs?.properties?.name !== 'urn:ogc:def:crs:EPSG::27700') {
-    throw new Error('Shape file contains invalid data. Must be in EPSG:27700 projection')
+    throw new Error('Shape file contains invalid data. Must be in British National Grid (EPSG 27700) projection')
   }
   geojson.features.forEach(f => {
     const props = f.properties
