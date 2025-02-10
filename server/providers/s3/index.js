@@ -8,67 +8,67 @@ const s3Client = new S3Client({
 })
 
 class S3Provider {
-  async getFile(key) {
+  async getFile (key) {
     const fileKey = key ? key : manifestKey
     const result = await s3Client.send(new GetObjectCommand({
       Bucket: config.awsBucketName,
-      Key: fileKey,
+      Key: fileKey
     }))
-    
+
     return JSON.parse(await result.Body.transformToString())
   }
 
-  async save(comments) {
+  async save (comments) {
     await s3Client.send(new PutObjectCommand({
       Bucket: config.awsBucketName,
       Key: manifestKey,
-      Body: JSON.stringify(comments, null, 2),
+      Body: JSON.stringify(comments, null, 2)
     }))
   }
 
-  async addComment(item) {
+  async addComment (item) {
     const comments = await this.getFile()
     comments.push(item)
     return this.save(comments)
   }
 
-  async uploadFile(keyname, filename) {
+  async uploadFile (keyname, filename) {
     const data = await fs.promises.readFile(filename)
 
     await s3Client.send(new PutObjectCommand({
       Bucket: config.awsBucketName,
       Key: `${config.holdingCommentsPrefix}/${keyname}`,
-      Body: data,
+      Body: data
     }))
   }
 
-  async uploadObject(keyname, data) {
+  async uploadObject (keyname, data) {
     await s3Client.send(new PutObjectCommand({
       Bucket: config.awsBucketName,
       Key: `${config.holdingCommentsPrefix}/${keyname}`,
-      Body: data,
+      Body: data
     }))
   }
 
-  async deleteFile(keyname) {
+  async deleteFile (keyname) {
     await s3Client.send(new DeleteObjectCommand({
       Bucket: config.awsBucketName,
-      Key: `${config.holdingCommentsPrefix}/${keyname}`,
+      Key: `${config.holdingCommentsPrefix}/${keyname}`
     }))
   }
 
-  async ensureManifestFile() {
+  async ensureManifestFile () {
     try {
       await s3Client.send(new GetObjectCommand({
         Bucket: config.awsBucketName,
-        Key: manifestKey,
+        Key: manifestKey
       }))
     } catch (err) {
       if (err.name === 'NoSuchKey') {
         await s3Client.send(new PutObjectCommand({
           Bucket: config.awsBucketName,
           Key: manifestKey,
-          Body: '[]',
+          Body: '[]'
         }))
       } else {
         throw err

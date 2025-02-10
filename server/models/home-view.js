@@ -34,9 +34,16 @@ function homeView (comments) {
         text: row[field.name] === 'holding' ? 'Holding' : 'LLFA'
       })
     },
+    {
+      name: 'createdBy',
+      title: 'Created By',
+      mapper: (_field, row) => ({
+        text: row.createdBy || 'chicken'
+      })
+    },
     { name: 'featureCount', title: 'Features' },
     { name: 'boundary', title: 'Boundary' },
-    { name: 'approvedAt', title: 'Approved', mapper: approvedMapper },
+    { name: 'approvedAt', title: 'Approved', mapper: approvedMapper }
   ]
 
   const head = fields.map(f => ({
