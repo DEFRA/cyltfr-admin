@@ -22,7 +22,9 @@
       {{ govukTable(viewHeaderData) }}
 
       <div>
+        {% if (allowEdit) %}
         <a class="govuk-button" href="/comment/edit/{{comment.id}}">Edit</a>
+        {% endif %}
         {% if (allowDelete) %}
         <div style="float: right;">
           <form method="POST" action="/comment/edit/{{ comment.id }}/delete" style="display: inline-block;"
