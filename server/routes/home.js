@@ -4,7 +4,7 @@ module.exports = {
   method: 'GET',
   path: '/',
   handler: async (request, h) => {
-    const { provider, auth } = request // eslint-disable-line no-use-before-define
+    const { provider, auth } = request
     const comments = await provider.getFile()
     const currentUser = auth.credentials.profile.email
 
