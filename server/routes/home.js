@@ -6,12 +6,11 @@ module.exports = {
   handler: async (request, h) => {
     const { provider, auth } = request // eslint-disable-line no-use-before-define
     const comments = await provider.getFile()
+    const currentUser = auth.credentials.profile.email
 
-    console.log('comments', comments)
+    // Users can see all comments
+    const homeComments = comments
 
-    // Approvers can see all comments
-    // Standard users only see their own
-    const homeComments = comments    
-    return h.view('home', homeView(homeComments))
+    return h.view('home', homeView(homeComments, currentUser))
   }
 }
