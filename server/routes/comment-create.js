@@ -29,6 +29,8 @@ module.exports = [
       const id = shortId()
       const keyname = `${id}.json`
       const now = new Date()
+      
+      console.log('payload.features:', payload.features)
 
       try {
         // Update manifest
@@ -37,7 +39,7 @@ module.exports = [
           description: payload.name,
           boundary: payload.boundary,
           featureCount: payload.features.length,
-          riskType: payload.riskType,
+          riskType: payload.features[0]?.properties.riskType,
           createdAt: now,
           createdBy: request.auth.credentials.profile.email,
           updatedAt: now,
@@ -69,7 +71,7 @@ module.exports = [
         payload: joi.object().keys({
           name: joi.string().required(),
           features: joi.array().required(),
-          riskType: joi.string().valid('Rivers and the sea', 'Surface water').required()
+          riskType: joi.string().valid('Rivers and the sea', 'Surface water')
         }).unknown(),
         failAction: async (request, h, err) => {
           console.log(err)
