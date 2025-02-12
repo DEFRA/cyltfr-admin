@@ -6,8 +6,6 @@ function homeView (comments, currentUser) {
     text: row[field.name] || ''
   })
 
-  console.log('currentUser', currentUser)
-
   const approvedMapper = (_field, row) => {
     const { approvedAt, approvedBy } = row
 
