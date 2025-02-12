@@ -8,7 +8,7 @@ function commentView (comment, geometry, auth, capabilities) {
     capabilities,
     isApprover: auth.credentials.isApprover,
     allowDelete: auth.credentials.isApprover ||
-      comment.createdBy === auth.credentials.profile.email
+    comment.createdBy === auth.credentials.profile.email
   }
 
   retval.viewHeaderData = {
