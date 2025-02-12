@@ -31,7 +31,7 @@ function homeView (comments) {
       name: 'riskType',
       title: 'Flood Risk',
       mapper: (field, row) => ({
-        text: row[field.name] ? `${row[field.name]} Risk` : 'Unknown'
+        text: row[field.name] || 'Unknown'
       }),
     },
     {
