@@ -67,8 +67,7 @@ module.exports = [
         }),
         payload: joi.object().keys({
           name: joi.string().required(),
-          features: joi.array().required(),
-          riskType: joi.string().valid('Rivers and the sea', 'Surface water').required()
+          features: joi.array().required()
         }).unknown(),
         failAction: async (request, h, err) => {
           console.log(err)
