@@ -29,8 +29,6 @@ module.exports = [
       const id = shortId()
       const keyname = `${id}.json`
       const now = new Date()
-      
-      console.log('payload.features:', payload.features)
 
       try {
         // Update manifest
