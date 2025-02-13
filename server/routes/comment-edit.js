@@ -169,6 +169,9 @@ module.exports = [
       // Upload file to s3
       await provider.uploadObject(`${comment.keyname}`, JSON.stringify(formattedPayload))
 
+      // Updates risk type in table after saving edit
+      comment.riskType = features[0]?.properties.riskType
+
       await provider.save(comments)
 
       return h.redirect('/')
