@@ -291,6 +291,8 @@ module.exports = [
         return handleCommentDelete(request, h)
       }
 
+      comment.riskType = features[0]?.properties.riskType
+
       // Update the comment
       Object.assign(comment, {
         updatedAt: new Date(),
