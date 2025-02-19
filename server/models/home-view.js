@@ -28,6 +28,13 @@ function homeView (comments, currentUser) {
       })
     },
     {
+      name: 'riskType',
+      title: 'Flood Risk',
+      mapper: (_field, row) => ({
+        text: row[_field.name] || ''
+      })
+    },
+    {
       name: 'type',
       title: 'Type',
       mapper: (field, row) => ({

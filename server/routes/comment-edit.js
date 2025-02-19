@@ -169,6 +169,9 @@ module.exports = [
       // Upload file to s3
       await provider.uploadObject(`${comment.keyname}`, JSON.stringify(formattedPayload))
 
+      // Updates risk type in table after saving edit
+      comment.riskType = features[0]?.properties.riskType
+
       await provider.save(comments)
 
       return h.redirect('/')
@@ -287,6 +290,8 @@ module.exports = [
       if (features.length === 0) {
         return handleCommentDelete(request, h)
       }
+
+      comment.riskType = features[0]?.properties.riskType
 
       // Update the comment
       Object.assign(comment, {
