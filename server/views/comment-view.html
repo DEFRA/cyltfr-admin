@@ -57,6 +57,14 @@
 {% endblock %}
 
 {% block bodyEnd %}
+
+<div id="mapModal" class="map-modal">
+  <div class="map-modal-content">
+    <span class="map-modal-close" onclick="closeMapModal()">&times;</span>
+    <div id="mapModalContent"></div>
+  </div>
+</div>
+
   <script>
     window.LTFMGMT.geometry = {{ geometry | dump | safe }}
     window.LTFMGMT.capabilities = {{ capabilities | dump | safe }}
