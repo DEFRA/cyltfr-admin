@@ -124,14 +124,6 @@ module.exports = [
       const formattedPayload = geometry
       const type = comment.type
 
-      // Only approvers or comment authors can update
-      const allowUpdate = auth.credentials.isApprover ||
-        comment.createdBy === auth.credentials.profile.email
-
-      if (!allowUpdate) {
-        return boom.badRequest('You cannot update this comment')
-      }
-
       // Update the comment
       Object.assign(comment, {
         description: payload.name,
