@@ -56,3 +56,8 @@
 .enlarge-map-button:hover {
   background-color: rgba(0,60,136,.7)
 }
+.disable-scroll {
+  position: fixed;
+  width: 100%;
+  top: var(--scroll-y);
+}

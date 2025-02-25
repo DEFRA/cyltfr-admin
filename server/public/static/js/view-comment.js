@@ -17,6 +17,8 @@
 
   // Map modal function
   window.openMapModal = function (index) {
+    document.documentElement.style.setProperty('--scroll-y', `-${window.scrollY}px`)
+    document.body.classList.add("disable-scroll")
     document.getElementById("mapModal").style.display = "block"
     
     // Ensure the modal map container is empty before inserting a new map
@@ -31,6 +33,10 @@
 
   window.closeMapModal = function () {
     document.getElementById("mapModal").style.display = "none"
+
+    const pagePosition = document.documentElement.style.getPropertyValue('--scroll-y')
+    document.body.classList.remove("disable-scroll")
+    window.scrollTo(0, parseInt(pagePosition || '0') * -1)
   }
 
   // Close modal on background click
@@ -40,4 +46,9 @@
       window.closeMapModal()
     }
   }
+  document.querySelector('.map-modal-close').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      closeMapModal();
+    }
+  })
 })()
