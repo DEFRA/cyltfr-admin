@@ -48,7 +48,7 @@
   }
   document.querySelector('.map-modal-close').addEventListener('keydown', function(event) {
     if (event.key === 'Enter' || event.key === ' ') {
-      closeMapModal()
+      window.closeMapModal()
     }
   })
 })()
