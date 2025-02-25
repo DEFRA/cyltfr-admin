@@ -46,6 +46,7 @@
       window.closeMapModal()
     }
   }
+  document.querySelector('.map-modal-close').addEventListener('click', window.closeMapModal)
   document.querySelector('.map-modal-close').addEventListener('keydown', function(event) {
     if (event.key === 'Enter' || event.key === ' ') {
       window.closeMapModal()
