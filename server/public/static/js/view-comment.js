@@ -21,7 +21,7 @@
     document.body.classList.add("disable-scroll")
     document.getElementById("mapModal").style.display = "block"
     
-    // Ensure the modal map container is empty before inserting a new map
+    // Empties Modal before inserting a new map
     document.getElementById("mapModalContent").innerHTML = `<div id='modal_map'></div>`
     
     // Reload the map inside the modal
@@ -39,17 +39,19 @@
     window.scrollTo(0, parseInt(pagePosition || '0') * -1)
   }
 
-  // Close modal on background click
+  // Close modal options
   window.onclick = function (event) {
     const modal = document.getElementById("mapModal")
     if (event.target === modal) {
       window.closeMapModal()
     }
   }
-  document.querySelector('.map-modal-close').addEventListener('click', window.closeMapModal)
-  document.querySelector('.map-modal-close').addEventListener('keydown', function(event) {
-    if (event.key === 'Enter' || event.key === ' ') {
+  const closeButton = document.querySelector('.map-modal-close')
+  const handleClose = (event) => {
+    if (!event.key || event.key === 'Enter' || event.key === ' ') {
       window.closeMapModal()
     }
-  })
+  }
+  closeButton.addEventListener('click', handleClose)
+  closeButton.addEventListener('keydown', handleClose)
 })()
