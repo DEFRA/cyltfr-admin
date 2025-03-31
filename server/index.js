@@ -1,5 +1,6 @@
 const hapi = require('@hapi/hapi')
 const config = require('./config')
+require('../server/jobs/cronjob')
 
 async function createServer () {
   // Create the hapi server
