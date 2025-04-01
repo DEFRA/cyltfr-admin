@@ -17,6 +17,38 @@ class S3Provider {
 
     return JSON.parse(await result.Body.transformToString())
   }
+  async getApprovers () {
+    const fileKey = '/email-notified-approvers'
+    const result = await s3Client.send(new GetObjectCommand({
+      Bucket: config.awsBucketName,
+      Key: fileKey
+    }))
+
+    return JSON.parse(await result.Body.transformToString())
+  }
+
+  async getApprovedUsers () {
+    const result = await s3Client.send(new GetObjectCommand({
+      Bucket: config.awsBucketName,
+      Key: 'email-notified-approvers/approvedUser.json'
+    }))
+
+    return JSON.parse(await result.Body.transformToString())
+  }
+
+  async addApprover (item) {
+    const comments = await this.getFile()
+    comments.push(item)
+    return this.save(comments)
+  }
+
+  async uploadApproverObject (keyname, data) {
+    await s3Client.send(new PutObjectCommand({
+      Bucket: config.awsBucketName,
+      Key: `email-notified-approvers/${keyname}`,
+      Body: data
+    }))
+  }
 
   async save (comments) {
     await s3Client.send(new PutObjectCommand({
