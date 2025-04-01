@@ -7,8 +7,7 @@ module.exports = {
     const { provider, auth } = request
     const comments = await provider.getFile()
     const currentUser = auth.credentials.profile.email
-    const notApprovedComms = comments.filter((comment) => comment.approvedAt === null)
-    console.log('comments:', notApprovedComms)
+
     // Users can see all comments
     const homeComments = comments
 

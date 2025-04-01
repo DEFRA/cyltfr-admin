@@ -1,6 +1,5 @@
 const hapi = require('@hapi/hapi')
 const config = require('./config')
-require('../server/jobs/cronjob')
 
 async function createServer () {
   // Create the hapi server
@@ -58,6 +57,11 @@ async function createServer () {
   })
   await server.register(require('./plugins/logging'))
   await server.register(require('blipp'))
+  console.log('Cron job scheduled to run daily at 9 AM')
+  // Run cron job to send reminder emails
+  const cronJob = require('./jobs/cronjob')
+  cronJob()
+  console.log('registered cron job')
 
   server.ext('onPostHandler', (request, h) => {
     const response = request.response
