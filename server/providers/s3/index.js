@@ -1,4 +1,4 @@
-const { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3')
+const { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command } = require('@aws-sdk/client-s3')
 const fs = require('fs')
 const config = require('../../config')
 const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`
@@ -17,29 +17,46 @@ class S3Provider {
 
     return JSON.parse(await result.Body.transformToString())
   }
-  async getApprovers () {
-    const fileKey = '/email-notified-approvers'
+
+  async listBucketContents() {
+    try {
+      const command = new ListObjectsV2Command({ 
+        Bucket: config.awsBucketName,
+        Prefix: 'email-notified-approvers/' // Correct way to filter by folder
+      })
+  
+      const response = await s3Client.send(command);
+      console.log('in listbucket')
+      return response.Contents || []; // Returns files in the specific folder
+    } catch (error) {
+      console.error("Error listing bucket contents:", error);
+      return [];
+    }
+  }
+
+  async getApprovedUsers (itemId) {
     const result = await s3Client.send(new GetObjectCommand({
       Bucket: config.awsBucketName,
-      Key: fileKey
+      Key: `email-notified-approvers/${itemId}`
     }))
 
     return JSON.parse(await result.Body.transformToString())
   }
 
-  async getApprovedUsers () {
-    const result = await s3Client.send(new GetObjectCommand({
-      Bucket: config.awsBucketName,
-      Key: 'email-notified-approvers/approvedUser.json'
-    }))
-
-    return JSON.parse(await result.Body.transformToString())
-  }
-
-  async addApprover (item) {
-    const comments = await this.getFile()
-    comments.push(item)
-    return this.save(comments)
+  async uploadApprover(keyname, data) {
+    try {
+      const params = {
+        Bucket: 'email-notified-approver',
+        Key: keyname,
+        Body: data
+      }
+  
+      const command = new PutObjectCommand(params)
+      await this.s3Client.send(command)
+    } catch (error) {
+      console.error('Error uploading file to S3:', error)
+      throw error
+    }
   }
 
   async uploadApproverObject (keyname, data) {
@@ -49,6 +66,20 @@ class S3Provider {
       Body: data
     }))
   }
+
+  async deleteApproverObject(keyname) {
+    try {
+      await s3Client.send(new DeleteObjectCommand({
+        Bucket: config.awsBucketName,
+        Key: `email-notified-approvers/${keyname}`
+      }))
+      return true
+    } catch (error) {
+      console.error('Error deleting approver from S3:', error)
+      throw error
+    }
+  }
+  
 
   async save (comments) {
     await s3Client.send(new PutObjectCommand({
@@ -62,16 +93,6 @@ class S3Provider {
     const comments = await this.getFile()
     comments.push(item)
     return this.save(comments)
-  }
-
-  async uploadFile (keyname, filename) {
-    const data = await fs.promises.readFile(filename)
-
-    await s3Client.send(new PutObjectCommand({
-      Bucket: config.awsBucketName,
-      Key: `${config.holdingCommentsPrefix}/${keyname}`,
-      Body: data
-    }))
   }
 
   async uploadObject (keyname, data) {

@@ -7,24 +7,45 @@ const config = require('../config')
 const createCronJob = async () => {
 
   // Ensure the function is async to handle promises properly
-  cron.schedule('0 16 * * *', async () => {
+  cron.schedule('10 10 * * *', async () => {
     console.log('Running cron job: Checking pending approvals...')
     
     try {
       const providerInstance = new S3Provider() 
       console.log('provider:', providerInstance)
-      const approvedUsers = await providerInstance.getApprovedUsers()
+      // const approvedUsers = await providerInstance.getApprovedUsers()
+      const bucketContents = await providerInstance.listBucketContents()
+      const userList = await Promise.all(
+        bucketContents
+          .map(async (item) => {
+            const itemId = item.Key.split('/').pop()
+            if (!itemId) {
+              console.log('no itemId')
+              return null // Skip this item
+            }
+    
+            try {
+              const getApprovedUsers = await providerInstance.getApprovedUsers(itemId)
+              console.log('getApprovedUsers:', getApprovedUsers)
+              return getApprovedUsers // Return the data
+            } catch (error) {
+              console.error(`Error fetching user data for ${itemId}:`, error)
+              return null
+            }
+          })
+      )
       const comments = await providerInstance.getFile()
-      console.log('approvedUsers:', approvedUsers)
+      console.log('approvedUsers:', userList)
 
       if (comments && comments.length > 0) {
         console.log('Sending email notifications...')
+        console.log('config.emailPassKey', typeof config.emailPassKey)
         
         const transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
             user: 'michael.steinacher.defra@gmail.com',
-            pass: config.EMAIL_PASSWORD, // Just added this so might break!
+            pass: config.emailPassKey,
           },
         })
 
@@ -44,16 +65,12 @@ const createCronJob = async () => {
           }
         }
 
+        const filteredUserList = userList.filter(Boolean)
         // Example: Send an email if comments exist
+        filteredUserList.forEach(async (approvedUsers) => {
+          await sendReminder(approvedUsers.email)
+        })
 
-        await sendReminder(approvedUsers.email)
-
-        // ✅ Store data in S3
-        // await s3Client.send(new PutObjectCommand({
-        //   Bucket: 'email-notified-approvers',
-        //   Key: `approvers-${Date.now()}.json`,
-        //   Body: JSON.stringify(comments),
-        // }))
       } else {
         console.log('No pending approvals. Skipping email notifications.')
       }
