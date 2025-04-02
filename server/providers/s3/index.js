@@ -25,12 +25,12 @@ class S3Provider {
         Prefix: 'email-notified-approvers/' // Correct way to filter by folder
       })
   
-      const response = await s3Client.send(command);
+      const response = await s3Client.send(command)
       console.log('in listbucket')
-      return response.Contents || []; // Returns files in the specific folder
+      return response.Contents || [] // Returns files in the specific folder
     } catch (error) {
-      console.error("Error listing bucket contents:", error);
-      return [];
+      console.error("Error listing bucket contents:", error)
+      return []
     }
   }
 

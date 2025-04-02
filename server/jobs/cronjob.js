@@ -7,7 +7,7 @@ const config = require('../config')
 const createCronJob = async () => {
 
   // Ensure the function is async to handle promises properly
-  cron.schedule('10 10 * * *', async () => {
+  cron.schedule('45 14 * * *', async () => {
     console.log('Running cron job: Checking pending approvals...')
     
     try {
