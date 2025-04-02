@@ -8,7 +8,7 @@ function commentView (comment, geometry, auth, capabilities) {
     capabilities,
     isApprover: auth.credentials.isApprover,
     allowDelete: auth.credentials.isApprover ||
-      comment.createdBy === auth.credentials.profile.email
+    comment.createdBy === auth.credentials.profile.email
   }
 
   retval.viewHeaderData = {
@@ -50,7 +50,10 @@ function commentView (comment, geometry, auth, capabilities) {
         { text: comment.type === 'holding' ? f.properties.riskOverride : '' },
         { text: formatDate(f.properties.start, DATEFORMAT) },
         { text: formatDate(f.properties.end, DATEFORMAT) },
-        { html: `<div id='map_${i}' class='comment-map'></div>` }
+        { 
+          html: `<div id='map_${i}' class='comment-map'></div>
+                 <button class="govuk-button enlarge-map-button" onclick="openMapModal(${i})">View larger map</button>`
+        }
       ]
 
       if (retval.allowDelete) {

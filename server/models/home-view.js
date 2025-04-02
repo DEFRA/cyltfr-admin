@@ -1,7 +1,7 @@
 const { formatDate } = require('../helpers')
 const { DATETIMEFORMAT } = require('../constants')
 
-function homeView (comments) {
+function homeView (comments, currentUser) {
   const defaultMapper = (field, row) => ({
     text: row[field.name] || ''
   })
@@ -28,23 +28,42 @@ function homeView (comments) {
       })
     },
     {
+      name: 'riskType',
+      title: 'Flood Risk',
+      mapper: (_field, row) => ({
+        text: row[_field.name] || ''
+      })
+    },
+    {
       name: 'type',
       title: 'Type',
       mapper: (field, row) => ({
         text: row[field.name] === 'holding' ? 'Holding' : 'LLFA'
       })
     },
+    { name: 'createdBy', title: 'Created By' },
     { name: 'featureCount', title: 'Features' },
     { name: 'boundary', title: 'Boundary' },
-    { name: 'approvedAt', title: 'Approved', mapper: approvedMapper },
+    { name: 'approvedAt', title: 'Approved', mapper: approvedMapper }
   ]
 
   const head = fields.map(f => ({
     text: f.title
   }))
 
-  const rows = comments.map(r => {
-    return fields.map(f => f.mapper ? f.mapper(f, r) : defaultMapper(f, r))
+  // Sort comments so that those created by the current user are at the top
+  const sortedComments = comments.sort((commentA, commentB) => {
+    if (commentA.createdBy === currentUser && commentB.createdBy !== currentUser) {
+      return -1
+    }
+    if (commentA.createdBy !== currentUser && commentB.createdBy === currentUser) {
+      return 1
+    }
+    return 0
+  })
+
+  const rows = sortedComments.map(commentObject => {
+    return fields.map(field => field.mapper ? field.mapper(field, commentObject) : defaultMapper(field, commentObject))
   })
 
   return {
@@ -52,7 +71,7 @@ function homeView (comments) {
       head,
       rows
     },
-    comments
+    comments: sortedComments
   }
 }
 

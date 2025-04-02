@@ -6,13 +6,11 @@ module.exports = {
   handler: async (request, h) => {
     const { provider, auth } = request
     const comments = await provider.getFile()
+    const currentUser = auth.credentials.profile.email
 
-    // Approvers can see all comments
-    // Standard users only see their own
-    const homeComments = auth.credentials.isApprover
-      ? comments
-      : comments.filter(c => c.createdBy === auth.credentials.profile.email)
+    // Users can see all comments
+    const homeComments = comments
 
-    return h.view('home', homeView(homeComments))
+    return h.view('home', homeView(homeComments, currentUser))
   }
 }

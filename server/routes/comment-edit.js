@@ -124,14 +124,6 @@ module.exports = [
       const formattedPayload = geometry
       const type = comment.type
 
-      // Only approvers or comment authors can update
-      const allowUpdate = auth.credentials.isApprover ||
-        comment.createdBy === auth.credentials.profile.email
-
-      if (!allowUpdate) {
-        return boom.badRequest('You cannot update this comment')
-      }
-
       // Update the comment
       Object.assign(comment, {
         description: payload.name,
@@ -168,6 +160,9 @@ module.exports = [
 
       // Upload file to s3
       await provider.uploadObject(`${comment.keyname}`, JSON.stringify(formattedPayload))
+
+      // Updates risk type in table after saving edit
+      comment.riskType = features[0]?.properties.riskType
 
       await provider.save(comments)
 
@@ -287,6 +282,8 @@ module.exports = [
       if (features.length === 0) {
         return handleCommentDelete(request, h)
       }
+
+      comment.riskType = features[0]?.properties.riskType
 
       // Update the comment
       Object.assign(comment, {

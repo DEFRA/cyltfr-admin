@@ -37,6 +37,7 @@ module.exports = [
           description: payload.name,
           boundary: payload.boundary,
           featureCount: payload.features.length,
+          riskType: payload.features[0]?.properties.riskType,
           createdAt: now,
           createdBy: request.auth.credentials.profile.email,
           updatedAt: now,
@@ -67,7 +68,8 @@ module.exports = [
         }),
         payload: joi.object().keys({
           name: joi.string().required(),
-          features: joi.array().required()
+          features: joi.array().required(),
+          riskType: joi.string().valid('Rivers and the sea', 'Surface water')
         }).unknown(),
         failAction: async (request, h, err) => {
           console.log(err)
