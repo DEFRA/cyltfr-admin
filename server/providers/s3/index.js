@@ -9,7 +9,7 @@ const s3Client = new S3Client({
 
 class S3Provider {
   async getFile (key) {
-    const fileKey = key ? key : manifestKey
+    const fileKey = key || manifestKey
     const result = await s3Client.send(new GetObjectCommand({
       Bucket: config.awsBucketName,
       Key: fileKey

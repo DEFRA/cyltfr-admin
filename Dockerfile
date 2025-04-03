@@ -1,18 +1,14 @@
-FROM node:20-alpine AS node
-FROM ghcr.io/osgeo/gdal:alpine-small-3.8.4 AS production
-COPY --from=node /usr/lib /usr/lib
-COPY --from=node /usr/local/share /usr/local/share
-COPY --from=node /usr/local/lib /usr/local/lib
-COPY --from=node /usr/local/include /usr/local/include
-COPY --from=node /usr/local/bin /usr/local/bin
+ARG PARENT_VERSION=2.5.3-node22.14.0
+
+FROM ghcr.io/osgeo/gdal:alpine-small-${PARENT_VERSION} AS base
+ARG PORT=3000
+ENV PORT ${PORT}
 
 USER root
 
 RUN set -xe \
     && apk update && apk upgrade \
     && apk add bash make gcc g++ py-pip curl npm \
-    && bash --version && npm -v && node -v && ogr2ogr --version \
-    && npm install -g npm \
     && rm -rf /var/cache/apk/* \
     && addgroup -S node \
     && adduser -S -D -G node node \
@@ -21,26 +17,35 @@ RUN set -xe \
 
 WORKDIR /home/node/app
 
-USER node
-
-RUN mkdir -p ./node_modules
-
 COPY --chown=root:root ./package*.json ./
-
-COPY --chown=root:root ./bin ./bin
-
-COPY --chown=root:root ./client ./client
 
 COPY --chown=root:root ./index.js .
 
-RUN npm ci --omit=dev
+FROM base AS development
 
-RUN npm run build
+RUN npm ci --ignore-scripts --include dev
 
 COPY --chown=root:root ./server ./server
 
-# COPY --chown=node:node . .
+EXPOSE ${PORT} 9229 9230
 
-EXPOSE 3000
+USER node
+
+CMD [ "node", "index.js" ]
+
+FROM base AS production
+
+RUN npm ci --ignore-scripts --omit dev
+
+COPY --chown=root:root ./server/*.js ./server/
+COPY --chown=root:root ./server/plugins/*.js ./server/plugins/
+COPY --chown=root:root ./server/routes/*.js ./server/routes/
+COPY --chown=root:root ./server/providers/*.js ./server/providers/
+
+EXPOSE ${PORT}
+
+USER node
+
+HEALTHCHECK --timeout=5s CMD curl --fail http://localhost:${PORT}/healthcheck || exit 1
 
 CMD [ "node", "index.js" ]

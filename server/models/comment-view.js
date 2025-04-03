@@ -50,7 +50,7 @@ function commentView (comment, geometry, auth, capabilities) {
         { text: comment.type === 'holding' ? f.properties.riskOverride : '' },
         { text: formatDate(f.properties.start, DATEFORMAT) },
         { text: formatDate(f.properties.end, DATEFORMAT) },
-        { 
+        {
           html: `<div id='map_${i}' class='comment-map'></div>
                  <button class="govuk-button enlarge-map-button" onclick="openMapModal(${i})">View larger map</button>`
         }
