@@ -3,12 +3,19 @@ const createServer = require('../../../server')
 let server
 
 beforeAll(async () => {
-  server = await createServer()
-  await server.initialize()
+  try {
+    server = await createServer()
+    await server.initialize()
+  } catch (error) {
+    console.error('Failed to create server:', error)
+    throw error
+  }
 })
 
 afterAll(async () => {
-  await server.stop()
+  if (server) {
+    await server.stop()
+  }
 })
 
 describe('default route page', () => {
