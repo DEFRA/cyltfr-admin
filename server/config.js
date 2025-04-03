@@ -17,7 +17,7 @@ const schema = joi.object().keys({
   awsBucketName: joi.string().required(),
   holdingCommentsPrefix: joi.string().default('holding-comments'),
   manifestFilename: joi.string().default('manifest.json'),
-  emailPassKey: joi.string().required()
+  govNotifyApi: joi.string().required()
 })
 
 // Build config
@@ -35,7 +35,7 @@ const config = {
   awsBucketName: process.env.AWS_BUCKET_NAME,
   holdingCommentsPrefix: process.env.HOLDING_COMMENTS_PREFIX,
   manifestFilename: process.env.MANIFEST_FILENAME,
-  emailPassKey: process.env.EMAIL_PASS_KEY
+  govNotifyApi: process.env.EMAIL_PASS_KEY
 }
 
 // Validate config
