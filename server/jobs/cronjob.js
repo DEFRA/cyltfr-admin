@@ -2,12 +2,20 @@ const nodemailer = require('nodemailer')
 const cron = require('node-cron')
 const S3Provider = require('../providers/s3') // Ensure provider is imported
 const config = require('../config')
+let NotifyClient = require("notifications-node-client").NotifyClient
 
+let notifyClient = new NotifyClient('cyltfradminconsoleapi-baa45acb-01a8-4ca6-9ef1-42ada5918b1d-f1a7ea92-ba19-4bae-afd7-72489ea451ae')
+
+let options = {
+  personalisation: {
+      first_name: "Michael"
+  }
+}
 
 const createCronJob = async () => {
 
   // Ensure the function is async to handle promises properly
-  cron.schedule('45 14 * * *', async () => {
+  cron.schedule('59 9 * * *', async () => {
     console.log('Running cron job: Checking pending approvals...')
     
     try {
@@ -40,35 +48,15 @@ const createCronJob = async () => {
       if (comments && comments.length > 0) {
         console.log('Sending email notifications...')
         console.log('config.emailPassKey', typeof config.emailPassKey)
-        
-        const transporter = nodemailer.createTransport({
-          service: 'gmail',
-          auth: {
-            user: 'michael.steinacher.defra@gmail.com',
-            pass: config.emailPassKey,
-          },
-        })
-
-        const sendReminder = async (recipientEmail) => {
-          const mailOptions = {
-            from: '"Approval System" <michael.steinacher.defra@gmail.com>',
-            to: recipientEmail,
-            subject: 'Reminder: Pending Items for Approval',
-            text: 'You have pending items that require your approval. Please review them.',
-          }
-
-          try {
-            let info = await transporter.sendMail(mailOptions)
-            console.log(`Email sent to ${recipientEmail}:`, info.response)
-          } catch (error) {
-            console.error('Error sending email:', error)
-          }
-        }
 
         const filteredUserList = userList.filter(Boolean)
+        
         // Example: Send an email if comments exist
-        filteredUserList.forEach(async (approvedUsers) => {
-          await sendReminder(approvedUsers.email)
+        filteredUserList.forEach(async (approvedUser) => {
+          notifyClient
+        .sendEmail(config.govNotifyApi, approvedUser.email, options) // Pass options as the third argument (optional)
+        .then(response => console.log(response))
+        .catch(err => console.error(err))
         })
 
       } else {
