@@ -1,5 +1,8 @@
-FROM node:20-alpine AS node
-FROM ghcr.io/osgeo/gdal:alpine-small-3.8.4 AS production
+ARG DEFRA_VERSION=2.5.3
+ARG BASE_VERSION=22.14.0-alpine3.21
+
+FROM node:$BASE_VERSION AS production
+
 COPY --from=node /usr/lib /usr/lib
 COPY --from=node /usr/local/share /usr/local/share
 COPY --from=node /usr/local/lib /usr/local/lib
@@ -11,11 +14,9 @@ USER root
 RUN set -xe \
     && apk update && apk upgrade \
     && apk add bash make gcc g++ py-pip curl npm \
-    && bash --version && npm -v && node -v && ogr2ogr --version \
+    && bash --version && npm -v && node -v \
     && npm install -g npm \
     && rm -rf /var/cache/apk/* \
-    && addgroup -S node \
-    && adduser -S -D -G node node \
     && mkdir /home/node/app \
     && chown -R node:node /home/node/
 
