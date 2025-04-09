@@ -1,5 +1,6 @@
 const routes = [].concat(
   require('../routes/auth'),
+  require('../routes/add-approvers'),
   require('../routes/home'),
   require('../routes/comment-file'),
   require('../routes/comment-create'),
