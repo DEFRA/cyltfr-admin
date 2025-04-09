@@ -35,7 +35,7 @@ const config = {
   awsBucketName: process.env.AWS_BUCKET_NAME,
   holdingCommentsPrefix: process.env.HOLDING_COMMENTS_PREFIX,
   manifestFilename: process.env.MANIFEST_FILENAME,
-  govNotifyApi: process.env.EMAIL_PASS_KEY
+  govNotifyApi: process.env.GOV_NOTIFY_API
 }
 
 // Validate config
