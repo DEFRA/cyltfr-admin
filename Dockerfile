@@ -1,7 +1,7 @@
-ARG DEFRA_VERSION=2.5.3
-ARG BASE_VERSION=22.14.0-alpine3.21
+ARG PARENT_VERSION=2.5.3-node22.14.0
 
-FROM node:$BASE_VERSION AS production
+FROM defradigital/node:${PARENT_VERSION} AS node
+FROM ghcr.io/osgeo/gdal:alpine-small-3.8.4 AS production
 
 COPY --from=node /usr/lib /usr/lib
 COPY --from=node /usr/local/share /usr/local/share
@@ -14,9 +14,11 @@ USER root
 RUN set -xe \
     && apk update && apk upgrade \
     && apk add bash make gcc g++ py-pip curl npm \
-    && bash --version && npm -v && node -v \
+    && bash --version && npm -v && node -v && ogr2ogr --version \
     && npm install -g npm \
     && rm -rf /var/cache/apk/* \
+    && addgroup -S node \
+    && adduser -S -D -G node node \
     && mkdir /home/node/app \
     && chown -R node:node /home/node/
 
