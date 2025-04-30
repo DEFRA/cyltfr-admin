@@ -107,3 +107,29 @@
   margin-left: 5px;
   border-left: 6px solid grey;
 }
+
+.button-override {
+  margin-bottom: 0px;
+  font-size: 1rem;
+}
+
+.approver-email-list {
+  margin-left: 15%;
+}
+
+.approver-list {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.item-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.page-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

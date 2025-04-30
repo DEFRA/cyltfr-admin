@@ -26,7 +26,6 @@ class S3Provider {
       })
   
       const response = await s3Client.send(command)
-      console.log('in listbucket')
       return response.Contents || [] // Returns files in the specific folder
     } catch (error) {
       console.error("Error listing bucket contents:", error)

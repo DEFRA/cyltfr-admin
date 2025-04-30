@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% set pageTitle = "Holding comments outstanding notification list" %}
+
+{% block body %}
+  <div class="container">
+      <p class="govuk-body">Add user name and email so they are added to the outstanding
+         holding comments daily email reminders.</p>
+         <p>Emails are sent at 9am everyday.</p>
+      <div class="page-split">
+        <div class="approve-upload-form">
+          <h2>Add approver email</h2>
+
+          <form id="add-approver-form" method="post" action="/reminder-email-list" style="display: flex; flex-direction: column">
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="user-name">User Name</label>
+              <input class="govuk-input" id="user-name" name="username" type="text" required>
+            </div>
+
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="user-email">User Email</label>
+              <input class="govuk-input" id="user-email" name="email" type="email" pattern=".+@(defra\.gov\.uk|environment-agency\.gov\.uk)" title="Emails must end in either '@defra.gov.uk' or '@environment-agency.gov.uk'" required>
+            </div>
+
+            <button class="govuk-button" type="submit">Add Approver</button>
+
+          </form>
+        </div>
+
+        <div class="approver-email-list">
+          <h3>Approver email list:</h3>
+          <ul class="approver-list">
+            {% for user in filteredUserList %}
+            <div class="item-container">
+              <li>{{ user.email }}</li>
+              <form method="POST" action="/reminder-email-list/delete/{{user.id}}" class="delete-form">
+                <input class="govuk-button danger button-override" type="submit" name="delete" id="delete" value="Remove">
+              </form>
+            </div>
+            {% else %}
+              <li>No files found.</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+  </div>
+{% endblock %}

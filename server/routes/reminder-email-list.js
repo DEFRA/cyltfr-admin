@@ -6,35 +6,28 @@ const capabilities = require('../models/capabilities')
 module.exports = [
   {
     method: 'GET',
-    path: '/add-approvers',
+    path: '/reminder-email-list',
     handler: async (request, h) => {
       const { provider, auth } = request
-      console.log('provider:', provider)
-      const approvedUsers = await provider.getFile()
-      const currentUser = auth.credentials.profile.email
-      const success = request.query.success ? 'User added successfully!' : null
       const bucketContents = await provider.listBucketContents()
       const userList = await Promise.all(
         bucketContents
           .map(async (item) => {
             const itemId = item.Key.split('/').pop()
             if (!itemId) {
-              console.log('no itemId')
-              return null // Skip this item
+              console.log('no itemId: ', item)
+              return null // Skip this item if no ID
             }
     
             try {
               const getApprovedUsers = await provider.getApprovedUsers(itemId)
-              console.log('getApprovedUsers:', getApprovedUsers)
-              return getApprovedUsers // Return the data
+              return getApprovedUsers
             } catch (error) {
               console.error(`Error fetching user data for ${itemId}:`, error)
               return null
             }
           })
       )
-
-      console.log('userList:', userList)
     
       // Remove any null entries
       const filteredUserList = userList.filter(Boolean)
@@ -44,12 +37,12 @@ module.exports = [
         return h.view('unauthorised')
       }
 
-      return h.view('add-approvers', { success, filteredUserList })
+      return h.view('reminder-email-list', { filteredUserList })
     }
   },
   {
     method: 'POST',
-    path: '/add-approvers',
+    path: '/reminder-email-list',
     handler: async (request, h) => {
       const provider = request.provider
       const payload = request.payload
@@ -65,12 +58,12 @@ module.exports = [
       }
 
       // Return ok
-      return h.redirect('add-approvers?success=true')
+      return h.redirect('reminder-email-list')
     },
   },
   {
       method: 'POST',
-      path: '/add-approvers/delete/{id}',
+      path: '/reminder-email-list/delete/{id}',
       handler: async (request, h) => {
         const { provider, auth } = request
         const { id } = request.params
@@ -85,7 +78,7 @@ module.exports = [
           // Delete the approver file from S3
           await provider.deleteApproverObject(`${id}.json`)
           
-          return h.response({ message: 'Approver deleted successfully' }).code(200)
+          return h.view('reminder-email-list')
         } catch (error) {
           console.error('Error deleting approver:', error)
           return h.response({ message: 'Failed to delete approver' }).code(500)
