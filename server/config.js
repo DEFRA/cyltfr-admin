@@ -16,7 +16,9 @@ const schema = joi.object().keys({
   awsBucketRegion: joi.string().required(),
   awsBucketName: joi.string().required(),
   holdingCommentsPrefix: joi.string().default('holding-comments'),
-  manifestFilename: joi.string().default('manifest.json')
+  manifestFilename: joi.string().default('manifest.json'),
+  govNotifyApi: joi.string().required(),
+  templateId: joi.string().required()
 })
 
 // Build config
@@ -33,7 +35,9 @@ const config = {
   awsBucketRegion: process.env.AWS_BUCKET_REGION,
   awsBucketName: process.env.AWS_BUCKET_NAME,
   holdingCommentsPrefix: process.env.HOLDING_COMMENTS_PREFIX,
-  manifestFilename: process.env.MANIFEST_FILENAME
+  manifestFilename: process.env.MANIFEST_FILENAME,
+  govNotifyApi: process.env.GOV_NOTIFY_API,
+  templateId: process.env.TEMPLATE_ID,
 }
 
 // Validate config

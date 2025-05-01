@@ -64,7 +64,10 @@
 {% endblock %}
 
 {% block content %}
-<a href="/comment-guidance" style="float: right;" target="_blank">Comment guidance</a>
+<div style="float: right;">
+<a href="/comment-guidance" target="_blank">Comment guidance</a>
+{% if (auth.credentials.isApprover) %}<a href="/reminder-email-list" style="float: right; padding-left: 10px;">Approver email list</a>{% endif %}
+</div>
 <h1 class="govuk-heading-l">Check your long term flood risk console</h1>
 <span class="govuk-body">Use these comments for NaFRA2 data. This data will be visible from 28 January 2025.</span>
 <h2 class="govuk-caption-l">{{pageTitle}}</h2>
