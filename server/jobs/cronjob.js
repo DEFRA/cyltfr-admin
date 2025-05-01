@@ -3,23 +3,16 @@ const S3Provider = require('../providers/s3') // Ensure provider is imported
 const config = require('../config')
 let NotifyClient = require("notifications-node-client").NotifyClient
 
-let notifyClient = new NotifyClient('cyltfradminconsoleapi-baa45acb-01a8-4ca6-9ef1-42ada5918b1d-f1a7ea92-ba19-4bae-afd7-72489ea451ae')
-
-let options = {
-  personalisation: {
-      first_name: "Michael"
-  }
-}
+let notifyClient = new NotifyClient(config.govNotifyApi)
 
 const createCronJob = async () => {
 
   // Ensure the function is async to handle promises properly
-  cron.schedule('03 14 * * *', async () => {
+  cron.schedule('00 9 * * *', async () => {
     console.log('Running cron job: Checking pending approvals...')
     
     try {
       const providerInstance = new S3Provider() 
-      // const approvedUsers = await providerInstance.getApprovedUsers()
       const bucketContents = await providerInstance.listBucketContents()
       const userList = await Promise.all(
         bucketContents
@@ -48,7 +41,7 @@ const createCronJob = async () => {
         filteredUserList.forEach(async (approvedUser) => {
           console.log('Sending email to:', approvedUser.email)
           notifyClient
-        .sendEmail(config.govNotifyApi, approvedUser.email, options) // Pass options as the third argument (optional)
+        .sendEmail(config.templateId, approvedUser.email)
         .then(response => console.log(response))
         .catch(err => console.error('Error while sending email: ', err))
         })
