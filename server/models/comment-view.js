@@ -1,10 +1,12 @@
 const { formatDate } = require('../helpers')
 const { DATETIMEFORMAT, DATEFORMAT } = require('../constants')
 
-function commentView (comment, geometry, auth, capabilities) {
+function commentView (comment, geometry, auth, capabilities, allFeatures) {
+  console.log('allFeaturesmodel: ', allFeatures)
   const retval = {
     comment,
     geometry,
+    allFeatures,
     capabilities,
     isApprover: auth.credentials.isApprover,
     allowDelete: auth.credentials.isApprover ||
