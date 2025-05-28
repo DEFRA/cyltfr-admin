@@ -37,6 +37,7 @@ const sharedFunctions = {
     const swRadio = document.getElementById(`sw_${index}`)
     const swRadioCc = document.getElementById(`swcc_${index}`)
     const rsRadio = document.getElementById(`rs_${index}`)
+    
     for (const radio of riskRadios) {
       if (radio.value === selectedRadio[index]) {
         riskOptionRadios.style.display = 'block'
@@ -86,17 +87,14 @@ const sharedFunctions = {
 
     const checkRiskOverride = () => {
       if (swRadio.checked) {
-        console.log('sw')
         riskOverrideRadios.classList.remove('hide')
         riskOverrideRadiosCc.classList.add('hide')
       }
       if (swRadioCc.checked) {
-        console.log('swcc')
         riskOverrideRadios.classList.add('hide')
         riskOverrideRadiosCc.classList.remove('hide')
       }
       if (rsRadio.checked) {
-        console.log('rs')
         riskOverrideRadios.classList.add('hide')
         riskOverrideRadiosCc.classList.add('hide')
       }
