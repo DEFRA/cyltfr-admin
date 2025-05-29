@@ -26,20 +26,40 @@ const sharedFunctions = {
     }
 
     const overrideRadio = document.getElementById(`map_${index}-override`)
+    const overrideRadioCc = document.getElementById(`map_${index}-override_cc`)
     const riskOptionRadios = document.getElementById(`risk-options_${index}`)
+    const riskOptionRadiosCc = document.getElementById(`risk-options_${index}_cc`)
 
     const riskRadios = document.getElementsByClassName(`risk-option_${index}`)
-    for (const radio of riskRadios) {
-      if (radio.value === selectedRadio[index]) {
-        riskOptionRadios.style.display = 'block'
-        overrideRadio.checked = true
-        radio.checked = true
-      }
-    }
+    const riskRadiosCc = document.getElementsByClassName(`risk-option_${index}_cc`)
+    const riskOverrideRadios = document.getElementById(`risk-override-radios_${index}`)
+    const riskOverrideRadiosCc = document.getElementById(`risk-override-radios_${index}_cc`)
+    const swRadio = document.getElementById(`sw_${index}`)
+    const swRadioCc = document.getElementById(`swcc_${index}`)
+    const rsRadio = document.getElementById(`rs_${index}`)
 
     const riskTypes = document.getElementsByClassName(`risk-type-${index}`)
     for (const typeRadio of riskTypes) {
       typeRadio.checked = (typeRadio.value === riskType[index])
+    }
+
+    if (swRadio.checked) {
+      for (const radio of riskRadios) {
+        if (radio.value === selectedRadio[index]) {
+          riskOptionRadios.style.display = 'block'
+          overrideRadio.checked = true
+          radio.checked = true
+        }
+      }
+    }
+    if (swRadioCc.checked) {
+      for (const radio of riskRadiosCc) {
+        if (radio.value === selectedRadio[index]) {
+          riskOptionRadiosCc.style.display = 'block'
+          overrideRadioCc.checked = true
+          radio.checked = true
+        }
+      }
     }
 
     const textCommentRadios = document.getElementsByClassName(`textComment_radio_${index}`)
@@ -51,9 +71,14 @@ const sharedFunctions = {
 
     if (overrideRadio.checked) {
       riskOptionRadios.style.display = 'block'
+      riskOptionRadiosCc.style.display = 'none'
+    } else if (overrideRadioCc.checked) {
+      riskOptionRadiosCc.style.display = 'block'
+      riskOptionRadios.style.display = 'none'
     }
 
     const noOverrideRadio = document.getElementById(`map_${index}-no-override`)
+    const noOverrideRadioCc = document.getElementById(`map_${index}-no-override_cc`)
     overrideRadio.addEventListener('click', function () {
       noOverrideRadio.checked = false
       riskOptionRadios.style.display = 'block'
@@ -62,9 +87,28 @@ const sharedFunctions = {
       overrideRadio.checked = false
       riskOptionRadios.style.display = 'none'
     })
+    overrideRadioCc.addEventListener('click', function () {
+      noOverrideRadioCc.checked = false
+      riskOptionRadiosCc.style.display = 'block'
+    })
+    noOverrideRadioCc.addEventListener('click', function () {
+      overrideRadioCc.checked = false
+      riskOptionRadiosCc.style.display = 'none'
+    })
 
     const checkRiskOverride = () => {
-      document.getElementById(`risk-override-radios_${index}`).style.display = document.getElementById(`rs_${index}`).checked ? 'none' : 'block'
+      if (swRadio.checked) {
+        riskOverrideRadios.classList.remove('hide')
+        riskOverrideRadiosCc.classList.add('hide')
+      }
+      if (swRadioCc.checked) {
+        riskOverrideRadios.classList.add('hide')
+        riskOverrideRadiosCc.classList.remove('hide')
+      }
+      if (rsRadio.checked) {
+        riskOverrideRadios.classList.add('hide')
+        riskOverrideRadiosCc.classList.add('hide')
+      }
     }
     checkRiskOverride()
     document.getElementById(`features_${index}_properties_risk_type`).addEventListener('change', checkRiskOverride)
