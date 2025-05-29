@@ -37,18 +37,29 @@ const sharedFunctions = {
     const swRadio = document.getElementById(`sw_${index}`)
     const swRadioCc = document.getElementById(`swcc_${index}`)
     const rsRadio = document.getElementById(`rs_${index}`)
-    
-    for (const radio of riskRadios) {
-      if (radio.value === selectedRadio[index]) {
-        riskOptionRadios.style.display = 'block'
-        overrideRadio.checked = true
-        radio.checked = true
-      }
-    }
 
     const riskTypes = document.getElementsByClassName(`risk-type-${index}`)
     for (const typeRadio of riskTypes) {
       typeRadio.checked = (typeRadio.value === riskType[index])
+    }
+
+    if (swRadio.checked) {
+      for (const radio of riskRadios) {
+        if (radio.value === selectedRadio[index]) {
+          riskOptionRadios.style.display = 'block'
+          overrideRadio.checked = true
+          radio.checked = true
+        }
+      }
+    }
+    if (swRadioCc.checked) {
+      for (const radio of riskRadiosCc) {
+        if (radio.value === selectedRadio[index]) {
+          riskOptionRadiosCc.style.display = 'block'
+          overrideRadioCc.checked = true
+          radio.checked = true
+        }
+      }
     }
 
     const textCommentRadios = document.getElementsByClassName(`textComment_radio_${index}`)
