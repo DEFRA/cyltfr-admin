@@ -17,14 +17,6 @@ const sharedFunctions = {
   },
 
   setInitialValues: (index, isHoldingComment, selectedRadio = [], riskType = [], textCommentRadio = []) => {
-    if (!isHoldingComment) {
-      const riskReportRadios = document.getElementsByClassName(`risk-report_${index}`)
-      for (const radio of riskReportRadios) {
-        radio.checked = (radio.value === selectedRadio[index])
-      }
-      return
-    }
-
     const overrideRadio = document.getElementById(`map_${index}-override`)
     const overrideRadioCc = document.getElementById(`map_${index}-override_cc`)
     const riskOptionRadios = document.getElementById(`risk-options_${index}`)
@@ -41,65 +33,36 @@ const sharedFunctions = {
     const noOverrideRadio = document.getElementById(`map_${index}-no-override`)
     const noOverrideRadioCc = document.getElementById(`map_${index}-no-override_cc`)
 
-    setInitialRadioOptions()
-    checkRiskOverride()
-    document.getElementById(`features_${index}_properties_risk_type`).addEventListener('change', checkRiskOverride)
-
-    overrideRadio.addEventListener('click', function () {
-      noOverrideRadio.checked = false
-      riskOptionRadios.style.display = 'block'
-    })
-    noOverrideRadio.addEventListener('click', function () {
-      overrideRadio.checked = false
-      riskOptionRadios.style.display = 'none'
-    })
-    overrideRadioCc.addEventListener('click', function () {
-      noOverrideRadioCc.checked = false
-      riskOptionRadiosCc.style.display = 'block'
-    })
-    noOverrideRadioCc.addEventListener('click', function () {
-      overrideRadioCc.checked = false
-      riskOptionRadiosCc.style.display = 'none'
-    })
-
-    
-    const setInitialRadioOptions = () => {
-      for (const typeRadio of riskTypes) {
-        typeRadio.checked = (typeRadio.value === riskType[index])
+    if (!isHoldingComment) {
+      const riskReportRadios = document.getElementsByClassName(`risk-report_${index}`)
+      for (const radio of riskReportRadios) {
+        radio.checked = (radio.value === selectedRadio[index])
       }
-      
-      for (const radio of riskRadios) {
-        if (swRadio.checked && radio.value === selectedRadio[index]) {
-          riskOptionRadios.style.display = 'block'
+      return
+    }
+
+    for (const typeRadio of riskTypes) {
+      typeRadio.checked = (typeRadio.value === riskType[index])
+    }
+
+    const setInitialRadioOptions = (radioType, checkedOption, optionsToShow) => { 
+      for (const radio of radioType) {
+        if (checkedOption && radio.value === selectedRadio[index]) {
+          optionsToShow.style.display = 'block'
           overrideRadio.checked = true
           radio.checked = true
         }
       }
-      for (const radio of riskRadiosCc) {
-        if (swRadioCc.checked && radio.value === selectedRadio[index]) {
-          riskOptionRadiosCc.style.display = 'block'
-          overrideRadioCc.checked = true
-          radio.checked = true
-        }
-      }
-      if (overrideRadio.checked) {
-        riskOptionRadios.style.display = 'block'
-        riskOptionRadiosCc.style.display = 'none'
-      }
-      if (overrideRadioCc.checked) {
-        riskOptionRadiosCc.style.display = 'block'
-        riskOptionRadios.style.display = 'none'
-      }
-      for (const commentRadio of textCommentRadios) {
-        if (commentRadio.value === textCommentRadio[index]) {
-          commentRadio.checked = true
-        }
-      }
     }
-    
-    const checkTextArea = () => {
-      document.getElementById(`text_area_${index}`).style.display = document.getElementById(`text_no_${index}`).checked ? 'none' : 'block'
+    if (overrideRadio.checked) {
+      riskOptionRadios.classList.remove('hide')
+      riskOptionRadiosCc.classList.add('hide')
     }
+    if (overrideRadioCc.checked) {
+      riskOptionRadiosCc.classList.remove('hide')
+      riskOptionRadios.classList.add('hide')
+    }
+
     const checkRiskOverride = () => {
       if (swRadio.checked) {
         riskOverrideRadios.classList.remove('hide')
@@ -114,7 +77,44 @@ const sharedFunctions = {
         riskOverrideRadiosCc.classList.add('hide')
       }
     }
+    
+    for (const commentRadio of textCommentRadios) {
+      if (commentRadio.value === textCommentRadio[index]) {
+        commentRadio.checked = true
+      }
+    }
+
+    const radioType = swRadio.checked ? riskRadios : riskRadiosCc
+    const checkedOption = swRadio.checked ? swRadio : swRadioCc
+    const optionsToShow = swRadio.checked ? riskOptionRadios : riskOptionRadiosCc
+    setInitialRadioOptions(radioType, checkedOption, optionsToShow)
+    checkRiskOverride()
+
+    document.getElementById(`features_${index}_properties_risk_type`).addEventListener('change', checkRiskOverride)
+
+    overrideRadio.addEventListener('click', function () {
+      noOverrideRadio.checked = false
+      riskOptionRadios.classList.remove('hide')
+    })
+    noOverrideRadio.addEventListener('click', function () {
+      overrideRadio.checked = false
+      riskOptionRadios.classList.add('hide')
+    })
+    overrideRadioCc.addEventListener('click', function () {
+      noOverrideRadioCc.checked = false
+      riskOptionRadiosCc.classList.remove('hide')
+    })
+    noOverrideRadioCc.addEventListener('click', function () {
+      overrideRadioCc.checked = false
+      riskOptionRadiosCc.classList.add('hide')
+    })
+    
+    const checkTextArea = () => {
+      document.getElementById(`text_area_${index}`).style.display = document.getElementById(`text_no_${index}`).checked ? 'none' : 'block'
+    }
+
     checkTextArea()
+
     document.getElementById(`features_${index}_properties_add_comment`).addEventListener('change', checkTextArea)
   }
 }
