@@ -43,22 +43,18 @@ const sharedFunctions = {
       typeRadio.checked = (typeRadio.value === riskType[index])
     }
 
-    if (swRadio.checked) {
-      for (const radio of riskRadios) {
-        if (radio.value === selectedRadio[index]) {
-          riskOptionRadios.style.display = 'block'
-          overrideRadio.checked = true
-          radio.checked = true
-        }
+    for (const radio of riskRadios) {
+      if (swRadio.checked && radio.value === selectedRadio[index]) {
+        riskOptionRadios.style.display = 'block'
+        overrideRadio.checked = true
+        radio.checked = true
       }
     }
-    if (swRadioCc.checked) {
-      for (const radio of riskRadiosCc) {
-        if (radio.value === selectedRadio[index]) {
-          riskOptionRadiosCc.style.display = 'block'
-          overrideRadioCc.checked = true
-          radio.checked = true
-        }
+    for (const radio of riskRadiosCc) {
+      if (swRadioCc.checked && radio.value === selectedRadio[index]) {
+        riskOptionRadiosCc.style.display = 'block'
+        overrideRadioCc.checked = true
+        radio.checked = true
       }
     }
 
@@ -72,7 +68,8 @@ const sharedFunctions = {
     if (overrideRadio.checked) {
       riskOptionRadios.style.display = 'block'
       riskOptionRadiosCc.style.display = 'none'
-    } else if (overrideRadioCc.checked) {
+    }
+    if (overrideRadioCc.checked) {
       riskOptionRadiosCc.style.display = 'block'
       riskOptionRadios.style.display = 'none'
     }
