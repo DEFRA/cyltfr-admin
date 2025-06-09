@@ -63,11 +63,25 @@ const sharedFunctions = {
       riskOptionRadios.style.display = 'none'
     })
 
-    const checkRiskOverride = () => {
-      document.getElementById(`risk-override-radios_${index}`).style.display = document.getElementById(`rs_${index}`).checked ? 'none' : 'block'
+    document.getElementById(`risk-override-radios_${index}`).style.display = 'block'
+
+    const updateOverrideLabel = () => {
+      const isSurfaceWater = document.getElementById(`sw_${index}`).checked
+      const isRiversSea = document.getElementById(`rs_${index}`).checked
+      const overrideRadio = document.getElementById(`map_${index}-override`)
+      const overrideLabel = overrideRadio.parentElement
+
+      // Updates label text based on what is selected
+      if (isSurfaceWater) {
+        overrideLabel.lastChild.textContent = 'Yes, override surface water'
+      } else if (isRiversSea) {
+        overrideLabel.lastChild.textContent = 'Yes, override rivers and the sea'
+      }
     }
-    checkRiskOverride()
-    document.getElementById(`features_${index}_properties_risk_type`).addEventListener('change', checkRiskOverride)
+
+    updateOverrideLabel()
+
+    document.getElementById(`features_${index}_properties_risk_type`).addEventListener('change', updateOverrideLabel)
 
     const checkTextArea = () => {
       document.getElementById(`text_area_${index}`).style.display = document.getElementById(`text_no_${index}`).checked ? 'none' : 'block'
