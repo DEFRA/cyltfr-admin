@@ -68,6 +68,7 @@ const sharedFunctions = {
     const updateOverrideLabel = () => {
       const isSurfaceWater = document.getElementById(`sw_${index}`).checked
       const isRiversSea = document.getElementById(`rs_${index}`).checked
+      const isRiversSeaCC = document.getElementById(`rscc_${index}`).checked
       const overrideRadio = document.getElementById(`map_${index}-override`)
       const noOverrideRadio = document.getElementById(`map_${index}-no-override`)
       const overrideLabel = overrideRadio.parentElement
@@ -82,6 +83,10 @@ const sharedFunctions = {
         overrideLabel.lastChild.textContent = 'Yes, override surface water'
       } else if (isRiversSea) {
         overrideLabel.lastChild.textContent = 'Yes, override rivers and the sea'
+      } else if (isRiversSeaCC) {
+        overrideLabel.lastChild.textContent = 'Yes, override rivers and the sea (climate change)'
+      } else {
+        overrideLabel.lastChild.textContent = ''
       }
     }
 
