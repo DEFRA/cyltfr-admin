@@ -69,7 +69,13 @@ const sharedFunctions = {
       const isSurfaceWater = document.getElementById(`sw_${index}`).checked
       const isRiversSea = document.getElementById(`rs_${index}`).checked
       const overrideRadio = document.getElementById(`map_${index}-override`)
+      const noOverrideRadio = document.getElementById(`map_${index}-no-override`)
       const overrideLabel = overrideRadio.parentElement
+      const riskOptionRadios = document.getElementById(`risk-options_${index}`)
+
+      overrideRadio.checked = false
+      noOverrideRadio.checked = true
+      riskOptionRadios.style.display = 'none'
 
       // Updates label text based on what is selected
       if (isSurfaceWater) {
