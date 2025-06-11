@@ -73,10 +73,16 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_risk_type">
                     <li>
                       <label for="sw_${featureIndex}"><input class="radio" id="sw_${featureIndex}" type="radio" name="sw_or_rs_${featureIndex}"
-                        value="Surface water" checked>Surface water</label></li>
+                      value="Surface water" checked>Surface water</label>
+                    </li>
                     <li>
                       <label for="rs_${featureIndex}"><input class="radio" type="radio" id="rs_${featureIndex}" name="sw_or_rs_${featureIndex}"
-                      value="Rivers and the sea">Rivers and the sea</label></li>
+                      value="Rivers and the sea">Rivers and the sea</label>
+                    </li>
+                    <li>
+                      <label for="rscc_${featureIndex}"><input class="radio" id="rscc_${featureIndex}" type="radio" name="sw_or_rs_${featureIndex}"
+                      value="Rivers and the sea climate change">Rivers and the sea climate change</label>
+                    </li>
                   </ul>
                 </div>
                 <div id="risk-override-radios_${featureIndex}" class="form-group field field-string govuk-form-group riskOverride">
@@ -86,11 +92,26 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override" type="radio" name="override_${featureIndex}-risk" value="Do not override" checked >No, do not override</label></li>
                     <li class="radio "><label><input id="map_${featureIndex}-override" type="radio" name="override_${featureIndex}" value="Override">Yes, override surface water</label></li>
-                    <ul id="risk-options_${featureIndex}" class="risk-option-radios" style="display: none">
+                    <ul id="risk-options_${featureIndex}" class="risk-option-radios" hide">
                       <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk" value="Very low">Very low</label></li>
                       <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk" value="Low">Low</label></li>
                       <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk" value="Medium">Medium</label></li>
                       <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk" value="High">High</label></li>
+                    </ul>
+                  </ul>
+                  </div>
+                  <div id="risk-override-radios_${featureIndex}_rs" class="form-group field field-string govuk-form-group riskOverride">
+                  <label class="control-label" for="features_${featureIndex}_properties_riskOverride_rs">
+                  Do you want to override the flood risk rating?'
+                  </label>
+                  <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_rs">
+                    <li class="radio "><label><input id="map_${featureIndex}-no-override_rs" type="radio" name="override_${featureIndex}-risk_rs" value="Do not override" checked >No, do not override</label></li>
+                    <li class="radio "><label><input id="map_${featureIndex}-override_rs" type="radio" name="override_${featureIndex}_rs" value="Override">Yes, override rivers and the sea</label></li>
+                    <ul id="risk-options_${featureIndex}_rs" class="risk-option-radios" hide>
+                      <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rs" value="Very low">Very low</label></li>
+                      <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rs" value="Low">Low</label></li>
+                      <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rs" value="Medium">Medium</label></li>
+                      <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rs" value="High">High</label></li>
                     </ul>
                   </ul>
                   </div>
