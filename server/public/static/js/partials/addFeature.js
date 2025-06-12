@@ -85,9 +85,10 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                     </li>
                   </ul>
                 </div>
+                <!-- Override options for surface water -->
                 <div id="risk-override-radios_${featureIndex}" class="form-group field field-string govuk-form-group riskOverride">
                   <label class="control-label" for="features_${featureIndex}_properties_riskOverride">
-                  Do you want to override the flood risk rating?'
+                    Do you want to override the flood risk rating?
                   </label>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override" type="radio" name="override_${featureIndex}-risk" value="Do not override" checked >No, do not override</label></li>
@@ -100,9 +101,10 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                     </ul>
                   </ul>
                   </div>
+                  <!-- Override options for rivers and the sea -->
                   <div id="risk-override-radios_${featureIndex}_rs" class="form-group field field-string govuk-form-group riskOverride">
                   <label class="control-label" for="features_${featureIndex}_properties_riskOverride_rs">
-                  Do you want to override the flood risk rating?'
+                    Do you want to override the flood risk rating?
                   </label>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_rs">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override_rs" type="radio" name="override_${featureIndex}-risk_rs" value="Do not override" checked >No, do not override</label></li>
@@ -115,6 +117,23 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                     </ul>
                   </ul>
                   </div>
+                  <!-- Override options for rivers and the sea climate change -->
+                  <div id="risk-override-radios_${featureIndex}_rscc" class="form-group field field-string govuk-form-group riskOverride">
+                    <label class="control-label" for="features_${featureIndex}_properties_riskOverride_rscc">
+                      Do you want to override the flood risk rating?
+                    </label>
+                    <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_rscc">
+                      <li class="radio "><label><input id="map_${featureIndex}-no-override_rscc" type="radio" name="override_${featureIndex}-risk_rscc" value="Do not override" checked >No, do not override</label></li>
+                      <li class="radio "><label><input id="map_${featureIndex}-override_rscc" type="radio" name="override_${featureIndex}_rscc" value="Override">Yes, override rivers and the sea climate change</label></li>
+                      <ul id="risk-options_${featureIndex}_rscc" class="risk-option-radios" hide>
+                        <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rscc" value="Very low">Very low</label></li>
+                        <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rscc" value="Low">Low</label></li>
+                        <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rscc" value="Medium">Medium</label></li>
+                        <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rscc" value="High">High</label></li>
+                      </ul>
+                    </ul>
+                  </div>
+
                   <div class="form-group field field-string  govuk-form-group">
                     <label
                       class="control-label" for="features_${featureIndex}_properties_add_comment">
