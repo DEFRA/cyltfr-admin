@@ -56,10 +56,15 @@ const sharedFunctions = {
     if (overrideRadio.checked) {
       riskOptionRadios.classList.remove('hide')
       riskOptionRadiosRS.classList.add('hide')
+    } else if (noOverrideRadio.checked) {
+      riskOptionRadios.classList.add('hide')
     }
+    
     if (overrideRadioRS.checked) {
       riskOptionRadiosRS.classList.remove('hide')
       riskOptionRadios.classList.add('hide')
+    } else if (noOverrideRadioRS.checked) {
+      riskOptionRadiosRS.classList.add('hide')
     }
 
     const checkRiskOverride = () => {
