@@ -117,9 +117,11 @@ class CreateCommentPage {
       jsonFileData.name = eventFormData.get('name')
     }
 
+    // Process the form data into feature with properties
     jsonFileData.features.forEach(function (feature, index) {
       const riskTypeValue = eventFormData.get(`sw_or_rs_${index}`)
       const riskOverrideValue = eventFormData.get(`override_${index}-risk`)
+      const riskOverrideValueRS = eventFormData.get(`override_${index}-risk_rs`)
       const riskReportType = eventFormData.get(`features_${index}_properties_report_type`)
       const addCommentRadio = eventFormData.get(`add_holding_comment_${index}`)
 
@@ -137,6 +139,9 @@ class CreateCommentPage {
         }
         if (riskTypeValue === 'Surface water') {
           feature.properties.riskOverride = riskOverrideValue
+        }
+        if (riskTypeValue === 'Rivers and the sea') {
+          feature.properties.riskOverride = riskOverrideValueRS
         }
         if (addCommentRadio === 'No') {
           feature.properties.commentText = 'No'
