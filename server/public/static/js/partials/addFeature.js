@@ -93,7 +93,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override" type="radio" name="override_${featureIndex}-risk" value="Do not override" checked >No, do not override</label></li>
                     <li class="radio "><label><input id="map_${featureIndex}-override" type="radio" name="override_${featureIndex}" value="Override">Yes, override surface water</label></li>
-                    <ul id="risk-options_${featureIndex}" class="risk-option-radios" hide">
+                    <ul id="risk-options_${featureIndex}" class="risk-option-radios hide">
                       <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk" value="Very low">Very low</label></li>
                       <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk" value="Low">Low</label></li>
                       <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk" value="Medium">Medium</label></li>
@@ -109,7 +109,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_rs">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override_rs" type="radio" name="override_${featureIndex}-risk_rs" value="Do not override" checked >No, do not override</label></li>
                     <li class="radio "><label><input id="map_${featureIndex}-override_rs" type="radio" name="override_${featureIndex}_rs" value="Override">Yes, override rivers and the sea</label></li>
-                    <ul id="risk-options_${featureIndex}_rs" class="risk-option-radios" hide>
+                    <ul id="risk-options_${featureIndex}_rs" class="risk-option-radios hide">
                       <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rs" value="Very low">Very low</label></li>
                       <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rs" value="Low">Low</label></li>
                       <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rs" value="Medium">Medium</label></li>
@@ -125,7 +125,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                     <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_rscc">
                       <li class="radio "><label><input id="map_${featureIndex}-no-override_rscc" type="radio" name="override_${featureIndex}-risk_rscc" value="Do not override" checked >No, do not override</label></li>
                       <li class="radio "><label><input id="map_${featureIndex}-override_rscc" type="radio" name="override_${featureIndex}_rscc" value="Override">Yes, override rivers and the sea climate change</label></li>
-                      <ul id="risk-options_${featureIndex}_rscc" class="risk-option-radios" hide>
+                      <ul id="risk-options_${featureIndex}_rscc" class="risk-option-radios hide">
                         <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rscc" value="Very low">Very low</label></li>
                         <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rscc" value="Low">Low</label></li>
                         <li class="radio "><label><input type="radio" name="override_${featureIndex}-risk_rscc" value="Medium">Medium</label></li>
