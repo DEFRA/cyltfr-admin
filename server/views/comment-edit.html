@@ -72,16 +72,24 @@
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_risk_type">
                                 <li>
                                   <label for="sw_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="sw_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
-                                    value="Surface water" checked>Surface water</label></li>
+                                    value="Surface water" checked>Surface water</label>
+                                </li>
                                 <li>
-                                  <label for="rs_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" type="radio" id="rs_{{ features.indexOf(feature) }}" name="sw_or_rs_{{ features.indexOf(feature) }}"
-                                  value="Rivers and the sea">Rivers and the sea</label></li>
+                                  <label for="rs_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="rs_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
+                                  value="Rivers and the sea">Rivers and the sea</label>
+                                </li>
+                                <li>
+                                  <label for="rscc_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="rscc_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
+                                  value="Rivers and the sea climate change">Rivers and the sea climate change</label>
+                                </li>
                               </ul>
                             </div>
+
+                            <!-- SW overrides -->
                             <div id="risk-override-radios_{{ features.indexOf(feature) }}" class="form-group field field-string govuk-form-group riskOverride">
                               <label
                                 class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride">
-                                Do you want to override the flood risk rating?'
+                                Do you want to override the flood risk rating?
                               </label>
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride">
                                 <li>
@@ -90,7 +98,7 @@
                                 <li>
                                   <label for="map_{{ features.indexOf(feature) }}-override"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override" name="override_{{ features.indexOf(feature) }}"
                                   value="Override">Yes, override surface water</label></li>
-                                <ul id="risk-options_{{ features.indexOf(feature) }}" class="risk-option-radios" style="display: none;">
+                                <ul id="risk-options_{{ features.indexOf(feature) }}" class="risk-option-radios hide">
                                   <li>
                                     <label for="map_{{ features.indexOf(feature) }}-override-very-low"><input class="radio risk-option_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low" name="override_{{ features.indexOf(feature) }}-risk"
                                       value="Very low">Very low</label></li>
@@ -102,6 +110,66 @@
                                       value="Medium">Medium</label></li>
                                   <li>
                                     <label for="map_{{ features.indexOf(feature) }}-override-high"><input class="radio risk-option_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-override-high" name="override_{{ features.indexOf(feature) }}-risk"
+                                      value="High">High</label></li>
+                                </ul>
+                              </ul>
+                            </div>
+
+                            <!-- RS overrides -->
+                            <div id="risk-override-radios_{{ features.indexOf(feature) }}_rs" class="form-group field field-string govuk-form-group riskOverride hide">
+                              <label
+                                class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_rs">
+                                Do you want to override the flood risk rating?
+                              </label>
+                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_rs">
+                                <li>
+                                  <label for="map_{{ features.indexOf(feature) }}-no-override_rs"><input class="radio override_radio_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_rs" name="override_{{ features.indexOf(feature) }}-risk"
+                                    value="Do not override" checked>No, do not override</label></li>
+                                <li>
+                                  <label for="map_{{ features.indexOf(feature) }}-override_rs"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_rs" name="override_{{ features.indexOf(feature) }}"
+                                  value="Override">Yes, rivers and the sea</label></li>
+                                <ul id="risk-options_{{ features.indexOf(feature) }}_rs" class="risk-option-radios hide">
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-very-low_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low_rs" name="override_{{ features.indexOf(feature) }}-risk"
+                                      value="Very low">Very low</label></li>
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-low_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-low_rs" name="override_{{ features.indexOf(feature) }}-risk"
+                                      value="Low">Low</label></li>
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-medium_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-medium_rs" name="override_{{ features.indexOf(feature) }}-risk"
+                                      value="Medium">Medium</label></li>
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-high_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-high_rs" name="override_{{ features.indexOf(feature) }}-risk"
+                                      value="High">High</label></li>
+                                </ul>
+                              </ul>
+                            </div>
+
+                            <!-- RS CC overrides -->
+                            <div id="risk-override-radios_{{ features.indexOf(feature) }}_rscc" class="form-group field field-string govuk-form-group riskOverride hide">
+                              <label
+                                class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_rscc">
+                                Do you want to override the flood risk rating?
+                              </label>
+                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_rscc">
+                                <li>
+                                  <label for="map_{{ features.indexOf(feature) }}-no-override_rscc"><input class="radio override_radio_{{ features.indexOf(feature) }}_rscc" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_rscc" name="override_{{ features.indexOf(feature) }}-risk"
+                                    value="Do not override" checked>No, do not override</label></li>
+                                <li>
+                                  <label for="map_{{ features.indexOf(feature) }}-override_rscc"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_rscc" name="override_{{ features.indexOf(feature) }}"
+                                  value="Override">Yes, rivers and the sea climate change</label></li>
+                                <ul id="risk-options_{{ features.indexOf(feature) }}_rscc" class="risk-option-radios hide">
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-very-low_rscc"><input class="radio risk-option_{{ features.indexOf(feature) }}_rscc" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low_rscc" name="override_{{ features.indexOf(feature) }}-risk"
+                                      value="Very low">Very low</label></li>
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-low_rscc"><input class="radio risk-option_{{ features.indexOf(feature) }}_rscc" type="radio" id="map_{{ features.indexOf(feature) }}-override-low_rscc" name="override_{{ features.indexOf(feature) }}-risk"
+                                      value="Low">Low</label></li>
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-medium_rscc"><input class="radio risk-option_{{ features.indexOf(feature) }}_rscc" type="radio" id="map_{{ features.indexOf(feature) }}-override-medium_rscc" name="override_{{ features.indexOf(feature) }}-risk"
+                                      value="Medium">Medium</label></li>
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-high_rscc"><input class="radio risk-option_{{ features.indexOf(feature) }}_rscc" type="radio" id="map_{{ features.indexOf(feature) }}-override-high_rscc" name="override_{{ features.indexOf(feature) }}-risk"
                                       value="High">High</label></li>
                                 </ul>
                               </ul>
