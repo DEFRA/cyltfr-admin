@@ -72,7 +72,7 @@
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_risk_type">
                                 <li>
                                   <label for="sw_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="sw_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
-                                    value="Surface water" checked>Surface water</label></li>
+                                    value="Surface water">Surface water</label></li>
                                 <li>
                                   <label for="swcc_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="swcc_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
                                     value="Surface water climate change">Surface water climate change</label></li>
@@ -91,11 +91,11 @@
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride">
                                 <li>
                                   <label for="map_{{ features.indexOf(feature) }}-no-override"><input class="radio override_radio_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-no-override" name="override_{{ features.indexOf(feature) }}-risk"
-                                    value="Do not override" checked>No, do not override</label></li>
+                                    value="Do not override">No, do not override</label></li>
                                 <li>
                                   <label for="map_{{ features.indexOf(feature) }}-override"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override" name="override_{{ features.indexOf(feature) }}"
                                   value="Override">Yes, override surface water</label></li>
-                                <ul id="risk-options_{{ features.indexOf(feature) }}" class="risk-option-radios" style="display: none;">
+                                <ul id="risk-options_{{ features.indexOf(feature) }}" class="risk-option-radios hide" >
                                   <li>
                                     <label for="map_{{ features.indexOf(feature) }}-override-very-low"><input class="radio risk-option_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low" name="override_{{ features.indexOf(feature) }}-risk"
                                       value="Very low">Very low</label></li>
@@ -120,23 +120,23 @@
                               </label>
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
                                 <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-no-override_cc"><input class="radio override_radio_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_cc" name="override_{{ features.indexOf(feature) }}-risk"
-                                    value="Do not override" checked>No, do not override</label></li>
+                                  <label for="map_{{ features.indexOf(feature) }}-no-override_cc"><input class="radio override_radio_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
+                                    value="Do not override">No, do not override</label></li>
                                 <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-override_cc"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_cc" name="override_{{ features.indexOf(feature) }}"
+                                  <label for="map_{{ features.indexOf(feature) }}-override_cc"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_cc" name="override_{{ features.indexOf(feature) }}_cc"
                                   value="Override">Yes, override surface water climate change</label></li>
-                                <ul id="risk-options_{{ features.indexOf(feature) }}_cc" class="risk-option-radios" style="display: none;">
+                                <ul id="risk-options_{{ features.indexOf(feature) }}_cc" class="risk-option-radios hide">
                                   <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-very-low_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low_cc" name="override_{{ features.indexOf(feature) }}-risk"
+                                    <label for="map_{{ features.indexOf(feature) }}-override-very-low_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
                                       value="Very low">Very low</label></li>
                                   <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-low_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-low_cc" name="override_{{ features.indexOf(feature) }}-risk"
+                                    <label for="map_{{ features.indexOf(feature) }}-override-low_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-low_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
                                       value="Low">Low</label></li>
                                   <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-medium_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-medium_cc" name="override_{{ features.indexOf(feature) }}-risk"
+                                    <label for="map_{{ features.indexOf(feature) }}-override-medium_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-medium_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
                                       value="Medium">Medium</label></li>
                                   <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-high_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-high_cc" name="override_{{ features.indexOf(feature) }}-risk"
+                                    <label for="map_{{ features.indexOf(feature) }}-override-high_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-high_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
                                       value="High">High</label></li>
                                 </ul>
                               </ul>
@@ -148,7 +148,7 @@
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_add_comment">
                                 <li>
                                   <label for="text_no_{{ features.indexOf(feature) }}"><input class="radio textComment_radio_{{ features.indexOf(feature) }}" id="text_no_{{ features.indexOf(feature) }}" type="radio" name="add_holding_comment_{{ features.indexOf(feature) }}"
-                                    value="No" checked>No, do not add a holding comment text</label></li>
+                                    value="No">No, do not add a holding comment text</label></li>
                                 <li>
                                   <label for="text_yes_{{ features.indexOf(feature) }}"><input class="radio textComment_radio_{{ features.indexOf(feature) }}" type="radio" id="text_yes_{{ features.indexOf(feature) }}" name="add_holding_comment_{{ features.indexOf(feature) }}"
                                   value="Yes">Yes, add holding comment text</label></li>

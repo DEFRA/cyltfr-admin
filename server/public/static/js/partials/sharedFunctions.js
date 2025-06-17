@@ -47,8 +47,13 @@ const sharedFunctions = {
 
     const setInitialRadioOptions = (radioType, checkedOption, optionsToShow) => { 
       for (const radio of radioType) {
-        if (checkedOption && radio.value === selectedRadio[index]) {
-          optionsToShow.style.display = 'block'
+        if (checkedOption.value.includes('climate change') && radio.value === selectedRadio[index]) {
+          optionsToShow.classList.remove('hide')
+          overrideRadioCc.checked = true
+          radio.checked = true
+          overrideRadio.checked = false
+        } else {
+          optionsToShow.classList.remove('hide')
           overrideRadio.checked = true
           radio.checked = true
         }
@@ -69,6 +74,7 @@ const sharedFunctions = {
         riskOverrideRadiosCc.classList.add('hide')
       }
       if (swRadioCc.checked) {
+        overrideRadio.checked = false
         riskOverrideRadios.classList.add('hide')
         riskOverrideRadiosCc.classList.remove('hide')
       }
