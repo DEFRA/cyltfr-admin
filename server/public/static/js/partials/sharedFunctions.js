@@ -45,20 +45,6 @@ const sharedFunctions = {
       typeRadio.checked = (typeRadio.value === riskType[index])
     }
 
-    const setInitialRadioOptions = (radioType, checkedOption, optionsToShow) => { 
-      for (const radio of radioType) {
-        if (checkedOption.value.includes('climate change') && radio.value === selectedRadio[index]) {
-          optionsToShow.classList.remove('hide')
-          overrideRadioCc.checked = true
-          radio.checked = true
-          overrideRadio.checked = false
-        } else {
-          optionsToShow.classList.remove('hide')
-          overrideRadio.checked = true
-          radio.checked = true
-        }
-      }
-    }
     if (overrideRadio.checked) {
       riskOptionRadios.classList.remove('hide')
       riskOptionRadiosCc.classList.add('hide')
@@ -90,10 +76,6 @@ const sharedFunctions = {
       }
     }
 
-    const showRiskRadios = swRadio.checked ? riskRadios : riskRadiosCc
-    const swRadioChosen = swRadio.checked ? swRadio : swRadioCc
-    const showSwRiskOptions = swRadio.checked ? riskOptionRadios : riskOptionRadiosCc
-    setInitialRadioOptions(showRiskRadios, swRadioChosen, showSwRiskOptions)
     checkRiskOverride()
 
     document.getElementById(`features_${index}_properties_risk_type`).addEventListener('change', checkRiskOverride)
