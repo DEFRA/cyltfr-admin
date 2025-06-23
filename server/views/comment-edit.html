@@ -86,7 +86,7 @@
                             <div id="risk-override-radios_{{ features.indexOf(feature) }}" class="form-group field field-string govuk-form-group riskOverride">
                               <label
                                 class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride">
-                                Do you want to override the flood risk rating?'
+                                Do you want to override the flood risk rating?
                               </label>
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride">
                                 <li>
@@ -116,7 +116,7 @@
                             <div id="risk-override-radios_{{ features.indexOf(feature) }}_cc" class="form-group field field-string govuk-form-group riskOverride hide">
                               <label
                                 class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
-                                Do you want to override the flood risk rating?'
+                                Do you want to override the flood risk rating?
                               </label>
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
                                 <li>
@@ -267,7 +267,7 @@
               </div>
             </fieldset>
           </div>
-          <button type="submit" class="govuk-button">Save</button>
+          <button type="submit" class="govuk-button" id="editSaveBtn" onsubmit="return confirm('Are you sure you want to delete all comments?')">Save</button>
         </form>
       </div>
     </div>

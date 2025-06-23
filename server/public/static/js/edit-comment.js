@@ -21,20 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const swRadio = document.getElementById(`sw_${index}`)
     const swRadioCc = document.getElementById(`swcc_${index}`)
 
-    swRadio.addEventListener('click', () => {
+    checkRadiosChecked()
+
+    swRadio.addEventListener('change', () => {
+      swRiskValueContainer.classList.add('hide')
+      swRiskValueContainerCc.classList.add('hide')
       swRiskTypeOptions.forEach(radio => {
         radio.checked = false
         overrideYes.checked = false
         overrideYesCc.checked = false
-        swRiskValueContainer.classList.add('hide')
-        swRiskValueContainerCc.classList.add('hide')
       })
       swRiskTypeOptionsCc.forEach(radio => {
         radio.checked = false
         overrideYes.checked = false
         overrideYesCc.checked = false
-        swRiskValueContainer.classList.add('hide')
-        swRiskValueContainerCc.classList.add('hide')
       })
     })
 
@@ -66,6 +66,42 @@ document.addEventListener('DOMContentLoaded', () => {
     commentMap(geo, 'map_' + index, capabilities)
   })
 })
+
+const checkRadiosChecked = () => {
+  const form = document.getElementById("comment-form-edit")
+
+  form.addEventListener("submit", (e) => {
+    const radioNamePatterns = [/^override_\d+-risk$/, /^override_\d+$/, /^override_\d+_cc$/]
+    const radios = form.querySelectorAll('input[type="radio"]')
+
+    const radiosToCheck = Array.from(radios).filter(radio => {
+      return radioNamePatterns.some(pattern => pattern.test(radio.name))
+    })
+
+    const groupedRadios = radiosToCheck.reduce((groups, radio) => {
+      if (!groups[radio.name]) {
+        groups[radio.name] = []
+      }
+      groups[radio.name].push(radio)
+      return groups
+    }, {})
+
+    for (const [name, groupRadios] of Object.entries(groupedRadios)) {
+      const anyVisible = groupRadios.some(radio => {
+        return radio.offsetParent !== null
+      })
+
+      if (!anyVisible) continue
+
+      const anyChecked = groupRadios.some(r => r.checked)
+      if (!anyChecked) {
+        alert('Please make a selection for risk override.')
+        e.preventDefault()
+        return
+      }
+    }
+  })
+}
 
 document.addEventListener('DOMContentLoaded', window.LTFMGMT.sharedFunctions.addCharacterCounts)
 

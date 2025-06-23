@@ -84,7 +84,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                 </div>
                 <div id="risk-override-radios_${featureIndex}" class="form-group field field-string govuk-form-group riskOverride">
                   <label class="control-label" for="features_${featureIndex}_properties_riskOverride">
-                  Do you want to override the flood risk rating?'
+                  Do you want to override the flood risk rating?
                   </label>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override" type="radio" name="override_${featureIndex}-risk" value="Do not override" checked >No, do not override</label></li>
@@ -100,7 +100,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
 
                 <div id="risk-override-radios_${featureIndex}_cc" class="form-group field field-string govuk-form-group riskOverride hide" >
                   <label class="control-label" for="features_${featureIndex}_properties_riskOverride_cc">
-                  Do you want to override the flood risk rating?'
+                  Do you want to override the flood risk rating?
                   </label>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_cc">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override_cc" type="radio" name="override_${featureIndex}-risk_cc" value="Do not override" checked >No, do not override</label></li>
