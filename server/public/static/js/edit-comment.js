@@ -38,12 +38,12 @@ document.addEventListener('DOMContentLoaded', () => {
       })
     })
 
-    if (riskType[index] === 'Surface water'){
+    if (riskType[index] === 'Surface water') {
       swRadio.checked = true
       radio = document.getElementById(`map_${index}-override`)
       radio.checked = true
       swRiskValueContainer.classList.remove('hide')
-      swRiskTypeOptions.forEach(option => { if (option.getAttribute('value') === selectedRadio[index]) { option.checked = true }})
+      swRiskTypeOptions.forEach(option => { if (option.getAttribute('value') === selectedRadio[index]) { option.checked = true } })
     } else if (riskType[index] === 'Surface water climate change') {
       swRadioCc.checked = true
       swOverrideRadiosContainer.classList.add('hide')
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
       radio = document.getElementById(`map_${index}-override_cc`)
       radio.checked = true
       swRiskValueContainerCc.classList.remove('hide')
-      swRiskTypeOptionsCc.forEach(option => { if (option.getAttribute('value') === selectedRadio[index]) { option.checked = true }})
+      swRiskTypeOptionsCc.forEach(option => { if (option.getAttribute('value') === selectedRadio[index]) { option.checked = true } })
     } else {
       const rsRadio = document.getElementById(`rs_${index}`)
       rsRadio.checked = true
@@ -68,9 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const checkRadiosChecked = () => {
-  const form = document.getElementById("comment-form-edit")
+  const form = document.getElementById('comment-form-edit')
 
-  form.addEventListener("submit", (e) => {
+  form.addEventListener('submit', (e) => {
     const radioNamePatterns = [/^override_\d+-risk$/, /^override_\d+$/, /^override_\d+_cc$/]
     const radios = form.querySelectorAll('input[type="radio"]')
 
@@ -86,7 +86,7 @@ const checkRadiosChecked = () => {
       return groups
     }, {})
 
-    for (const [name, groupRadios] of Object.entries(groupedRadios)) {
+    for (const [_name, groupRadios] of Object.entries(groupedRadios)) {
       const anyVisible = groupRadios.some(radio => {
         return radio.offsetParent !== null
       })
