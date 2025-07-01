@@ -50,12 +50,28 @@ const sharedFunctions = {
       typeRadio.checked = (typeRadio.value === riskType[index])
     }
 
-    const setInitialRadioOptions = (radioType, checkedOption, optionsToShow) => { 
+    const setInitialRadioOptions = (radioType, checkedOption, optionsToShow) => {
       for (const radio of radioType) {
         if (checkedOption && radio.value === selectedRadio[index]) {
-          optionsToShow.style.display = 'block'
-          overrideRadio.checked = true
-          radio.checked = true
+          if (checkedOption.value.includes('Surface water')) {
+            optionsToShow.classList.remove('hide')
+            overrideRadio.checked = true
+            overrideRadioRS.checked = false
+            overrideRadioRSCC.checked = false
+            radio.checked = true
+          } else if (checkedOption.value.includes('Rivers and the sea')) {
+            optionsToShow.classList.remove('hide')
+            overrideRadioRS.checked = true
+            overrideRadio.checked = false
+            overrideRadioRSCC.checked = false
+            radio.checked = true
+          } else if (checkedOption.value.includes('Rivers and the sea climate change')) {
+            optionsToShow.classList.remove('hide')
+            overrideRadioRSCC.checked = true
+            overrideRadio.checked = false
+            overrideRadioRS.checked = false
+            radio.checked = true
+          }
         }
       }
     }
@@ -85,14 +101,20 @@ const sharedFunctions = {
 
     const checkRiskOverride = () => {
       if (swRadio.checked) {
+        overrideRadioRS.checked = false
+        overrideRadioRSCC.checked = false
         riskOverrideRadios.classList.remove('hide')
         riskOverrideRadiosRS.classList.add('hide')
         riskOverrideRadiosRSCC.classList.add('hide')
       } else if (rsRadio.checked) {
+        overrideRadio.checked = false
+        overrideRadioRSCC.checked = false
         riskOverrideRadios.classList.add('hide')
         riskOverrideRadiosRS.classList.remove('hide')
         riskOverrideRadiosRSCC.classList.add('hide')
       } else if (rsccRadio.checked) {
+        overrideRadio.checked = false
+        overrideRadioRS.checked = false
         riskOverrideRadios.classList.add('hide')
         riskOverrideRadiosRS.classList.add('hide')
         riskOverrideRadiosRSCC.classList.remove('hide')
