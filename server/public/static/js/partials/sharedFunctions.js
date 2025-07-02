@@ -127,22 +127,22 @@ const sharedFunctions = {
       }
     }
 
-    const radioType = swRadio.checked ? riskRadios
+    const showRiskRadios = swRadio.checked ? riskRadios
                     : rsRadio.checked ? riskRadiosRS
                     : rsccRadio.checked ? riskRadiosRSCC
                     : []
 
-    const checkedOption = swRadio.checked ? swRadio
+    const riskRadioChosen = swRadio.checked ? swRadio
                         : rsRadio.checked ? rsRadio
                         : rsccRadio.checked ? rsccRadio
                         : null
 
-    const optionsToShow = swRadio.checked ? riskOptionRadios
+    const showRiskOptions = swRadio.checked ? riskOptionRadios
                         : rsRadio.checked ? riskOptionRadiosRS
                         : rsccRadio.checked ? riskOptionRadiosRSCC
                         : null
 
-    setInitialRadioOptions(radioType, checkedOption, optionsToShow)
+    setInitialRadioOptions(showRiskRadios, riskRadioChosen, showRiskOptions)
     checkRiskOverride()
 
     document.getElementById(`features_${index}_properties_risk_type`).addEventListener('change', checkRiskOverride)
