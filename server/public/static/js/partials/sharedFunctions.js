@@ -23,9 +23,6 @@ const sharedFunctions = {
     const riskOptionRadios = document.getElementById(`risk-options_${index}`)
     const riskOptionRadiosRS = document.getElementById(`risk-options_${index}_rs`)
     const riskOptionRadiosRSCC = document.getElementById(`risk-options_${index}_rscc`)
-    const riskRadios = document.getElementsByClassName(`risk-option_${index}`)
-    const riskRadiosRS = document.getElementsByClassName(`risk-option_${index}_rs`)
-    const riskRadiosRSCC = document.getElementsByClassName(`risk-option_${index}_rscc`)
     const riskOverrideRadios = document.getElementById(`risk-override-radios_${index}`)
     const riskOverrideRadiosRS = document.getElementById(`risk-override-radios_${index}_rs`)
     const riskOverrideRadiosRSCC = document.getElementById(`risk-override-radios_${index}_rscc`)
@@ -50,31 +47,6 @@ const sharedFunctions = {
       typeRadio.checked = (typeRadio.value === riskType[index])
     }
 
-    const setInitialRadioOptions = (radioType, checkedOption, optionsToShow) => {
-      for (const radio of radioType) {
-        if (checkedOption && radio.value === selectedRadio[index]) {
-          if (checkedOption.value.includes('Surface water')) {
-            optionsToShow.classList.remove('hide')
-            overrideRadio.checked = true
-            overrideRadioRS.checked = false
-            overrideRadioRSCC.checked = false
-            radio.checked = true
-          } else if (checkedOption.value.includes('Rivers and the sea')) {
-            optionsToShow.classList.remove('hide')
-            overrideRadioRS.checked = true
-            overrideRadio.checked = false
-            overrideRadioRSCC.checked = false
-            radio.checked = true
-          } else if (checkedOption.value.includes('Rivers and the sea climate change')) {
-            optionsToShow.classList.remove('hide')
-            overrideRadioRSCC.checked = true
-            overrideRadio.checked = false
-            overrideRadioRS.checked = false
-            radio.checked = true
-          }
-        }
-      }
-    }
     if (overrideRadio.checked) {
       riskOptionRadios.classList.remove('hide')
       riskOptionRadiosRS.classList.add('hide')
@@ -127,22 +99,6 @@ const sharedFunctions = {
       }
     }
 
-    const showRiskRadios = swRadio.checked ? riskRadios
-                    : rsRadio.checked ? riskRadiosRS
-                    : rsccRadio.checked ? riskRadiosRSCC
-                    : []
-
-    const riskRadioChosen = swRadio.checked ? swRadio
-                        : rsRadio.checked ? rsRadio
-                        : rsccRadio.checked ? rsccRadio
-                        : null
-
-    const showRiskOptions = swRadio.checked ? riskOptionRadios
-                        : rsRadio.checked ? riskOptionRadiosRS
-                        : rsccRadio.checked ? riskOptionRadiosRSCC
-                        : null
-
-    setInitialRadioOptions(showRiskRadios, riskRadioChosen, showRiskOptions)
     checkRiskOverride()
 
     document.getElementById(`features_${index}_properties_risk_type`).addEventListener('change', checkRiskOverride)
