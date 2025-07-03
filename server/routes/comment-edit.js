@@ -144,9 +144,6 @@ module.exports = [
           formattedPayload.features[index].properties.info = payload[`features_${index}_properties_info`]
           formattedPayload.features[index].properties.riskOverride = payload[`override_${index}-risk`]
           formattedPayload.features[index].properties.riskType = payload[`sw_or_rs_${index}`]
-          if (formattedPayload.features[index].properties.riskType === 'Rivers and the sea') {
-            formattedPayload.features[index].properties.riskOverride = null
-          }
           if (payload[`add_holding_comment_${index}`] === 'No') {
             formattedPayload.features[index].properties.commentText = payload[`add_holding_comment_${index}`]
             formattedPayload.features[index].properties.info = ''
