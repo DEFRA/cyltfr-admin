@@ -93,7 +93,6 @@ form.addEventListener('submit', (e) => {
 
     const anyChecked = groupRadios.some(r => r.checked)
     if (!anyChecked) {
-      console.log('here')
       alert('Please make a selection for risk override.')
       e.preventDefault()
       return
