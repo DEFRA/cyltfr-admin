@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const swRadio = document.getElementById(`sw_${index}`)
     const swRadioCc = document.getElementById(`swcc_${index}`)
 
-    checkRadiosChecked()
 
     swRadio.addEventListener('change', () => {
       swRiskValueContainer.classList.add('hide')
@@ -67,41 +66,40 @@ document.addEventListener('DOMContentLoaded', () => {
   })
 })
 
-const checkRadiosChecked = () => {
-  const form = document.getElementById('comment-form-edit')
+const form = document.getElementById('comment-form-edit')
 
-  form.addEventListener('submit', (e) => {
-    const radioNamePatterns = [/^override_\d+-risk$/, /^override_\d+$/, /^override_\d+_cc$/]
-    const radios = form.querySelectorAll('input[type="radio"]')
+form.addEventListener('submit', (e) => {
+  const radioNamePatterns = [/^override_\d+-risk$/, /^override_\d+$/, /^override_\d+_cc$/]
+  const radios = form.querySelectorAll('input[type="radio"]')
 
-    const radiosToCheck = Array.from(radios).filter(radio => {
-      return radioNamePatterns.some(pattern => pattern.test(radio.name))
+  const radiosToCheck = Array.from(radios).filter(radio => {
+    return radioNamePatterns.some(pattern => pattern.test(radio.name))
+  })
+
+  const groupedRadios = radiosToCheck.reduce((groups, radio) => {
+    if (!groups[radio.name]) {
+      groups[radio.name] = []
+    }
+    groups[radio.name].push(radio)
+    return groups
+  }, {})
+
+  for (const [_name, groupRadios] of Object.entries(groupedRadios)) {
+    const anyVisible = groupRadios.some(radio => {
+      return radio.offsetParent !== null
     })
 
-    const groupedRadios = radiosToCheck.reduce((groups, radio) => {
-      if (!groups[radio.name]) {
-        groups[radio.name] = []
-      }
-      groups[radio.name].push(radio)
-      return groups
-    }, {})
+    if (!anyVisible) continue
 
-    for (const [_name, groupRadios] of Object.entries(groupedRadios)) {
-      const anyVisible = groupRadios.some(radio => {
-        return radio.offsetParent !== null
-      })
-
-      if (!anyVisible) continue
-
-      const anyChecked = groupRadios.some(r => r.checked)
-      if (!anyChecked) {
-        alert('Please make a selection for risk override.')
-        e.preventDefault()
-        return
-      }
+    const anyChecked = groupRadios.some(r => r.checked)
+    if (!anyChecked) {
+      console.log('here')
+      alert('Please make a selection for risk override.')
+      e.preventDefault()
+      return
     }
-  })
-}
+  }
+})
 
 document.addEventListener('DOMContentLoaded', window.LTFMGMT.sharedFunctions.addCharacterCounts)
 
