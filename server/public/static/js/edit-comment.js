@@ -39,15 +39,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (riskType[index] === 'Surface water') {
       swRadio.checked = true
+      if (selectedRadio[index] === 'Do not override') {
+        radio = document.getElementById(`map_${index}-no-override`)
+      } else {
       radio = document.getElementById(`map_${index}-override`)
-      radio.checked = true
       swRiskValueContainer.classList.remove('hide')
+      }
+      radio.checked = true
       swRiskTypeOptions.forEach(option => { if (option.getAttribute('value') === selectedRadio[index]) { option.checked = true } })
     } else if (riskType[index] === 'Surface water climate change') {
       swRadioCc.checked = true
-      swOverrideRadiosContainer.classList.add('hide')
-      swOverrideRadiosContainerCc.classList.remove('hide')
-      radio = document.getElementById(`map_${index}-override_cc`)
+      if (selectedRadio[index] === 'Do not override') {
+        radio = document.getElementById(`map_${index}-no-override`)
+      } else {
+        radio = document.getElementById(`map_${index}-override_cc`)
+        swOverrideRadiosContainer.classList.add('hide')
+        swOverrideRadiosContainerCc.classList.remove('hide')
+      }
       radio.checked = true
       swRiskValueContainerCc.classList.remove('hide')
       swRiskTypeOptionsCc.forEach(option => { if (option.getAttribute('value') === selectedRadio[index]) { option.checked = true } })
