@@ -25,13 +25,13 @@ document.addEventListener('DOMContentLoaded', () => {
     swRadio.addEventListener('change', () => {
       swRiskValueContainer.classList.add('hide')
       swRiskValueContainerCc.classList.add('hide')
-      swRiskTypeOptions.forEach(radio => {
-        radio.checked = false
+      swRiskTypeOptions.forEach(selectedRadio => {
+        selectedRadio.checked = false
         overrideYes.checked = false
         overrideYesCc.checked = false
       })
-      swRiskTypeOptionsCc.forEach(radio => {
-        radio.checked = false
+      swRiskTypeOptionsCc.forEach(selectedRadio => {
+        selectedRadio.checked = false
         overrideYes.checked = false
         overrideYesCc.checked = false
       })
@@ -64,40 +64,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     commentMap(geo, 'map_' + index, capabilities)
   })
-})
 
-const form = document.getElementById('comment-form-edit')
+  const form = document.getElementById('comment-form-edit')
 
-form.addEventListener('submit', (e) => {
-  const radioNamePatterns = [/^override_\d+-risk$/, /^override_\d+$/, /^override_\d+_cc$/]
-  const radios = form.querySelectorAll('input[type="radio"]')
-
-  const radiosToCheck = Array.from(radios).filter(radio => {
-    return radioNamePatterns.some(pattern => pattern.test(radio.name))
+  // this event function has been added to check if any of the radio groups are not checked and to prevent a 'null' value
+  // to be submitted when updating the risk value
+  form.addEventListener('submit', (e) => {
+    const features = geometry.features
+    for (let index = 0 ; index < features.length ; index++) {
+      const riskInputGroup = `override_${index}-risk`
+      const yesGroupName = `override_${index}_cc`
+  
+      const parentRadios = form.querySelectorAll(`input[name="${riskInputGroup}"]`)
+      const yesRadios = form.querySelectorAll(`input[name="${yesGroupName}"]`)
+  
+      const parentChecked = Array.from(parentRadios).find(r => r.checked)
+      const yesChecked = Array.from(yesRadios).find(r => r.checked)
+  
+      if (!parentChecked && !yesChecked) {
+        // nothing chosen in either group
+        alert(`Please make a selection for risk override for item ${index + 1}`)
+        e.preventDefault()
+        return
+      }
+  
+      if (yesChecked) {
+        // user picked “Yes” in yes group, so the child risk options must be checked
+        const childRadios = document.querySelectorAll(`.risk-option_${index}_cc`)
+        const childVisibleRadios = Array.from(childRadios).filter(r => r.offsetParent !== null)
+        const childChecked = childVisibleRadios.find(r => r.checked)
+        if (!childChecked) {
+          alert(`Please choose a risk level for Surface Water Climate Change override for item ${index + 1}`)
+          e.preventDefault()
+          return
+        }
+      }
+    }
   })
-
-  const groupedRadios = radiosToCheck.reduce((groups, radio) => {
-    if (!groups[radio.name]) {
-      groups[radio.name] = []
-    }
-    groups[radio.name].push(radio)
-    return groups
-  }, {})
-
-  for (const [_name, groupRadios] of Object.entries(groupedRadios)) {
-    const anyVisible = groupRadios.some(radio => {
-      return radio.offsetParent !== null
-    })
-
-    if (!anyVisible) continue
-
-    const anyChecked = groupRadios.some(r => r.checked)
-    if (!anyChecked) {
-      alert('Please make a selection for risk override.')
-      e.preventDefault()
-      return
-    }
-  }
 })
 
 document.addEventListener('DOMContentLoaded', window.LTFMGMT.sharedFunctions.addCharacterCounts)
