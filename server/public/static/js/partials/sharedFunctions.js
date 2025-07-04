@@ -53,6 +53,8 @@ const sharedFunctions = {
       riskOptionRadiosRSCC.classList.add('hide')
     } else if (noOverrideRadio.checked) {
       riskOptionRadios.classList.add('hide')
+    } else {
+      console.warn('Unexpected SW override radio state')
     }
     
     if (overrideRadioRS.checked) {
@@ -61,6 +63,8 @@ const sharedFunctions = {
       riskOptionRadiosRSCC.classList.add('hide')
     } else if (noOverrideRadioRS.checked) {
       riskOptionRadiosRS.classList.add('hide')
+    } else {
+      console.warn('Unexpected RS override radio state')
     }
 
     if (overrideRadioRSCC.checked) {
@@ -69,6 +73,8 @@ const sharedFunctions = {
       riskOptionRadiosRS.classList.add('hide')
     } else if (noOverrideRadioRSCC.checked) {
       riskOptionRadiosRSCC.classList.add('hide')
+    } else {
+      console.warn('Unexpected RSCC override radio state')
     }
 
     const checkRiskOverride = () => {
@@ -90,6 +96,8 @@ const sharedFunctions = {
         riskOverrideRadios.classList.add('hide')
         riskOverrideRadiosRS.classList.add('hide')
         riskOverrideRadiosRSCC.classList.remove('hide')
+      } else {
+        console.warn('checkRiskOverride: No radio is checked');
       }
     }
     

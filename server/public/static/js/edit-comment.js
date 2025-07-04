@@ -50,6 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
       radio.checked = true
       rsRiskValueContainerCC.classList.remove('hide')
       rsRiskTypeOptionsCC.forEach(option => { if (option.getAttribute('value') === selectedRadio[index]) { option.checked = true }})
+    } else {
+      console.warn(`Unexpected risk type at index ${index}:`, riskType[index]);
     }
 
     const geo = {
