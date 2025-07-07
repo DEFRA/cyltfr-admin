@@ -22,21 +22,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const swRadioCc = document.getElementById(`swcc_${index}`)
 
 
+    // On changing the risk type (SW, SWCC or RS) the radio buttons are reset to unselected
     swRadio.addEventListener('change', () => {
       swRiskValueContainer.classList.add('hide')
       swRiskValueContainerCc.classList.add('hide')
-      swRiskTypeOptions.forEach(selectedRadio => {
-        selectedRadio.checked = false
+      swRiskTypeOptions.forEach(riskRadio => {
+        riskRadio.checked = false
         overrideYes.checked = false
         overrideYesCc.checked = false
       })
-      swRiskTypeOptionsCc.forEach(selectedRadio => {
-        selectedRadio.checked = false
+      swRiskTypeOptionsCc.forEach(riskRadio => {
+        riskRadio.checked = false
         overrideYes.checked = false
         overrideYesCc.checked = false
       })
     })
 
+    // This checks the initial values and selects them for the risk overrides.
     if (riskType[index] === 'Surface water') {
       swRadio.checked = true
       if (selectedRadio[index] === 'Do not override') {
