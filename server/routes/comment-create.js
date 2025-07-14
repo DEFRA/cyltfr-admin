@@ -40,13 +40,12 @@ module.exports = [
 
       const comments = await provider.getFile()
       let overlapCount = 0
+      const intersectingComment = []
 
       // Iterate through comments and get coordinates so they can be compared and find interests
       for (const element of comments) {
         const key = `${config.holdingCommentsPrefix}/${element.keyname}`
         const storedGeoJSON = await provider.getFile(key)
-        console.log('storedGeoJSON: ', storedGeoJSON)
-        console.log('element: ', element)
 
         const geometry = storedGeoJSON.features[0].geometry
 
@@ -65,13 +64,10 @@ module.exports = [
         const intersects = booleanIntersects(uploadPolygon, storedPolygon)
 
         if (intersects) {
-          overlapCount++
           console.log(`Overlap found with: ${element.description}`)
-          alert(`Overlap found with: ${element.description}`)
+          intersectingComment.push(element.description)
         }
       }
-
-      console.log(loop)
 
       try {
         // Update manifest
@@ -96,7 +92,9 @@ module.exports = [
       }
 
       // Return ok
+      console.log(intersectingComment)
       return {
+        intersectingComment,
         ok: true,
         id
       }
