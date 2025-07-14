@@ -1,32 +1,24 @@
 ;(function () {
   const geometry = window.LTFMGMT.geometry
-  console.log('geometry', geometry)
   const allFeatures = window.LTFMGMT.allFeatures
-  console.log('allFeatures', allFeatures)
   const capabilities = window.LTFMGMT.capabilities
 
   geometry.features.forEach(function (feature, index) {
-    console.log('geometry feature: ', feature)
     const geo = {
       ...geometry,
       features: geometry.features.filter(f => f === feature)
     }
-
-    console.log('geometry geo: ',geo)
 
     window.LTFMGMT.commentMap(geo, 'map_' + index, capabilities)
   })
 
   allFeatures.forEach(function (feature) {
     feature.features.forEach(function (feature) {
-      console.log('allfeature feature: ', feature)
       const geo = {
         ...feature,
         features: feature.filter(f => f === feature)
       }
-  
-      console.log(geo)
-  
+    
       window.LTFMGMT.commentMap(geo, 'map_whole', capabilities)
     })
   })
@@ -47,7 +39,6 @@
     // Reload the map inside the modal
     const feature = window.LTFMGMT.geometry.features[index]
     const geo = { ...window.LTFMGMT.geometry, features: [feature] }
-    console.log(geo)
 
     window.LTFMGMT.commentMap(geo, 'modal_map', window.LTFMGMT.capabilities)
   }

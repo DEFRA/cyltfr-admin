@@ -95,6 +95,13 @@ class CreateCommentPage {
             'Content-Type': 'application/json'
           }
         })
+
+        const responseJson = await response.json()
+        const listOfIntersectingCommentsString = responseJson.intersectingComment.join(', ')
+
+        if (responseJson.intersectingComment) {
+          alert(`There is an intersect with ${listOfIntersectingCommentsString}`)
+        }
         if (response.ok) {
           window.location.href = '/'
         } else {

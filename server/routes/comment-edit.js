@@ -50,8 +50,6 @@ module.exports = [
           return provider.getFile(key)
         })
       )
-      console.log('allFeatures: ', allFeatures[0])
-      console.log('geometry: ', geometry)
 
       return h.view('comment-view', commentView(comment, geometry, request.auth, capabilities, allFeatures))
     },
