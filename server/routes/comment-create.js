@@ -3,6 +3,7 @@ const commentCreate = require('../models/comment-create')
 const { shortId } = require('../helpers')
 const capabilities = require('../models/capabilities')
 const config = require('../config')
+const { performance } = require('node:perf_hooks')
 const { booleanIntersects } = require('@turf/boolean-intersects')
 const { polygon } = require('@turf/helpers')
 
@@ -27,6 +28,10 @@ module.exports = [
     method: 'POST',
     path: '/comment/create/{type}',
     handler: async (request, _h) => {
+      let startTime
+      if (config.performanceLogging) {
+        startTime = performance.now()
+      }
       const provider = request.provider
       const payload = request.payload
       const type = request.params.type
@@ -39,7 +44,6 @@ module.exports = [
       const uploadPolygon = polygon(uploadCoordinates)
 
       const comments = await provider.getFile()
-      let overlapCount = 0
       const intersectingComment = []
 
       // Iterate through comments and get coordinates so they can be compared and find interests
@@ -64,7 +68,6 @@ module.exports = [
         const intersects = booleanIntersects(uploadPolygon, storedPolygon)
 
         if (intersects) {
-          console.log(`Overlap found with: ${element.description}`)
           intersectingComment.push(element.description)
         }
       }
@@ -91,8 +94,9 @@ module.exports = [
         console.log('failed to upload')
       }
 
-      // Return ok
-      console.log(intersectingComment)
+      if (config.performanceLogging) {
+        console.log('POST /comment/create/ time: ', performance.now() - startTime)
+      }
       return {
         intersectingComment,
         ok: true,

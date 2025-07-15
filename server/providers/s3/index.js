@@ -1,7 +1,9 @@
-const { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand } = require('@aws-sdk/client-s3')
+const { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand, HeadObjectCommand } = require('@aws-sdk/client-s3')
 const fs = require('fs')
 const config = require('../../config')
 const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`
+const { setCache, getCache } = require('../../services/serverCache')
+
 
 const s3Client = new S3Client({
   region: config.awsBucketRegion
@@ -16,6 +18,14 @@ class S3Provider {
     }))
 
     return JSON.parse(await result.Body.transformToString())
+  }
+
+  async loadFeatureData (jsonData) {
+    await Promise.all(jsonData.map(async (item) => {
+      const itemResponse = await this.getFile(`${config.holdingCommentsPrefix}/${item.keyname}`)
+      item.features = itemResponse
+    }))
+    return jsonData
   }
 
   async save (comments) {
@@ -73,6 +83,32 @@ class S3Provider {
       } else {
         throw err
       }
+    }
+  }
+
+  async cachedData () {
+    const params = { Bucket: config.awsBucketName, Key: manifestKey }
+    const getHeadCommand = new HeadObjectCommand(params)
+    const manifestFile = await s3Client.send(getHeadCommand)
+    const lastModified = getCache('lastModified')
+    if (lastModified === undefined) {
+      setCache('lastModified', '')
+    }
+
+    if (JSON.stringify(manifestFile.LastModified) === JSON.stringify(lastModified)) {
+      if (dataConfig.performanceLogging) {
+        console.log('Manifest file has not been modified since the last check.')
+      }
+      const cachedData = getCache('data')
+      return cachedData
+    } else {
+      console.log('Manifest file has been modified since the last check.')
+      const response = await this.getFile(manifestKey)
+      const data = await this.loadFeatureData(response)
+      setCache('lastModified', manifestFile.LastModified)
+      setCache('data', data)
+
+      return data
     }
   }
 }
