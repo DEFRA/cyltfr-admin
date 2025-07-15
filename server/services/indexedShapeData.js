@@ -17,19 +17,18 @@ export class IndexedShapeData {
 
     dataToCheck.forEach((item) => {
       const features = item?.features?.features || []
-      if (item?.approvedBy) {
-        features.forEach((feature) => {
-          const boundingBox = bbox(feature?.geometry)
-          const { id } = item
-          const geometry = { id, boundingBox, ...feature?.geometry }
-          array[index] = geometry
-          const xyIndexPoints = IndexedShapeData.getXYIndexPoints(boundingBox)
-          // console.log(JSON.stringify({ index, id, boundingBox }, null, 4))
-          this.setIndexedDataItem(xyIndexPoints, index)
-          index++
-        })
-      }
+      features.forEach((feature) => {
+        const boundingBox = bbox(feature?.geometry)
+        const { id } = item
+        const geometry = { id, boundingBox, ...feature?.geometry }
+        array[index] = geometry
+        const xyIndexPoints = IndexedShapeData.getXYIndexPoints(boundingBox)
+        // console.log(JSON.stringify({ index, id, boundingBox }, null, 4))
+        this.setIndexedDataItem(xyIndexPoints, index)
+        index++
+      })
     })
+    console.log('array: ', array)
     return array
   }
 
