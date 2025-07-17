@@ -19,6 +19,8 @@ module.exports = {
       const zipfile = tmpfile + '.zip'
       await rename(tmpfile, zipfile)
 
+      // CHANGE THE BELOW BACK OR IT WILL USE DUMMY FILEE!!!!!!!!!!!!
+
       // let data
       // try {
       //   ({ data } = await ogr2ogr(zipfile))
