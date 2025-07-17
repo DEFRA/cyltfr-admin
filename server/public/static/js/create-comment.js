@@ -43,6 +43,10 @@ class CreateCommentPage {
       return
     }
 
+    if (jsonFileData.intersects) {
+      alert(`Warning, there are other holding commnets that intersect this shape file: ${jsonFileData.intersects.join(', ')}`)
+    }
+
     // Add feature sections for each feature
     const featureForm = document.getElementById('features')
 

@@ -17,13 +17,13 @@ export class IndexedShapeData {
 
     dataToCheck.forEach((item) => {
       const features = item?.features?.features || []
+      const { description } = item
       features.forEach((feature) => {
         const boundingBox = bbox(feature?.geometry)
         const { id } = item
-        const geometry = { id, boundingBox, ...feature?.geometry }
+        const geometry = { id, description, boundingBox, ...feature?.geometry }
         array[index] = geometry
         const xyIndexPoints = IndexedShapeData.getXYIndexPoints(boundingBox)
-        // console.log(JSON.stringify({ index, id, boundingBox }, null, 4))
         this.setIndexedDataItem(xyIndexPoints, index)
         index++
       })
@@ -62,9 +62,17 @@ export class IndexedShapeData {
   }
 
   polygonHitTest (polygon) {
+    const intersectingCommentsList = []
     if (!polygon) {
       return false
     }
-    return [...this.getPossibleIntersectIndices(polygon)].find((index) => booleanIntersects(polygon.turfPolygon, this.geometryArray[index])) !== undefined
+    [...this.getPossibleIntersectIndices(polygon)].find((index) => {
+      const checkIfIntersect = booleanIntersects(polygon.turfPolygon, this.geometryArray[index])
+      if (checkIfIntersect) {
+        intersectingCommentsList.push(this.geometryArray[index].description)
+      }
+    })
+
+    return intersectingCommentsList
   }
 }
