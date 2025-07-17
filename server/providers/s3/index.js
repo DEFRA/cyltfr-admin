@@ -96,7 +96,7 @@ class S3Provider {
     }
 
     if (JSON.stringify(manifestFile.LastModified) === JSON.stringify(lastModified)) {
-      if (dataConfig.performanceLogging) {
+      if (config.performanceLogging) {
         console.log('Manifest file has not been modified since the last check.')
       }
       const cachedData = getCache('data')

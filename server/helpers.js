@@ -1,8 +1,10 @@
 const spawn = require('child_process').spawn
 const moment = require('moment-timezone')
+const config = require('./config')
 const { DATEFORMAT } = require('./constants')
 const CONVERSION_BASE = 36
 const validGeometyTypes = ['Polygon', 'MultiPolygon']
+const Polygon = require('./services/polygon')
 
 function shortId () {
   return Math.random().toString(CONVERSION_BASE).substring(2)
@@ -12,10 +14,11 @@ function formatDate (str, format = DATEFORMAT) {
   return moment(str).format(format)
 }
 
-function updateAndValidateGeoJson (geojson, type) {
+async function updateAndValidateGeoJson (geojson, type) {
   if (geojson.crs?.properties?.name !== 'urn:ogc:def:crs:EPSG::27700') {
     throw new Error('Shape file contains invalid data. Must be in British National Grid (EPSG 27700) projection')
   }
+  
   geojson.features.forEach(f => {
     const props = f.properties
     f.properties = {
@@ -34,6 +37,24 @@ function updateAndValidateGeoJson (geojson, type) {
   })
   return geojson
 }
+
+async function checkIntersects (polygon, indexedShapeData) {
+    console.log('in fetch')
+    let startTime
+    if (config.performanceLogging) {
+      startTime = performance.now()
+    }
+
+    // uses the returned values of the shape data (which can be false) and the current polygon (changed to a polygon object with attributes) to evaluate if they 
+    // intersect
+    const intersects = indexedShapeData.polygonHitTest(new Polygon(polygon))
+    if (config.performanceLogging) {
+      console.log('Check intersects: ', performance.now() - startTime)
+    }
+
+    // intersects is true or false
+    return { intersects }
+  }
 
 function run (cmd, args, opts) {
   return new Promise((resolve, reject) => {
@@ -67,5 +88,6 @@ module.exports = {
   run,
   shortId,
   formatDate,
-  updateAndValidateGeoJson
+  updateAndValidateGeoJson,
+  checkIntersects
 }
