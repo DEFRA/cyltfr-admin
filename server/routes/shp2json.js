@@ -6,18 +6,13 @@ const helpers = require('../helpers')
 const ogr2ogr = require('ogr2ogr').default
 const rename = util.promisify(fs.rename)
 const Polygon = require('../services/polygon')
-const { polygon } = require('@turf/helpers')
 
 module.exports = {
   method: 'POST',
   path: '/shp2json/{type}',
   handler: async (request, _h) => {
     const { payload, params } = request
-    console.log('params.type: ', params.type)
     const { geometry } = payload
-    // const query = request.query
-    // const polygon = query.polygon ? JSON.parse(query.polygon) : undefined
-    // console.log(polygon)
 
     try {
       const tmpfile = geometry.path
@@ -34,24 +29,14 @@ module.exports = {
       // uncomment the below to use dummy data to bypass having to upload an actual shape file on dev
       const data = require('./dummy-data/example_file.json')
       // const data = require('./dummy-data/example_file_broken.json')
-      console.log('data.features: ', data)
+
       const uploadCoordinates = data.features[0].geometry.coordinates
-      console.log('uploadCoordinates: ', uploadCoordinates)
-      const uploadPolygon = polygon(uploadCoordinates)
-      console.log('uploadPolygon ', uploadPolygon)
-
-
+      const uploadPolygon = new Polygon(uploadCoordinates[0])
       const indexedShapeData = await request.server.methods.getIndexedShapeData()
-
-      // const geojson = helpers.updateAndValidateGeoJson(data, params.type)
-      console.log('here')
-      console.log('here')
       const intersects = indexedShapeData.polygonHitTest(uploadPolygon)
-      console.log('intersects: ', intersects)
-      const geojson = helpers.updateAndValidateGeoJson(data, params.type)
-      console.log('geojson: ', geojson)
+      const geojson = await helpers.updateAndValidateGeoJson(data, params.type)
 
-      return geojson
+      return { geojson, intersects }
     } catch (err) {
       return boom.badRequest(err.message, err)
     }

@@ -39,7 +39,6 @@ async function updateAndValidateGeoJson (geojson, type) {
 }
 
 async function checkIntersects (polygon, indexedShapeData) {
-    console.log('in fetch')
     let startTime
     if (config.performanceLogging) {
       startTime = performance.now()

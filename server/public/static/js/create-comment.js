@@ -46,14 +46,14 @@ class CreateCommentPage {
     // Add feature sections for each feature
     const featureForm = document.getElementById('features')
 
-    jsonFileData.features.forEach((_feature, index) => {
+    jsonFileData.geojson.features.forEach((_feature, index) => {
       featureForm.insertAdjacentHTML('beforeend', window.LTFMGMT.addFeatureHtml(index, this.type))
     })
 
     document.querySelectorAll('.comment-map').forEach((div, index) => {
       div.id = 'map_' + index
     })
-    document.getElementById('data_name').setAttribute('value', `${jsonFileData.name}`)
+    document.getElementById('data_name').setAttribute('value', `${jsonFileData.geojson.name}`)
     document.getElementById('file').remove()
     document.getElementById('comment-form').style.display = 'block'
 
@@ -61,9 +61,9 @@ class CreateCommentPage {
     const startDateField = document.querySelectorAll('.start-date')
     const endDateField = document.querySelectorAll('.end-date')
 
-    jsonFileData.features.forEach((feature, index, features) => {
+    jsonFileData.geojson.features.forEach((feature, index, features) => {
       const geo = {
-        ...jsonFileData,
+        ...jsonFileData.geojson,
         features: features.filter(f => f === feature)
       }
       startDateField[index].value = `${feature.properties.start}`
@@ -76,8 +76,8 @@ class CreateCommentPage {
       this.commentMap(geo, 'map_' + index, this.capabilities)
     })
 
-    if (jsonFileData.features.length > 1) {
-      this.commentMap(jsonFileData, 'map', this.capabilities, 'The map below shows all geometries contained within the shapefile')
+    if (jsonFileData.geojson.features.length > 1) {
+      this.commentMap(jsonFileData.geojson, 'map', this.capabilities, 'The map below shows all geometries contained within the shapefile')
     }
 
     // Add char count for the text areas
@@ -167,6 +167,7 @@ class CreateCommentPage {
       method: 'post',
       body: formData
     })
+    
     if (!response.ok) {
       const result = await response.json()
       throw new Error(result.message)

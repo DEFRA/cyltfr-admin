@@ -39,7 +39,6 @@ export class IndexedShapeData {
         xyIndexPoints.push(key)
       }
     }
-    console.log('inside getXYIndexPoints', xyIndexPoints)
     return xyIndexPoints
   }
 
@@ -53,7 +52,6 @@ export class IndexedShapeData {
 
   getPossibleIntersectIndices (polygon) {
     // Can replace this reducer with union once we upgrade to Node 22.0 or above
-    console.log('polygon.xyIndexPoints ', polygon.xyIndexPoints)
     return polygon.xyIndexPoints.reduce((keys, key) => {
       const values = this.indexedData.get(key)
       if (this.indexedData.has(key)) {
@@ -65,13 +63,8 @@ export class IndexedShapeData {
 
   polygonHitTest (polygon) {
     if (!polygon) {
-      console.log('polygon false')
       return false
     }
-    console.log('polygon true in polygon hit test')
-    console.log('this.getPossibleIntersectIndices(polygon) ', this.getPossibleIntersectIndices(polygon))
-    console.log('this.getPossibleIntersectIndices(polygon) ', polygon.turfPolygon)
-    console.log('this.geometryArray[index] ', this.geometryArray[index])
     return [...this.getPossibleIntersectIndices(polygon)].find((index) => booleanIntersects(polygon.turfPolygon, this.geometryArray[index])) !== undefined
   }
 }
