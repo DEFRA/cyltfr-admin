@@ -139,9 +139,9 @@ class CreateCommentPage {
         }
         if (riskTypeValue === 'Surface water') {
           feature.properties.riskOverride = riskOverrideValue
-        }
-        if (riskTypeValue === 'Surface water climate change') {
-          feature.properties.riskOverride = riskOverrideValueCc
+          if (riskOverrideValueCc) {
+            feature.properties.riskOverrideCc = riskOverrideValueCc
+          }
         }
         if (addCommentRadio === 'No') {
           feature.properties.commentText = 'No'

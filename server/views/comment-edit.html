@@ -74,9 +74,6 @@
                                   <label for="sw_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="sw_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
                                     value="Surface water">Surface water</label></li>
                                 <li>
-                                  <label for="swcc_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="swcc_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
-                                    value="Surface water climate change">Surface water climate change</label></li>
-                                <li>
                                   <label for="rs_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="rs_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
                                   value="Rivers and the sea">Rivers and the sea</label></li>
                               </ul>
@@ -86,7 +83,7 @@
                             <div id="risk-override-radios_{{ features.indexOf(feature) }}" class="form-group field field-string govuk-form-group riskOverride">
                               <label
                                 class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride">
-                                Do you want to override the flood risk rating?
+                                Do you want to override the present day surface water flood risk rating?
                               </label>
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride">
                                 <li>
@@ -116,29 +113,15 @@
                             <div id="risk-override-radios_{{ features.indexOf(feature) }}_cc" class="form-group field field-string govuk-form-group riskOverride hide">
                               <label
                                 class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
-                                Do you want to override the flood risk rating?
+                                Do you want to override the climate change surface water flood risk rating?
                               </label>
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
                                 <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-no-override_cc"><input class="radio no_override override_radio_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_cc" name="override_{{ features.indexOf(feature) }}-risk"
+                                  <label for="map_{{ features.indexOf(feature) }}-no-override_cc"><input class="radio no_override override_radio_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
                                     value="Do not override">No, do not override</label></li>
                                 <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-override_cc"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_cc" name="override_{{ features.indexOf(feature) }}_cc"
-                                  value="Override">Yes, override surface water climate change</label></li>
-                                <ul id="risk-options_{{ features.indexOf(feature) }}_cc" class="risk-option-radios hide">
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-very-low_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low_cc" name="override_{{ features.indexOf(feature) }}-risk"
-                                      value="Very low">Very low</label></li>
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-low_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-low_cc" name="override_{{ features.indexOf(feature) }}-risk"
-                                      value="Low">Low</label></li>
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-medium_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-medium_cc" name="override_{{ features.indexOf(feature) }}-risk"
-                                      value="Medium">Medium</label></li>
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-high_cc"><input class="radio risk-option_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-override-high_cc" name="override_{{ features.indexOf(feature) }}-risk"
-                                      value="High">High</label></li>
-                                </ul>
+                                  <label for="map_{{ features.indexOf(feature) }}-override_cc"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
+                                  value="Override">Yes, override to show 'no data'</label></li>
                               </ul>
                             </div>
                             <div class="form-group field field-string  govuk-form-group">

@@ -8,7 +8,7 @@ const textCommentRadio = window.LTFMGMT.textCommentRadio
 
 document.addEventListener('DOMContentLoaded', () => {
   geometry.features.forEach(function (feature, index) {
-    window.LTFMGMT.sharedFunctions.setInitialValues(index, type === 'holding', selectedRadio, feature.properties.riskType, textCommentRadio)
+    window.LTFMGMT.sharedFunctions.setInitialValues(index, type === 'holding', selectedRadio, [feature.properties.riskType], textCommentRadio)
     let radio
     const swOverrideRadiosContainer = document.getElementById(`risk-override-radios_${index}`)
     const swOverrideRadiosContainerCc = document.getElementById(`risk-override-radios_${index}_cc`)
@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const swRiskTypeOptions = document.querySelectorAll(`.risk-option_${index}`)
     const swRiskTypeOptionsCc = document.querySelectorAll(`.risk-option_${index}_cc`)
     const swRadio = document.getElementById(`sw_${index}`)
-    const swRadioCc = document.getElementById(`swcc_${index}`)
 
 
     // On changing the risk type (SW, SWCC or RS) the radio buttons are reset to unselected
@@ -41,30 +40,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // This checks the initial values and selects them for the risk overrides.
     if (riskType[index] === 'Surface water') {
       swRadio.checked = true
-      if (selectedRadio[index] === 'Do not override') {
+
+      const overrideValue = feature.properties.riskOverride
+      const overrideValueCc = feature.properties.riskOverrideCc
+
+      swOverrideRadiosContainer.classList.remove('hide')
+
+      if (overrideValue === 'Do not override') {
         radio = document.getElementById(`map_${index}-no-override`)
-      } else {
-      radio = document.getElementById(`map_${index}-override`)
-      swRiskValueContainer.classList.remove('hide')
-      }
-      radio.checked = true
-      swRiskTypeOptions.forEach(option => { if (option.getAttribute('value') === selectedRadio[index]) { option.checked = true } })
-    } else if (riskType[index] === 'Surface water climate change') {
-      swRadioCc.checked = true
-      if (selectedRadio[index] === 'Do not override') {
-        radio = document.getElementById(`map_${index}-no-override`)
-      } else {
-        radio = document.getElementById(`map_${index}-override_cc`)
-        swOverrideRadiosContainer.classList.add('hide')
+        if (radio) radio.checked = true
+
+        // Show climate change override section
         swOverrideRadiosContainerCc.classList.remove('hide')
+
+        if (overrideValueCc === 'Do not override') {
+          const ccRadio = document.getElementById(`map_${index}-no-override_cc`)
+          if (ccRadio) ccRadio.checked = true
+        } else if (overrideValueCc) {
+          const ccRadio = document.getElementById(`map_${index}-override_cc`)
+          if (ccRadio) ccRadio.checked = true
+        }
+      } else if (overrideValue) {
+        radio = document.getElementById(`map_${index}-override`)
+        if (radio) radio.checked = true
+
+        swRiskValueContainer.classList.remove('hide')
+        swRiskTypeOptions.forEach(option => {
+          if (option.getAttribute('value') === overrideValue) {
+            option.checked = true
+          }
+        })
       }
-      radio.checked = true
-      swRiskValueContainerCc.classList.remove('hide')
-      swRiskTypeOptionsCc.forEach(option => { if (option.getAttribute('value') === selectedRadio[index]) { option.checked = true } })
-    } else {
+    } else if (riskType[index] === 'Rivers and the sea') {
       const rsRadio = document.getElementById(`rs_${index}`)
-      rsRadio.checked = true
-      swOverrideRadiosContainer.classList.add('hide')
+      if (rsRadio) rsRadio.checked = true
     }
 
     const geo = {
@@ -83,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const features = geometry.features
     for (let index = 0 ; index < features.length ; index++) {
       const riskInputGroup = `override_${index}-risk`
-      const yesGroupName = `override_${index}_cc`
+      const yesGroupName = `override_${index}-risk_cc`
   
       const parentRadios = form.querySelectorAll(`input[name="${riskInputGroup}"]`)
       const yesRadios = form.querySelectorAll(`input[name="${yesGroupName}"]`)
@@ -96,18 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(`Please make a selection for risk override for item ${index + 1}`)
         e.preventDefault()
         return
-      }
-  
-      if (yesChecked) {
-        // user picked “Yes” in yes group, so the child risk options must be checked
-        const childRadios = document.querySelectorAll(`.risk-option_${index}_cc`)
-        const childVisibleRadios = Array.from(childRadios).filter(r => r.offsetParent !== null)
-        const childChecked = childVisibleRadios.find(r => r.checked)
-        if (!childChecked) {
-          alert(`Please choose a risk level for Surface Water Climate Change override for item ${index + 1}`)
-          e.preventDefault()
-          return
-        }
       }
     }
   })
