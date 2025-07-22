@@ -55,14 +55,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (overrideValueCc === 'Do not override') {
           const ccRadio = document.getElementById(`map_${index}-no-override_cc`)
-          if (ccRadio) ccRadio.checked = true
+          if (ccRadio) {
+            ccRadio.checked = true 
+          }
         } else if (overrideValueCc) {
           const ccRadio = document.getElementById(`map_${index}-override_cc`)
-          if (ccRadio) ccRadio.checked = true
+          if (ccRadio) {
+            ccRadio.checked = true
+          }
         }
       } else if (overrideValue) {
         radio = document.getElementById(`map_${index}-override`)
-        if (radio) radio.checked = true
+        if (radio) {
+          radio.checked = true
+        }
 
         swRiskValueContainer.classList.remove('hide')
         swRiskTypeOptions.forEach(option => {
@@ -73,7 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     } else if (riskType[index] === 'Rivers and the sea') {
       const rsRadio = document.getElementById(`rs_${index}`)
-      if (rsRadio) rsRadio.checked = true
+      if (rsRadio) {
+        rsRadio.checked = true
+      }
     }
 
     const geo = {
