@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
           radio.checked = true
         }
 
-        // Show climate change override section
+        // Show surface water climate change override options
         swOverrideRadiosContainerCc.classList.remove('hide')
 
         if (overrideValueCc === 'Do not override') {
@@ -81,12 +81,16 @@ document.addEventListener('DOMContentLoaded', () => {
             option.checked = true
           }
         })
+      } else {
+          console.warn(`Unexpected overrideValueCc: ${overrideValue}`)
       }
     } else if (riskType[index] === 'Rivers and the sea') {
       const rsRadio = document.getElementById(`rs_${index}`)
       if (rsRadio) {
         rsRadio.checked = true
       }
+    } else {
+      console.warn(`Unexpected riskType: ${riskType[index]}`);
     }
 
     const geo = {
