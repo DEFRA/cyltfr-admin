@@ -48,7 +48,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (overrideValue === 'Do not override') {
         radio = document.getElementById(`map_${index}-no-override`)
-        if (radio) radio.checked = true
+        if (radio) {
+          radio.checked = true
+        }
 
         // Show climate change override section
         swOverrideRadiosContainerCc.classList.remove('hide')
@@ -63,7 +65,10 @@ document.addEventListener('DOMContentLoaded', () => {
           if (ccRadio) {
             ccRadio.checked = true
           }
+        } else {
+          console.warn(`Unexpected overrideValueCc: ${overrideValueCc}`)
         }
+        
       } else if (overrideValue) {
         radio = document.getElementById(`map_${index}-override`)
         if (radio) {
