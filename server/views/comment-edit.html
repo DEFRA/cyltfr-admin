@@ -92,6 +92,14 @@
                                 <li>
                                   <label for="map_{{ features.indexOf(feature) }}-override"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override" name="override_{{ features.indexOf(feature) }}"
                                   value="Override">Yes, override surface water</label></li>
+                                <div id="risk-override-warning_{{ features.indexOf(feature) }}" class="govuk-warning-text hide">
+                                  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                  <strong class="govuk-warning-text__text">
+                                    <span class="govuk-visually-hidden">Warning</span>
+                                    By overriding the present risk rating, climate change information will automatically show as 'no data'. 
+                                    Any surface water depth information will also be removed from the service and replaced with 'no data'.
+                                  </strong>
+                                </div>
                                 <ul id="risk-options_{{ features.indexOf(feature) }}" class="risk-option-radios hide" >
                                   <li>
                                     <label for="map_{{ features.indexOf(feature) }}-override-very-low"><input class="radio risk-option_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low" name="override_{{ features.indexOf(feature) }}-risk"
@@ -123,6 +131,14 @@
                                   <label for="map_{{ features.indexOf(feature) }}-override_cc"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
                                   value="Override">Yes, override to show 'no data'</label></li>
                               </ul>
+                              <div id="risk-override-warning_{{ features.indexOf(feature) }}_cc" class="govuk-warning-text hide">
+                                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                <strong class="govuk-warning-text__text">
+                                  <span class="govuk-visually-hidden">Warning</span>
+                                  By overriding the climate change risk rating, climate change information will now show as 'no data'. 
+                                  Any surface water depth information will also be removed from the service and replaced with 'no data'.
+                                </strong>
+                              </div>
                             </div>
                             <div class="form-group field field-string  govuk-form-group">
                               <label class="control-label" for="features_{{ features.indexOf(feature) }}_properties_add_comment">

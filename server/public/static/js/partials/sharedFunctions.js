@@ -26,6 +26,10 @@ const sharedFunctions = {
     const riskTypes = document.getElementsByClassName(`risk-type-${index}`)
     const textCommentRadios = document.getElementsByClassName(`textComment_radio_${index}`)
     const noOverrideRadio = document.getElementById(`map_${index}-no-override`)
+    const overrideRadioCC = document.getElementById(`map_${index}-override_cc`)
+    const noOverrideRadioCC = document.getElementById(`map_${index}-no-override_cc`)
+    const riskOverrideWarning = document.getElementById(`risk-override-warning_${index}`)
+    const riskOverrideWarningCC = document.getElementById(`risk-override-warning_${index}_cc`)
 
     if (!isHoldingComment) {
       const riskReportRadios = document.getElementsByClassName(`risk-report_${index}`)
@@ -49,12 +53,23 @@ const sharedFunctions = {
         // Show climate change override only if "No" is selected
         if (noOverrideRadio.checked) {
           riskOverrideRadiosCc.classList.remove('hide')
+          riskOverrideWarning.classList.add('hide')
         } else {
           riskOverrideRadiosCc.classList.add('hide')
+          riskOverrideWarning.classList.remove('hide')
         }
+        // Show or hide the climate change warning
+        if (overrideRadioCC.checked) {
+          riskOverrideWarningCC.classList.remove('hide')
+        } else {
+          riskOverrideWarningCC.classList.add('hide')
+        }
+
       } else {
         riskOverrideRadios.classList.add('hide')
         riskOverrideRadiosCc.classList.add('hide')
+        riskOverrideWarning.classList.add('hide')
+        riskOverrideWarningCC.classList.add('hide')
       }
     }
     
@@ -81,6 +96,8 @@ const sharedFunctions = {
     overrideRadio.addEventListener('change', checkRiskOverride)
     swRadio.addEventListener('change', checkRiskOverride)
     rsRadio.addEventListener('change', checkRiskOverride)
+    overrideRadioCC.addEventListener('change', checkRiskOverride)
+    noOverrideRadioCC.addEventListener('change', checkRiskOverride)
     
     const checkTextArea = () => {
       document.getElementById(`text_area_${index}`).style.display = document.getElementById(`text_no_${index}`).checked ? 'none' : 'block'

@@ -6,6 +6,32 @@ const riskType = window.LTFMGMT.riskType
 const type = window.LTFMGMT.type
 const textCommentRadio = window.LTFMGMT.textCommentRadio
 
+// Function to update warning visibility
+function updateOverrideWarnings(index) {
+  const swRadio = document.getElementById(`sw_${index}`)
+  const noOverrideRadio = document.getElementById(`map_${index}-no-override`)
+  const overrideRadioCC = document.getElementById(`map_${index}-override_cc`)
+  const riskOverrideWarning = document.getElementById(`risk-override-warning_${index}`)
+  const riskOverrideWarningCC = document.getElementById(`risk-override-warning_${index}_cc`)
+
+  if (swRadio?.checked) {
+      if (noOverrideRadio?.checked) {
+        riskOverrideWarning?.classList.add('hide')
+      } else {
+        riskOverrideWarning?.classList.remove('hide')
+      }
+
+      if (overrideRadioCC?.checked) {
+        riskOverrideWarningCC?.classList.remove('hide')
+      } else {
+        riskOverrideWarningCC?.classList.add('hide')
+      }
+    } else {
+      riskOverrideWarning?.classList.add('hide')
+      riskOverrideWarningCC?.classList.add('hide')
+    }
+  }
+
 document.addEventListener('DOMContentLoaded', () => {
   geometry.features.forEach(function (feature, index) {
     window.LTFMGMT.sharedFunctions.setInitialValues(index, type === 'holding', selectedRadio, [feature.properties.riskType], textCommentRadio)
@@ -84,6 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
       } else {
           console.warn(`Unexpected overrideValueCc: ${overrideValue}`)
       }
+      updateOverrideWarnings(index)
+
     } else if (riskType[index] === 'Rivers and the sea') {
       const rsRadio = document.getElementById(`rs_${index}`)
       if (rsRadio) {
