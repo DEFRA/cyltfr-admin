@@ -71,33 +71,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
       swOverrideRadiosContainer.classList.remove('hide')
 
-      if (overrideValue === 'Do not override') {
-        radio = document.getElementById(`map_${index}-no-override`)
-        if (radio) {
-          radio.checked = true
-        }
-
+      const handleCcOverride = () => {
         // Show surface water climate change override options
         swOverrideRadiosContainerCc.classList.remove('hide')
 
         if (overrideValueCc === 'Do not override') {
           const ccRadio = document.getElementById(`map_${index}-no-override_cc`)
-          if (ccRadio) {
-            ccRadio.checked = true
-          }
-        } else if (overrideValueCc) {
+          if (ccRadio) ccRadio.checked = true
+          return
+        }
+
+        if (overrideValueCc) {
           const ccRadio = document.getElementById(`map_${index}-override_cc`)
-          if (ccRadio) {
-            ccRadio.checked = true
-          }
-        } else {
-          console.warn(`Unexpected overrideValueCc: ${overrideValueCc}`)
+          if (ccRadio) ccRadio.checked = true
+          return
         }
-      } else if (overrideValue) {
+        console.warn(`Unexpected overrideValueCc: ${overrideValueCc}`)
+      }
+
+      const handleOverride = () => {
         radio = document.getElementById(`map_${index}-override`)
-        if (radio) {
-          radio.checked = true
-        }
+        if (radio) radio.checked = true
 
         swRiskValueContainer.classList.remove('hide')
         swRiskTypeOptions.forEach(option => {
@@ -105,19 +99,24 @@ document.addEventListener('DOMContentLoaded', () => {
             option.checked = true
           }
         })
+      }
+
+      if (overrideValue === 'Do not override') {
+        radio = document.getElementById(`map_${index}-no-override`)
+        if (radio) radio.checked = true
+        handleCcOverride()
+      } else if (overrideValue) {
+        handleOverride()
       } else {
         console.warn(`Unexpected overrideValueCc: ${overrideValue}`)
       }
       updateOverrideWarnings(index)
     } else if (riskType[index] === 'Rivers and the sea') {
       const rsRadio = document.getElementById(`rs_${index}`)
-      if (rsRadio) {
-        rsRadio.checked = true
-      }
+      if (rsRadio) rsRadio.checked = true
     } else {
       console.warn(`Unexpected riskType: ${riskType[index]}`)
     }
-
     const geo = {
       ...geometry,
       features: geometry.features.filter(f => f === feature)
