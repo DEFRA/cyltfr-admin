@@ -77,13 +77,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (overrideValueCc === 'Do not override') {
           const ccRadio = document.getElementById(`map_${index}-no-override_cc`)
-          if (ccRadio) ccRadio.checked = true
+          if (ccRadio) {
+            ccRadio.checked = true
+          }
           return
         }
 
         if (overrideValueCc) {
           const ccRadio = document.getElementById(`map_${index}-override_cc`)
-          if (ccRadio) ccRadio.checked = true
+          if (ccRadio) {
+            ccRadio.checked = true
+          }
           return
         }
         console.warn(`Unexpected overrideValueCc: ${overrideValueCc}`)
@@ -91,7 +95,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const handleOverride = () => {
         radio = document.getElementById(`map_${index}-override`)
-        if (radio) radio.checked = true
+        if (radio) {
+          radio.checked = true
+        }
 
         swRiskValueContainer.classList.remove('hide')
         swRiskTypeOptions.forEach(option => {
@@ -103,7 +109,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (overrideValue === 'Do not override') {
         radio = document.getElementById(`map_${index}-no-override`)
-        if (radio) radio.checked = true
+        if (radio) {
+          radio.checked = true
+        }
         handleCcOverride()
       } else if (overrideValue) {
         handleOverride()
@@ -113,7 +121,9 @@ document.addEventListener('DOMContentLoaded', () => {
       updateOverrideWarnings(index)
     } else if (riskType[index] === 'Rivers and the sea') {
       const rsRadio = document.getElementById(`rs_${index}`)
-      if (rsRadio) rsRadio.checked = true
+      if (rsRadio) {
+        rsRadio.checked = true
+      }
     } else {
       console.warn(`Unexpected riskType: ${riskType[index]}`)
     }
