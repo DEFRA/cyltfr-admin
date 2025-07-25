@@ -7,7 +7,7 @@ const type = window.LTFMGMT.type
 const textCommentRadio = window.LTFMGMT.textCommentRadio
 
 // Function to update warning visibility
-function updateOverrideWarnings(index) {
+function updateOverrideWarnings (index) {
   const swRadio = document.getElementById(`sw_${index}`)
   const noOverrideRadio = document.getElementById(`map_${index}-no-override`)
   const overrideRadioCC = document.getElementById(`map_${index}-override_cc`)
@@ -15,22 +15,22 @@ function updateOverrideWarnings(index) {
   const riskOverrideWarningCC = document.getElementById(`risk-override-warning_${index}_cc`)
 
   if (swRadio?.checked) {
-      if (noOverrideRadio?.checked) {
-        riskOverrideWarning?.classList.add('hide')
-      } else {
-        riskOverrideWarning?.classList.remove('hide')
-      }
-
-      if (overrideRadioCC?.checked) {
-        riskOverrideWarningCC?.classList.remove('hide')
-      } else {
-        riskOverrideWarningCC?.classList.add('hide')
-      }
-    } else {
+    if (noOverrideRadio?.checked) {
       riskOverrideWarning?.classList.add('hide')
+    } else {
+      riskOverrideWarning?.classList.remove('hide')
+    }
+
+    if (overrideRadioCC?.checked) {
+      riskOverrideWarningCC?.classList.remove('hide')
+    } else {
       riskOverrideWarningCC?.classList.add('hide')
     }
+  } else {
+    riskOverrideWarning?.classList.add('hide')
+    riskOverrideWarningCC?.classList.add('hide')
   }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   geometry.features.forEach(function (feature, index) {
@@ -45,7 +45,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const swRiskTypeOptions = document.querySelectorAll(`.risk-option_${index}`)
     const swRiskTypeOptionsCc = document.querySelectorAll(`.risk-option_${index}_cc`)
     const swRadio = document.getElementById(`sw_${index}`)
-
 
     // On changing the risk type (SW, SWCC or RS) the radio buttons are reset to unselected
     swRadio.addEventListener('change', () => {
@@ -84,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (overrideValueCc === 'Do not override') {
           const ccRadio = document.getElementById(`map_${index}-no-override_cc`)
           if (ccRadio) {
-            ccRadio.checked = true 
+            ccRadio.checked = true
           }
         } else if (overrideValueCc) {
           const ccRadio = document.getElementById(`map_${index}-override_cc`)
@@ -94,7 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           console.warn(`Unexpected overrideValueCc: ${overrideValueCc}`)
         }
-        
       } else if (overrideValue) {
         radio = document.getElementById(`map_${index}-override`)
         if (radio) {
@@ -108,17 +106,16 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         })
       } else {
-          console.warn(`Unexpected overrideValueCc: ${overrideValue}`)
+        console.warn(`Unexpected overrideValueCc: ${overrideValue}`)
       }
       updateOverrideWarnings(index)
-
     } else if (riskType[index] === 'Rivers and the sea') {
       const rsRadio = document.getElementById(`rs_${index}`)
       if (rsRadio) {
         rsRadio.checked = true
       }
     } else {
-      console.warn(`Unexpected riskType: ${riskType[index]}`);
+      console.warn(`Unexpected riskType: ${riskType[index]}`)
     }
 
     const geo = {
@@ -135,16 +132,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // to be submitted when updating the risk value
   form.addEventListener('submit', (e) => {
     const features = geometry.features
-    for (let index = 0 ; index < features.length ; index++) {
+    for (let index = 0; index < features.length; index++) {
       const riskInputGroup = `override_${index}-risk`
       const yesGroupName = `override_${index}-risk_cc`
-  
+
       const parentRadios = form.querySelectorAll(`input[name="${riskInputGroup}"]`)
       const yesRadios = form.querySelectorAll(`input[name="${yesGroupName}"]`)
-  
+
       const parentChecked = Array.from(parentRadios).find(r => r.checked)
       const yesChecked = Array.from(yesRadios).find(r => r.checked)
-  
+
       if (!parentChecked && !yesChecked) {
         // nothing chosen in either group
         alert(`Please make a selection for risk override for item ${index + 1}`)

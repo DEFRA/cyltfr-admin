@@ -64,7 +64,6 @@ const sharedFunctions = {
         } else {
           riskOverrideWarningCC.classList.add('hide')
         }
-
       } else {
         riskOverrideRadios.classList.add('hide')
         riskOverrideRadiosCc.classList.add('hide')
@@ -72,7 +71,7 @@ const sharedFunctions = {
         riskOverrideWarningCC.classList.add('hide')
       }
     }
-    
+
     for (const commentRadio of textCommentRadios) {
       if (commentRadio.value === textCommentRadio[index]) {
         commentRadio.checked = true
@@ -91,14 +90,14 @@ const sharedFunctions = {
       overrideRadio.checked = false
       riskOptionRadios.classList.add('hide')
     })
-    
+
     noOverrideRadio.addEventListener('change', checkRiskOverride)
     overrideRadio.addEventListener('change', checkRiskOverride)
     swRadio.addEventListener('change', checkRiskOverride)
     rsRadio.addEventListener('change', checkRiskOverride)
     overrideRadioCC.addEventListener('change', checkRiskOverride)
     noOverrideRadioCC.addEventListener('change', checkRiskOverride)
-    
+
     const checkTextArea = () => {
       document.getElementById(`text_area_${index}`).style.display = document.getElementById(`text_no_${index}`).checked ? 'none' : 'block'
     }
