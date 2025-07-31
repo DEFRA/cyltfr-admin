@@ -12,6 +12,10 @@
   color: black;
 }
 
+.hide {
+  display: none !important;
+}
+
 .internal {
   .govuk-header {
     color: #454a4c;
@@ -106,4 +110,10 @@
 .risk-option-radios {
   margin-left: 5px;
   border-left: 6px solid grey;
+}
+
+[id^="risk-override-warning"] {
+  font-size: 16px;
+  line-height: 1.25;
+  margin-bottom: 0px;
 }
