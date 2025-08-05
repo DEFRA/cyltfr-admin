@@ -144,8 +144,7 @@ class CreateCommentPage {
           if (riskOverrideValueCc) {
             feature.properties.riskOverrideCc = riskOverrideValueCc
           }
-        }
-        if (riskTypeValue === 'Rivers and the sea') {
+        } else if (riskTypeValue === 'Rivers and the sea') {
           feature.properties.riskOverride = riskOverrideValueRS
           if (riskOverrideValueRSCC) {
             feature.properties.riskOverrideCc = riskOverrideValueRSCC
