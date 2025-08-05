@@ -122,6 +122,8 @@ class CreateCommentPage {
       const riskTypeValue = eventFormData.get(`sw_or_rs_${index}`)
       const riskOverrideValue = eventFormData.get(`override_${index}-risk`)
       const riskOverrideValueCc = eventFormData.get(`override_${index}-risk_cc`)
+      const riskOverrideValueRS = eventFormData.get(`override_${index}-risk_rs`)
+      const riskOverrideValueRSCC = eventFormData.get(`override_${index}-risk_rscc`)
       const riskReportType = eventFormData.get(`features_${index}_properties_report_type`)
       const addCommentRadio = eventFormData.get(`add_holding_comment_${index}`)
 
@@ -141,6 +143,12 @@ class CreateCommentPage {
           feature.properties.riskOverride = riskOverrideValue
           if (riskOverrideValueCc) {
             feature.properties.riskOverrideCc = riskOverrideValueCc
+          }
+        }
+        if (riskTypeValue === 'Rivers and the sea') {
+          feature.properties.riskOverride = riskOverrideValueRS
+          if (riskOverrideValueRSCC) {
+            feature.properties.riskOverrideCc = riskOverrideValueRSCC
           }
         }
         if (addCommentRadio === 'No') {
