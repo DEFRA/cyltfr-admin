@@ -5,6 +5,7 @@ const selectedRadio = window.LTFMGMT.selectedRadio
 const riskType = window.LTFMGMT.riskType
 const type = window.LTFMGMT.type
 const textCommentRadio = window.LTFMGMT.textCommentRadio
+const DoNotOverride = 'Do not override'
 
 // Function to update warning visibility
 function updateOverrideWarnings (index) {
@@ -61,7 +62,6 @@ function updateOverrideWarnings (index) {
 
 document.addEventListener('DOMContentLoaded', () => {
   geometry.features.forEach(function (feature, index) {
-    console.log(`Feature ${index} properties:`, feature.properties)
     window.LTFMGMT.sharedFunctions.setInitialValues(index, type === 'holding', selectedRadio, [feature.properties.riskType], textCommentRadio)
     let radio
     const swOverrideRadiosContainer = document.getElementById(`risk-override-radios_${index}`)
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show surface water climate change override options
         swOverrideRadiosContainerCc.classList.remove('hide')
 
-        if (overrideValueCc === 'Do not override') {
+        if (overrideValueCc === DoNotOverride) {
           const ccRadio = document.getElementById(`map_${index}-no-override_cc`)
           if (ccRadio) {
             ccRadio.checked = true
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
       }
 
-      if (overrideValue === 'Do not override') {
+      if (overrideValue === DoNotOverride) {
         radio = document.getElementById(`map_${index}-no-override`)
         if (radio) {
           radio.checked = true
@@ -161,16 +161,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const overrideValueRS = feature.properties.riskOverrideRS
       const overrideValueRSCC = feature.properties.riskOverrideRSCC
 
-      console.log('overrideValueRS:', overrideValueRS)
-      console.log('overrideValueRSCC:', overrideValueRSCC)
-
       rsOverrideRadiosContainer.classList.remove('hide')
 
       const handleCcOverride = () => {
         // Show rivers and the sea climate change override options
         rsOverrideRadiosContainerCc.classList.remove('hide')
 
-        if (overrideValueRSCC === 'Do not override') {
+        if (overrideValueRSCC === DoNotOverride) {
           const radio = document.getElementById(`map_${index}-no-override_rscc`)
           if (radio) {
             radio.checked = true
@@ -202,7 +199,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
       }
 
-      if (overrideValueRS === 'Do not override') {
+      if (overrideValueRS === DoNotOverride) {
         radio = document.getElementById(`map_${index}-no-override_rs`)
         if (radio) {
           radio.checked = true
