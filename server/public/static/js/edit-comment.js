@@ -224,31 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     commentMap(geo, 'map_' + index, capabilities)
   })
-
-  const form = document.getElementById('comment-form-edit')
-
-  // this event function has been added to check if any of the radio groups are not checked and to prevent a 'null' value
-  // to be submitted when updating the risk value
-  form.addEventListener('submit', (e) => {
-    const features = geometry.features
-    for (let index = 0; index < features.length; index++) {
-      const riskInputGroup = `override_${index}-risk`
-      const yesGroupName = `override_${index}-risk_cc`
-
-      const parentRadios = form.querySelectorAll(`input[name="${riskInputGroup}"]`)
-      const yesRadios = form.querySelectorAll(`input[name="${yesGroupName}"]`)
-
-      const parentChecked = Array.from(parentRadios).find(r => r.checked)
-      const yesChecked = Array.from(yesRadios).find(r => r.checked)
-
-      if (!parentChecked && !yesChecked) {
-        // nothing chosen in either group
-        alert(`Please make a selection for risk override for item ${index + 1}`)
-        e.preventDefault()
-        return
-      }
-    }
-  })
 })
 
 document.addEventListener('DOMContentLoaded', window.LTFMGMT.sharedFunctions.addCharacterCounts)
