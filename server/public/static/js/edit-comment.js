@@ -9,10 +9,17 @@ const textCommentRadio = window.LTFMGMT.textCommentRadio
 // Function to update warning visibility
 function updateOverrideWarnings (index) {
   const swRadio = document.getElementById(`sw_${index}`)
+  const rsRadio = document.getElementById(`rs_${index}`)
+
   const noOverrideRadio = document.getElementById(`map_${index}-no-override`)
   const overrideRadioCC = document.getElementById(`map_${index}-override_cc`)
   const riskOverrideWarning = document.getElementById(`risk-override-warning_${index}`)
   const riskOverrideWarningCC = document.getElementById(`risk-override-warning_${index}_cc`)
+
+  const noOverrideRadioRS = document.getElementById(`map_${index}-no-override_rs`)
+  const overrideRadioRSCC = document.getElementById(`map_${index}-override_rscc`)
+  const riskOverrideWarningRS = document.getElementById(`risk-override-warning_${index}_rs`)
+  const riskOverrideWarningRSCC = document.getElementById(`risk-override-warning_${index}_rscc`)
 
   if (swRadio?.checked) {
     if (noOverrideRadio?.checked) {
@@ -26,14 +33,35 @@ function updateOverrideWarnings (index) {
     } else {
       riskOverrideWarningCC?.classList.add('hide')
     }
+
+    riskOverrideWarningRS?.classList.add('hide')
+    riskOverrideWarningRSCC?.classList.add('hide')
+  } else if (rsRadio?.checked) {
+    if (noOverrideRadioRS?.checked) {
+      riskOverrideWarningRS?.classList.add('hide')
+    } else {
+      riskOverrideWarningRS?.classList.remove('hide')
+    }
+
+    if (overrideRadioRSCC?.checked) {
+      riskOverrideWarningRSCC?.classList.remove('hide')
+    } else {
+      riskOverrideWarningRSCC?.classList.add('hide')
+    }
+
+    riskOverrideWarning?.classList.add('hide')
+    riskOverrideWarningCC?.classList.add('hide')
   } else {
     riskOverrideWarning?.classList.add('hide')
     riskOverrideWarningCC?.classList.add('hide')
+    riskOverrideWarningRS?.classList.add('hide')
+    riskOverrideWarningRSCC?.classList.add('hide')
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
   geometry.features.forEach(function (feature, index) {
+    console.log(`Feature ${index} properties:`, feature.properties)
     window.LTFMGMT.sharedFunctions.setInitialValues(index, type === 'holding', selectedRadio, [feature.properties.riskType], textCommentRadio)
     let radio
     const swOverrideRadiosContainer = document.getElementById(`risk-override-radios_${index}`)
@@ -45,6 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const swRiskTypeOptions = document.querySelectorAll(`.risk-option_${index}`)
     const swRiskTypeOptionsCc = document.querySelectorAll(`.risk-option_${index}_cc`)
     const swRadio = document.getElementById(`sw_${index}`)
+
+    const rsOverrideRadiosContainer = document.getElementById(`risk-override-radios_${index}_rs`)
+    const rsOverrideRadiosContainerCc = document.getElementById(`risk-override-radios_${index}_rscc`)
+    const overrideYesRs = document.getElementById(`map_${index}-override_rs`)
+    const overrideYesRsCc = document.getElementById(`map_${index}-override_rscc`)
+    const rsRiskValueContainer = document.getElementById(`risk-options_${index}_rs`)
+    const rsRiskTypeOptions = document.querySelectorAll(`.risk-option_${index}_rs`)
+    const rsRadio = document.getElementById(`rs_${index}`)
 
     // On changing the risk type (SW, SWCC or RS) the radio buttons are reset to unselected
     swRadio.addEventListener('change', () => {
@@ -120,10 +156,64 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       updateOverrideWarnings(index)
     } else if (riskType[index] === 'Rivers and the sea') {
-      const rsRadio = document.getElementById(`rs_${index}`)
-      if (rsRadio) {
-        rsRadio.checked = true
+      rsRadio.checked = true
+
+      const overrideValueRS = feature.properties.riskOverrideRS
+      const overrideValueRSCC = feature.properties.riskOverrideRSCC
+
+      console.log('overrideValueRS:', overrideValueRS)
+      console.log('overrideValueRSCC:', overrideValueRSCC)
+
+      rsOverrideRadiosContainer.classList.remove('hide')
+
+      const handleCcOverride = () => {
+        // Show rivers and the sea climate change override options
+        rsOverrideRadiosContainerCc.classList.remove('hide')
+
+        if (overrideValueRSCC === 'Do not override') {
+          const radio = document.getElementById(`map_${index}-no-override_rscc`)
+          if (radio) {
+            radio.checked = true
+          }
+          return
+        }
+
+        if (overrideValueRSCC) {
+          const radio = document.getElementById(`map_${index}-override_rscc`)
+          if (radio) {
+            radio.checked = true
+          }
+          return
+        }
+        console.warn(`Unexpected overrideValueCc: ${overrideValueRSCC}`)
       }
+
+      const handleOverride = () => {
+        radio = document.getElementById(`map_${index}-override_rs`)
+        if (radio) {
+          radio.checked = true
+        }
+
+        rsRiskValueContainer.classList.remove('hide')
+        rsRiskTypeOptions.forEach(option => {
+          if (option.getAttribute('value') === overrideValueRS) {
+            option.checked = true
+          }
+        })
+      }
+
+      if (overrideValueRS === 'Do not override') {
+        radio = document.getElementById(`map_${index}-no-override_rs`)
+        if (radio) {
+          radio.checked = true
+        }
+        handleCcOverride()
+      } else if (overrideValueRS) {
+        handleOverride()
+      } else {
+        console.warn(`Unexpected overrideValueCc: ${overrideValueRS}`)
+      }
+      updateOverrideWarnings(index)
     } else {
       console.warn(`Unexpected riskType: ${riskType[index]}`)
     }

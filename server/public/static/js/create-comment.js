@@ -146,9 +146,9 @@ class CreateCommentPage {
           }
         }
         if (riskTypeValue === 'Rivers and the sea') {
-          feature.properties.riskOverride = riskOverrideValueRS
+          feature.properties.riskOverrideRS = riskOverrideValueRS
           if (riskOverrideValueRSCC) {
-            feature.properties.riskOverrideCc = riskOverrideValueRSCC
+            feature.properties.riskOverrideRSCC = riskOverrideValueRSCC
           }
         }
         if (addCommentRadio === 'No') {
