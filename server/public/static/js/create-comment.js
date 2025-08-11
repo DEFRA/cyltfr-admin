@@ -140,24 +140,34 @@ class CreateCommentPage {
       const start = eventFormData.get(`features_${index}_properties_start`)
       const end = eventFormData.get(`features_${index}_properties_end`)
 
-      if (feature.properties.start !== start) feature.properties.start = start
-      if (feature.properties.end !== end) feature.properties.end = end
+      if (feature.properties.start !== start) {
+        feature.properties.start = start
+      }
+      if (feature.properties.end !== end) {
+        feature.properties.end = end
+      }
     }
 
     function updateHoldingComment(feature, index, eventFormData, riskTypeValue, riskOverrideValue, riskOverrideValueCc, riskOverrideValueRS, riskOverrideValueRSCC, addCommentRadio) {
       feature.properties.riskType = riskTypeValue
 
       const info = eventFormData.get(`features_${index}_properties_info`)
-      if (feature.properties.info !== info) feature.properties.info = info
+      if (feature.properties.info !== info) {
+        feature.properties.info = info
+      }
 
       if (riskTypeValue === 'Surface water') {
         feature.properties.riskOverride = riskOverrideValue
-        if (riskOverrideValueCc) feature.properties.riskOverrideCc = riskOverrideValueCc
+        if (riskOverrideValueCc) {
+          feature.properties.riskOverrideCc = riskOverrideValueCc
+        }
       }
 
       if (riskTypeValue === 'Rivers and the sea') {
         feature.properties.riskOverrideRS = riskOverrideValueRS
-        if (riskOverrideValueRSCC) feature.properties.riskOverrideRSCC = riskOverrideValueRSCC
+        if (riskOverrideValueRSCC) {
+          feature.properties.riskOverrideRSCC = riskOverrideValueRSCC
+        }
       }
 
       if (addCommentRadio === 'No') {

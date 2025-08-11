@@ -80,13 +80,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const rsRiskTypeOptions = document.querySelectorAll(`.risk-option_${index}_rs`)
     const rsRadio = document.getElementById(`rs_${index}`)
 
-    // On changing the risk type (SW, SWCC, RS or RSCC) the radio buttons are reset to unselected
+    // On changing the risk type (SW, SWCC, RS or RSCC) the radio buttons are reset to unselected for all options
     swRadio.addEventListener('change', () => {
       swRiskValueContainer.classList.add('hide')
       swRiskTypeOptions.forEach(riskRadio => {
         riskRadio.checked = false
         overrideYes.checked = false
         overrideYesCc.checked = false
+        overrideYesRS.checked = false
+        overrideYesRSCc.checked = false
       })
     })
 
@@ -96,6 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
         riskRadio.checked = false
         overrideYesRS.checked = false
         overrideYesRSCc.checked = false
+        overrideYes.checked = false
+        overrideYesCc.checked = false
       })
     })
 
