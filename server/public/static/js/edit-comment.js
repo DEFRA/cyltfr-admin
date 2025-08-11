@@ -168,17 +168,17 @@ document.addEventListener('DOMContentLoaded', () => {
         rsOverrideRadiosContainerCc.classList.remove('hide')
 
         if (overrideValueRSCC === DoNotOverride) {
-          const radio = document.getElementById(`map_${index}-no-override_rscc`)
-          if (radio) {
-            radio.checked = true
+          const ccRadio = document.getElementById(`map_${index}-no-override_rscc`)
+          if (ccRadio) {
+            ccRadio.checked = true
           }
           return
         }
 
         if (overrideValueRSCC) {
-          const radio = document.getElementById(`map_${index}-override_rscc`)
-          if (radio) {
-            radio.checked = true
+          const ccRadio = document.getElementById(`map_${index}-override_rscc`)
+          if (ccRadio) {
+            ccRadio.checked = true
           }
           return
         }

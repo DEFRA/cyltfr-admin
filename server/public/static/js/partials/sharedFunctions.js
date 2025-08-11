@@ -131,7 +131,7 @@ const sharedFunctions = {
     noOverrideRadio.addEventListener('click', function () {
       overrideRadio.checked = false
       riskOptionRadios.classList.add('hide')
-    })  
+    })
     overrideRadioRS.addEventListener('click', function () {
       noOverrideRadioRS.checked = false
       riskOptionRadiosRS.classList.remove('hide')
