@@ -118,7 +118,7 @@ class CreateCommentPage {
     }
 
     // Process the form data into feature with properties
-    function updateFeatureProperties(feature, index, isHoldingComment) {
+    function updateFeatureProperties(feature, index) {
       const riskTypeValue = eventFormData.get(`sw_or_rs_${index}`)
       const riskOverrideValue = eventFormData.get(`override_${index}-risk`)
       const riskOverrideValueCc = eventFormData.get(`override_${index}-risk_cc`)
@@ -191,7 +191,7 @@ class CreateCommentPage {
       }
     }
     jsonFileData.features.forEach((feature, index) => {
-      updateFeatureProperties(feature, index, isHoldingComment)
+      updateFeatureProperties(feature, index)
     })
   }
 
