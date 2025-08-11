@@ -118,7 +118,7 @@ class CreateCommentPage {
     }
 
     // Process the form data into feature with properties
-    jsonFileData.features.forEach(function (feature, index) {
+    function updateFeatureProperties(feature, index, eventFormData, isHoldingComment) {
       const riskTypeValue = eventFormData.get(`sw_or_rs_${index}`)
       const riskOverrideValue = eventFormData.get(`override_${index}-risk`)
       const riskOverrideValueCc = eventFormData.get(`override_${index}-risk_cc`)
@@ -127,39 +127,48 @@ class CreateCommentPage {
       const riskReportType = eventFormData.get(`features_${index}_properties_report_type`)
       const addCommentRadio = eventFormData.get(`add_holding_comment_${index}`)
 
-      if (feature.properties.end !== eventFormData.get(`features_${index}_properties_end`)) {
-        feature.properties.end = eventFormData.get(`features_${index}_properties_end`)
-      }
-      if (feature.properties.start !== eventFormData.get(`features_${index}_properties_start`)) {
-        feature.properties.start = eventFormData.get(`features_${index}_properties_start`)
-      }
+      updateStartEnd(feature, index, eventFormData)
 
       if (isHoldingComment) {
-        feature.properties.riskType = riskTypeValue
-        if (feature.properties.info !== eventFormData.get(`features_${index}_properties_info`)) {
-          feature.properties.info = eventFormData.get(`features_${index}_properties_info`)
-        }
-        if (riskTypeValue === 'Surface water') {
-          feature.properties.riskOverride = riskOverrideValue
-          if (riskOverrideValueCc) {
-            feature.properties.riskOverrideCc = riskOverrideValueCc
-          }
-        }
-        if (riskTypeValue === 'Rivers and the sea') {
-          feature.properties.riskOverrideRS = riskOverrideValueRS
-          if (riskOverrideValueRSCC) {
-            feature.properties.riskOverrideRSCC = riskOverrideValueRSCC
-          }
-        }
-        if (addCommentRadio === 'No') {
-          feature.properties.commentText = 'No'
-          feature.properties.info = ''
-        } else {
-          feature.properties.commentText = 'Yes'
-        }
+        updateHoldingComment(feature, index, eventFormData, riskTypeValue, riskOverrideValue, riskOverrideValueCc, riskOverrideValueRS, riskOverrideValueRSCC, addCommentRadio)
       } else {
         feature.properties.info = riskReportType
       }
+    }
+
+    function updateStartEnd(feature, index, eventFormData) {
+      const start = eventFormData.get(`features_${index}_properties_start`)
+      const end = eventFormData.get(`features_${index}_properties_end`)
+
+      if (feature.properties.start !== start) feature.properties.start = start
+      if (feature.properties.end !== end) feature.properties.end = end
+    }
+
+    function updateHoldingComment(feature, index, eventFormData, riskTypeValue, riskOverrideValue, riskOverrideValueCc, riskOverrideValueRS, riskOverrideValueRSCC, addCommentRadio) {
+      feature.properties.riskType = riskTypeValue
+
+      const info = eventFormData.get(`features_${index}_properties_info`)
+      if (feature.properties.info !== info) feature.properties.info = info
+
+      if (riskTypeValue === 'Surface water') {
+        feature.properties.riskOverride = riskOverrideValue
+        if (riskOverrideValueCc) feature.properties.riskOverrideCc = riskOverrideValueCc
+      }
+
+      if (riskTypeValue === 'Rivers and the sea') {
+        feature.properties.riskOverrideRS = riskOverrideValueRS
+        if (riskOverrideValueRSCC) feature.properties.riskOverrideRSCC = riskOverrideValueRSCC
+      }
+
+      if (addCommentRadio === 'No') {
+        feature.properties.commentText = 'No'
+        feature.properties.info = ''
+      } else {
+        feature.properties.commentText = 'Yes'
+      }
+    }
+    jsonFileData.features.forEach((feature, index) => {
+      updateFeatureProperties(feature, index, eventFormData, isHoldingComment)
     })
   }
 
