@@ -69,32 +69,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const overrideYes = document.getElementById(`map_${index}-override`)
     const overrideYesCc = document.getElementById(`map_${index}-override_cc`)
     const swRiskValueContainer = document.getElementById(`risk-options_${index}`)
-    const swRiskValueContainerCc = document.getElementById(`risk-options_${index}_cc`)
     const swRiskTypeOptions = document.querySelectorAll(`.risk-option_${index}`)
-    const swRiskTypeOptionsCc = document.querySelectorAll(`.risk-option_${index}_cc`)
     const swRadio = document.getElementById(`sw_${index}`)
 
     const rsOverrideRadiosContainer = document.getElementById(`risk-override-radios_${index}_rs`)
     const rsOverrideRadiosContainerCc = document.getElementById(`risk-override-radios_${index}_rscc`)
-    const overrideYesRs = document.getElementById(`map_${index}-override_rs`)
-    const overrideYesRsCc = document.getElementById(`map_${index}-override_rscc`)
+    const overrideYesRS = document.getElementById(`map_${index}-override_rs`)
+    const overrideYesRSCc = document.getElementById(`map_${index}-override_rscc`)
     const rsRiskValueContainer = document.getElementById(`risk-options_${index}_rs`)
     const rsRiskTypeOptions = document.querySelectorAll(`.risk-option_${index}_rs`)
     const rsRadio = document.getElementById(`rs_${index}`)
 
-    // On changing the risk type (SW, SWCC or RS) the radio buttons are reset to unselected
+    // On changing the risk type (SW, SWCC, RS or RSCC) the radio buttons are reset to unselected
     swRadio.addEventListener('change', () => {
       swRiskValueContainer.classList.add('hide')
-      swRiskValueContainerCc.classList.add('hide')
       swRiskTypeOptions.forEach(riskRadio => {
         riskRadio.checked = false
         overrideYes.checked = false
         overrideYesCc.checked = false
       })
-      swRiskTypeOptionsCc.forEach(riskRadio => {
+    })
+
+    rsRadio.addEventListener('change', () => {
+      rsRiskValueContainer.classList.add('hide')
+      rsRiskTypeOptions.forEach(riskRadio => {
         riskRadio.checked = false
-        overrideYes.checked = false
-        overrideYesCc.checked = false
+        overrideYesRS.checked = false
+        overrideYesRSCc.checked = false
       })
     })
 
