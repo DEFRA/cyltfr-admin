@@ -136,14 +136,6 @@ class CreateCommentPage {
             addCommentRadio
           }
 
-      console.log(`Feature ${index} data:`, {
-          riskData,
-          riskReportType,
-          isHoldingComment
-        })
-
-        debugger  
-
       updateStartEnd(feature, index)
 
       if (isHoldingComment) {
@@ -183,6 +175,8 @@ class CreateCommentPage {
 
       if (riskTypeValue === 'Surface water') {
         feature.properties.riskOverride = riskOverrideValue
+        feature.properties.riskOverrideRS = null
+        feature.properties.riskOverrideRSCC = null
         if (riskOverrideValueCc) {
           feature.properties.riskOverrideCc = riskOverrideValueCc
         }
@@ -190,6 +184,8 @@ class CreateCommentPage {
 
       if (riskTypeValue === 'Rivers and the sea') {
         feature.properties.riskOverrideRS = riskOverrideValueRS
+        feature.properties.riskOverride = null
+        feature.properties.riskOverrideCc = null
         if (riskOverrideValueRSCC) {
           feature.properties.riskOverrideRSCC = riskOverrideValueRSCC
         }
