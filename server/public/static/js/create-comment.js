@@ -118,7 +118,7 @@ class CreateCommentPage {
     }
 
     // Process the form data into feature with properties
-    function updateFeatureProperties(feature, index) {
+    function updateFeatureProperties (feature, index) {
       const riskTypeValue = eventFormData.get(`sw_or_rs_${index}`)
       const riskOverrideValue = eventFormData.get(`override_${index}-risk`)
       const riskOverrideValueCc = eventFormData.get(`override_${index}-risk_cc`)
@@ -128,13 +128,13 @@ class CreateCommentPage {
       const addCommentRadio = eventFormData.get(`add_holding_comment_${index}`)
 
       const riskData = {
-            riskTypeValue,
-            riskOverrideValue,
-            riskOverrideValueCc,
-            riskOverrideValueRS,
-            riskOverrideValueRSCC,
-            addCommentRadio
-          }
+        riskTypeValue,
+        riskOverrideValue,
+        riskOverrideValueCc,
+        riskOverrideValueRS,
+        riskOverrideValueRSCC,
+        addCommentRadio
+      }
 
       updateStartEnd(feature, index)
 
@@ -145,7 +145,7 @@ class CreateCommentPage {
       }
     }
 
-    function updateStartEnd(feature, index) {
+    function updateStartEnd (feature, index) {
       const start = eventFormData.get(`features_${index}_properties_start`)
       const end = eventFormData.get(`features_${index}_properties_end`)
 
@@ -157,15 +157,16 @@ class CreateCommentPage {
       }
     }
 
-    function updateHoldingComment(feature, index, riskData) {
-    const {
-          riskTypeValue,
-          riskOverrideValue,
-          riskOverrideValueCc,
-          riskOverrideValueRS,
-          riskOverrideValueRSCC,
-          addCommentRadio
-        } = riskData
+    function updateHoldingComment (feature, index, riskData) {
+      const {
+        riskTypeValue,
+        riskOverrideValue,
+        riskOverrideValueCc,
+        riskOverrideValueRS,
+        riskOverrideValueRSCC,
+        addCommentRadio
+      } = riskData
+
       feature.properties.riskType = riskTypeValue
 
       const info = eventFormData.get(`features_${index}_properties_info`)
