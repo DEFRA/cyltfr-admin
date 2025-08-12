@@ -67,6 +67,7 @@ const sharedFunctions = {
         } else {
           riskOverrideRadiosCc.classList.add('hide')
           riskOverrideWarning.classList.remove('hide')
+          riskOptionRadios.classList.remove('hide')
         }
         // Show cc warning if cc override is selected
         if (overrideRadioCC.checked) {
@@ -89,6 +90,7 @@ const sharedFunctions = {
         } else {
           riskOverrideRadiosRSCC.classList.add('hide')
           riskOverrideWarningRS.classList.remove('hide')
+          riskOptionRadiosRS.classList.remove('hide')
         }
         // Show cc warning if cc override is selected
         if (overrideRadioRSCC.checked) {

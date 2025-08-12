@@ -66,55 +66,25 @@ document.addEventListener('DOMContentLoaded', () => {
     let radio
     const swOverrideRadiosContainer = document.getElementById(`risk-override-radios_${index}`)
     const swOverrideRadiosContainerCc = document.getElementById(`risk-override-radios_${index}_cc`)
-    const overrideYes = document.getElementById(`map_${index}-override`)
-    const overrideYesCc = document.getElementById(`map_${index}-override_cc`)
-    const overrideNo = document.getElementById(`map_${index}-no-override`)
-    const overrideNoCc = document.getElementById(`map_${index}-no-override_cc`)
     const swRiskValueContainer = document.getElementById(`risk-options_${index}`)
     const swRiskTypeOptions = document.querySelectorAll(`.risk-option_${index}`)
     const swRadio = document.getElementById(`sw_${index}`)
+    const swNoOverrideRadio = document.getElementById(`map_${index}-no-override`)
+    const swNoOverrideRadioCC = document.getElementById(`map_${index}-no-override_cc`)
 
     const rsOverrideRadiosContainer = document.getElementById(`risk-override-radios_${index}_rs`)
     const rsOverrideRadiosContainerCc = document.getElementById(`risk-override-radios_${index}_rscc`)
-    const overrideYesRS = document.getElementById(`map_${index}-override_rs`)
-    const overrideYesRSCc = document.getElementById(`map_${index}-override_rscc`)
-    const overrideNoRS = document.getElementById(`map_${index}-no-override_rs`)
-    const overrideNoRSCc = document.getElementById(`map_${index}-no-override_rscc`)
     const rsRiskValueContainer = document.getElementById(`risk-options_${index}_rs`)
     const rsRiskTypeOptions = document.querySelectorAll(`.risk-option_${index}_rs`)
     const rsRadio = document.getElementById(`rs_${index}`)
-
-    // On changing the risk type between SW and RS the radio buttons are set back to "no" as this is their default state
-    // This is to stop any radio buttons from remaining selected that are now hidden due to different selections being made
-    swRadio.addEventListener('change', () => {
-      swRiskValueContainer.classList.add('hide')
-      swRiskTypeOptions.forEach(riskRadio => {
-        riskRadio.checked = false
-        overrideYes.checked = false
-        overrideYesCc.checked = false
-        overrideYesRS.checked = false
-        overrideYesRSCc.checked = false
-        overrideNo.checked = true
-        overrideNoCc.checked = true
-      })
-    })
-
-    rsRadio.addEventListener('change', () => {
-      rsRiskValueContainer.classList.add('hide')
-      rsRiskTypeOptions.forEach(riskRadio => {
-        riskRadio.checked = false
-        overrideYesRS.checked = false
-        overrideYesRSCc.checked = false
-        overrideYes.checked = false
-        overrideYesCc.checked = false
-        overrideNoRS.checked = true
-        overrideNoRSCc.checked = true
-      })
-    })
+    const rsNoOverrideRadio = document.getElementById(`map_${index}-no-override_rs`)
+    const rsNoOverrideRadioCC = document.getElementById(`map_${index}-no-override_rscc`)
 
     // This checks the initial values and selects them for the risk overrides.
     if (riskType[index] === 'Surface water') {
       swRadio.checked = true
+      rsNoOverrideRadio.checked = true
+      rsNoOverrideRadioCC.checked = true
 
       const overrideValue = feature.properties.riskOverride
       const overrideValueCc = feature.properties.riskOverrideCc
@@ -158,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (overrideValue === DoNotOverride) {
+        swRiskValueContainer.classList.add('hide')
         radio = document.getElementById(`map_${index}-no-override`)
         if (radio) {
           radio.checked = true
@@ -171,6 +142,8 @@ document.addEventListener('DOMContentLoaded', () => {
       updateOverrideWarnings(index)
     } else if (riskType[index] === 'Rivers and the sea') {
       rsRadio.checked = true
+      swNoOverrideRadio.checked = true
+      swNoOverrideRadioCC.checked = true
 
       const overrideValueRS = feature.properties.riskOverrideRS
       const overrideValueRSCC = feature.properties.riskOverrideRSCC
@@ -214,6 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (overrideValueRS === DoNotOverride) {
+        rsRiskValueContainer.classList.add('hide')
         radio = document.getElementById(`map_${index}-no-override_rs`)
         if (radio) {
           radio.checked = true
