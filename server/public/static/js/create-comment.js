@@ -127,14 +127,18 @@ class CreateCommentPage {
       const riskReportType = eventFormData.get(`features_${index}_properties_report_type`)
       const addCommentRadio = eventFormData.get(`add_holding_comment_${index}`)
 
+      const riskData = {
+            riskTypeValue,
+            riskOverrideValue,
+            riskOverrideValueCc,
+            riskOverrideValueRS,
+            riskOverrideValueRSCC,
+            addCommentRadio
+          }
+
       console.log(`Feature ${index} data:`, {
-          riskTypeValue,
-          riskOverrideValue,
-          riskOverrideValueCc,
-          riskOverrideValueRS,
-          riskOverrideValueRSCC,
+          riskData,
           riskReportType,
-          addCommentRadio,
           isHoldingComment
         })
 
@@ -143,7 +147,7 @@ class CreateCommentPage {
       updateStartEnd(feature, index)
 
       if (isHoldingComment) {
-        updateHoldingComment(feature, index, riskTypeValue, riskOverrideValue, riskOverrideValueCc, riskOverrideValueRS, riskOverrideValueRSCC, addCommentRadio)
+        updateHoldingComment(feature, index, riskData)
       } else {
         feature.properties.info = riskReportType
       }
@@ -161,7 +165,15 @@ class CreateCommentPage {
       }
     }
 
-    function updateHoldingComment(feature, index, riskTypeValue, riskOverrideValue, riskOverrideValueCc, riskOverrideValueRS, riskOverrideValueRSCC, addCommentRadio) {
+    function updateHoldingComment(feature, index, riskData) {
+    const {
+          riskTypeValue,
+          riskOverrideValue,
+          riskOverrideValueCc,
+          riskOverrideValueRS,
+          riskOverrideValueRSCC,
+          addCommentRadio
+        } = riskData
       feature.properties.riskType = riskTypeValue
 
       const info = eventFormData.get(`features_${index}_properties_info`)
