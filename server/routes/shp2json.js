@@ -3,7 +3,7 @@ const util = require('util')
 const joi = require('joi')
 const boom = require('@hapi/boom')
 const helpers = require('../helpers')
-const ogr2ogr = require('ogr2ogr').default
+const { ogr2ogr } = require('ogr2ogr')
 const rename = util.promisify(fs.rename)
 
 module.exports = {
