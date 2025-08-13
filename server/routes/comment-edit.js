@@ -155,7 +155,7 @@ module.exports = [
             formattedPayload.features[index].properties.riskOverride = null
             formattedPayload.features[index].properties.riskOverrideCc = null       
           } else {
-            console.warn(`Unexpected riskType at index ${index}: ${riskType}`);
+            console.warn(`Unexpected riskType at index ${index}: ${riskType}`)
           }
 
           if (payload[`add_holding_comment_${index}`] === 'No') {
