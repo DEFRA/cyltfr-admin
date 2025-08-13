@@ -36,9 +36,8 @@ COPY --chown=root:root ./client ./client
 
 COPY --chown=root:root ./index.js .
 
-RUN npm ci --omit dev
-
-RUN npm run build
+RUN npm ci --omit dev \
+ && npm run build
 
 COPY --chown=root:root ./server ./server
 
