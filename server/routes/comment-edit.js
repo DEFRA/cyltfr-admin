@@ -142,12 +142,22 @@ module.exports = [
           formattedPayload.features[index].properties.info = payload[`features_${index}_properties_report_type`]
         } else {
           formattedPayload.features[index].properties.info = payload[`features_${index}_properties_info`]
-          formattedPayload.features[index].properties.riskOverride = payload[`override_${index}-risk`]
-          formattedPayload.features[index].properties.riskOverrideCc = payload[`override_${index}-risk_cc`]
           formattedPayload.features[index].properties.riskType = payload[`sw_or_rs_${index}`]
-          if (formattedPayload.features[index].properties.riskType === 'Rivers and the sea') {
+
+          if (formattedPayload.features[index].properties.riskType === 'Surface water') {
+            formattedPayload.features[index].properties.riskOverride = payload[`override_${index}-risk`]
+            formattedPayload.features[index].properties.riskOverrideCc = payload[`override_${index}-risk_cc`]
+            formattedPayload.features[index].properties.riskOverrideRS = null
+            formattedPayload.features[index].properties.riskOverrideRSCC = null
+          } else if (formattedPayload.features[index].properties.riskType === 'Rivers and the sea') {
+            formattedPayload.features[index].properties.riskOverrideRS = payload[`override_${index}-risk_rs`]
+            formattedPayload.features[index].properties.riskOverrideRSCC = payload[`override_${index}-risk_rscc`]
             formattedPayload.features[index].properties.riskOverride = null
+            formattedPayload.features[index].properties.riskOverrideCc = null
+          } else {
+            console.warn(`Unexpected riskType at index ${index}:`, formattedPayload.features[index].properties.riskType)
           }
+
           if (payload[`add_holding_comment_${index}`] === 'No') {
             formattedPayload.features[index].properties.commentText = payload[`add_holding_comment_${index}`]
             formattedPayload.features[index].properties.info = ''

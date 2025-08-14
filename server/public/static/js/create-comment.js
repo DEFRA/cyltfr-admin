@@ -118,40 +118,89 @@ class CreateCommentPage {
     }
 
     // Process the form data into feature with properties
-    jsonFileData.features.forEach(function (feature, index) {
+    function updateFeatureProperties (feature, index) {
       const riskTypeValue = eventFormData.get(`sw_or_rs_${index}`)
       const riskOverrideValue = eventFormData.get(`override_${index}-risk`)
       const riskOverrideValueCc = eventFormData.get(`override_${index}-risk_cc`)
+      const riskOverrideValueRS = eventFormData.get(`override_${index}-risk_rs`)
+      const riskOverrideValueRSCC = eventFormData.get(`override_${index}-risk_rscc`)
       const riskReportType = eventFormData.get(`features_${index}_properties_report_type`)
       const addCommentRadio = eventFormData.get(`add_holding_comment_${index}`)
 
-      if (feature.properties.end !== eventFormData.get(`features_${index}_properties_end`)) {
-        feature.properties.end = eventFormData.get(`features_${index}_properties_end`)
-      }
-      if (feature.properties.start !== eventFormData.get(`features_${index}_properties_start`)) {
-        feature.properties.start = eventFormData.get(`features_${index}_properties_start`)
+      const riskData = {
+        riskTypeValue,
+        riskOverrideValue,
+        riskOverrideValueCc,
+        riskOverrideValueRS,
+        riskOverrideValueRSCC,
+        addCommentRadio
       }
 
+      updateStartEnd(feature, index)
+
       if (isHoldingComment) {
-        feature.properties.riskType = riskTypeValue
-        if (feature.properties.info !== eventFormData.get(`features_${index}_properties_info`)) {
-          feature.properties.info = eventFormData.get(`features_${index}_properties_info`)
-        }
-        if (riskTypeValue === 'Surface water') {
-          feature.properties.riskOverride = riskOverrideValue
-          if (riskOverrideValueCc) {
-            feature.properties.riskOverrideCc = riskOverrideValueCc
-          }
-        }
-        if (addCommentRadio === 'No') {
-          feature.properties.commentText = 'No'
-          feature.properties.info = ''
-        } else {
-          feature.properties.commentText = 'Yes'
-        }
+        updateHoldingComment(feature, index, riskData)
       } else {
         feature.properties.info = riskReportType
       }
+    }
+
+    function updateStartEnd (feature, index) {
+      const start = eventFormData.get(`features_${index}_properties_start`)
+      const end = eventFormData.get(`features_${index}_properties_end`)
+
+      if (feature.properties.start !== start) {
+        feature.properties.start = start
+      }
+      if (feature.properties.end !== end) {
+        feature.properties.end = end
+      }
+    }
+
+    function updateHoldingComment (feature, index, riskData) {
+      const {
+        riskTypeValue,
+        riskOverrideValue,
+        riskOverrideValueCc,
+        riskOverrideValueRS,
+        riskOverrideValueRSCC,
+        addCommentRadio
+      } = riskData
+
+      feature.properties.riskType = riskTypeValue
+
+      const info = eventFormData.get(`features_${index}_properties_info`)
+      if (feature.properties.info !== info) {
+        feature.properties.info = info
+      }
+
+      if (riskTypeValue === 'Surface water') {
+        feature.properties.riskOverride = riskOverrideValue
+        feature.properties.riskOverrideRS = null
+        feature.properties.riskOverrideRSCC = null
+        if (riskOverrideValueCc) {
+          feature.properties.riskOverrideCc = riskOverrideValueCc
+        }
+      }
+
+      if (riskTypeValue === 'Rivers and the sea') {
+        feature.properties.riskOverrideRS = riskOverrideValueRS
+        feature.properties.riskOverride = null
+        feature.properties.riskOverrideCc = null
+        if (riskOverrideValueRSCC) {
+          feature.properties.riskOverrideRSCC = riskOverrideValueRSCC
+        }
+      }
+
+      if (addCommentRadio === 'No') {
+        feature.properties.commentText = 'No'
+        feature.properties.info = ''
+      } else {
+        feature.properties.commentText = 'Yes'
+      }
+    }
+    jsonFileData.features.forEach((feature, index) => {
+      updateFeatureProperties(feature, index)
     })
   }
 
