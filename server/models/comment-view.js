@@ -47,7 +47,19 @@ function commentView (comment, geometry, auth, capabilities) {
     rows: geometry.features.map((f, i) => {
       const row = [
         { text: f.properties.info },
-        { text: comment.type === 'holding' ? f.properties.riskOverride : '' },
+        { text: (() => {
+          const isSurfaceWater = f.properties.riskType === 'Surface water'
+          const presentDay = isSurfaceWater
+            ? f.properties.riskOverride
+            : f.properties.riskOverrideRS
+
+          const presentDayText = presentDay
+            ? `Present day: ${presentDay}`
+            : 'Present day: No override'
+
+          return `${presentDayText}`
+        })()
+        },
         { text: formatDate(f.properties.start, DATEFORMAT) },
         { text: formatDate(f.properties.end, DATEFORMAT) },
         {
