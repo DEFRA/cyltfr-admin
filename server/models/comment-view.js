@@ -47,17 +47,15 @@ function commentView (comment, geometry, auth, capabilities) {
     rows: geometry.features.map((f, i) => {
       const row = [
         { text: f.properties.info },
-        { text: (() => {
+        { html: (() => {
           const isSurfaceWater = f.properties.riskType === 'Surface water'
           const presentDay = isSurfaceWater
             ? f.properties.riskOverride
             : f.properties.riskOverrideRS
 
-          const presentDayText = presentDay
-            ? `Present day: ${presentDay}`
-            : 'Present day: No override'
+          console.log('Feature properties:', f.properties)
 
-          return `${presentDayText}`
+          return `<strong>Present day:</strong> ${presentDay}`
         })()
         },
         { text: formatDate(f.properties.start, DATEFORMAT) },
