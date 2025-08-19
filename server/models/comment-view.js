@@ -54,9 +54,13 @@ function commentView (comment, geometry, auth, capabilities) {
             ? f.properties.riskOverride
             : f.properties.riskOverrideRS
 
-          const climateChange = riskType === 'Surface water'
+          let climateChange = riskType === 'Surface water'
             ? f.properties.riskOverrideCc
             : f.properties.riskOverrideRSCC
+  
+          if (presentDay && presentDay !== 'Do not override') {
+            climateChange = 'Override'
+          }
 
           console.log('Feature properties:', f.properties)
 
