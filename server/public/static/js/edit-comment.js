@@ -97,6 +97,10 @@ function handleSurfaceWater (index, feature) {
         option.checked = true
       }
     })
+    const ccRadio = document.getElementById(`map_${index}-no-override_cc`)
+    if (ccRadio) {
+      ccRadio.checked = true
+    }
   }
 
   if (overrideValue === DoNotOverride) {
@@ -152,6 +156,10 @@ function handleRiversAndSea (index, feature) {
         option.checked = true
       }
     })
+    const ccRadio = document.getElementById(`map_${index}-no-override_rscc`)
+    if (ccRadio) {
+      ccRadio.checked = true
+    }
   }
 
   if (overrideValueRS === DoNotOverride) {
