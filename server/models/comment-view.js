@@ -38,7 +38,7 @@ function commentView (comment, geometry, auth, capabilities) {
   retval.viewCommentData = {
     head: [
       { text: comment.type === 'holding' ? 'Info' : 'Report' },
-      { text: comment.type === 'holding' ? 'Risk Override' : '' },
+      { text: comment.type === 'holding' ? 'Risk Override' : '', classes: 'override-column' },
       { text: 'Valid from' },
       { text: 'Valid to' },
       { text: 'Map' },
@@ -64,8 +64,9 @@ function commentView (comment, geometry, auth, capabilities) {
 
           console.log('Feature properties:', f.properties)
 
-          return `<strong>Present day:</strong> ${presentDay}<br><br>
-                <strong>Climate change:</strong> ${climateChange}`
+          return `<strong>Present day:</strong><br>${presentDay}
+                <br><br>
+                <strong>Climate change:</strong><br>${climateChange}`
         })()
         },
         { text: formatDate(f.properties.start, DATEFORMAT) },
