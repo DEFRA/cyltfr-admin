@@ -58,13 +58,13 @@ function commentView (comment, geometry, auth, capabilities) {
             ? f.properties.riskOverrideCc
             : f.properties.riskOverrideRSCC
   
-          if (presentDay && presentDay !== 'Do not override') {
-            climateChange = 'Override'
+          if (presentDay && presentDay !== 'Do not override'|| climateChange === 'Override') {
+            climateChange = 'No data available'
           }
 
           console.log('Feature properties:', f.properties)
 
-          return `<strong>Present day:</strong> ${presentDay}<br>
+          return `<strong>Present day:</strong> ${presentDay}<br><br>
                 <strong>Climate change:</strong> ${climateChange}`
         })()
         },
