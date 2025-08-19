@@ -48,14 +48,20 @@ function commentView (comment, geometry, auth, capabilities) {
       const row = [
         { text: f.properties.info },
         { html: (() => {
-          const isSurfaceWater = f.properties.riskType === 'Surface water'
-          const presentDay = isSurfaceWater
+          const riskType = f.properties.riskType
+
+          const presentDay = riskType === 'Surface water'
             ? f.properties.riskOverride
             : f.properties.riskOverrideRS
 
+          const climateChange = riskType === 'Surface water'
+            ? f.properties.riskOverrideCc
+            : f.properties.riskOverrideRSCC
+
           console.log('Feature properties:', f.properties)
 
-          return `<strong>Present day:</strong> ${presentDay}`
+          return `<strong>Present day:</strong> ${presentDay}<br>
+                <strong>Climate change:</strong> ${climateChange}`
         })()
         },
         { text: formatDate(f.properties.start, DATEFORMAT) },
