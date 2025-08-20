@@ -62,8 +62,6 @@ function commentView (comment, geometry, auth, capabilities) {
             climateChange = 'No data available'
           }
 
-          console.log('Feature properties:', f.properties)
-
           return `<strong>Present day:</strong><br>${presentDay}
                 <br><br>
                 <strong>Climate change:</strong><br>${climateChange}`
