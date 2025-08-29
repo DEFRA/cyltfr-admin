@@ -4,7 +4,7 @@
 
 .govuk-template__body.internal.js-enabled {
   margin: 0;
-  background-color: #f3f3f3;
+  background-color: #ffffff;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -93,6 +93,14 @@
 
 .govuk-footer {
   display: none;
+}
+
+.guidance-list li {
+  list-style-type: disc !important;
+}
+
+.home-buttons {
+  min-width: 250px;
 }
 
 .govuk-button.danger {

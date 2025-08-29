@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% from "components/table/macro.njk" import govukTable %}
+{% from "components/warning-text/macro.njk" import govukWarningText %}
 
 {% set bodyClasses = "internal" %}
 {% set pageTitle = "Comments" %}
@@ -15,18 +16,25 @@
 
 {% block body %}
   <div class="govuk-body">
-    {{ govukTable(table) }}
-    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">PSO users (area teams)</h3>
-    <ul class="govuk-list govuk-list--spaced">
-      <li>Select this option to add local information</li>
-      <li><a class="govuk-button govuk-!-margin-bottom-3" href="/comment/create/holding">Create holding comment</a></li>
-    </ul>
+    <!-- Comment guidance details -->
+      {% include commentGuidance %}
+
+    <a href="/comments.csv" download class="govuk-button govuk-button--secondary home-buttons" role="button">
+      Download all comments
+    </a>
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Add a new comment</h2>
+    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">PSO users</h3>
+    <p class="govuk-body-s govuk-!-margin-bottom-2">For adding local information</p>
+    <a href="/comment/create/holding" class="govuk-button home-buttons" role="button">
+      Create holding comment
+    </a>
     <h3 class="govuk-heading-s govuk-!-margin-bottom-2">National teams</h3>
-    <ul class="govuk-list govuk-list--spaced">
-      <li>Select this option to add non-modelled surface water information</li>
-      <li><a class="govuk-button" href="/comment/create/llfa" >Create LLFA comment</a></li>
-    </ul>
-    <p class="govuk-body"><a href="/comments.csv" download>Download all comments</a></p>
+    <p class="govuk-body-s govuk-!-margin-bottom-2">For adding non-modelled surface water information</p>
+    <a href="/comment/create/llfa" class="govuk-button home-buttons" role="button">
+      Add LLFA comment
+    </a>
+    <h2 class="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-4">Comments</h2>
+    {{ govukTable(table) }}
   </div>
 
   <script>

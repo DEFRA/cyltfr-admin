@@ -71,7 +71,8 @@ function homeView (comments, currentUser) {
       head,
       rows
     },
-    comments: sortedComments
+    comments: sortedComments,
+    commentGuidance: 'partials/comment-guidance.html'
   }
 }
 
