@@ -47,25 +47,26 @@ function commentView (comment, geometry, auth, capabilities) {
     rows: geometry.features.map((f, i) => {
       const row = [
         { text: f.properties.info },
-        { html: (() => {
-          const riskType = f.properties.riskType
+        {
+          html: (() => {
+            const riskType = f.properties.riskType
 
-          const presentDay = riskType === 'Surface water'
-            ? f.properties.riskOverride
-            : f.properties.riskOverrideRS
+            const presentDay = riskType === 'Surface water'
+              ? f.properties.riskOverride
+              : f.properties.riskOverrideRS
 
-          let climateChange = riskType === 'Surface water'
-            ? f.properties.riskOverrideCc
-            : f.properties.riskOverrideRSCC
-  
-          if (presentDay && presentDay !== 'Do not override'|| climateChange === 'Override') {
-            climateChange = 'No data available'
-          }
+            let climateChange = riskType === 'Surface water'
+              ? f.properties.riskOverrideCc
+              : f.properties.riskOverrideRSCC
 
-          return `<strong>Present day:</strong><br>${presentDay}
-                <br><br>
-                <strong>Climate change:</strong><br>${climateChange}`
-        })()
+            if ((presentDay && presentDay !== 'Do not override') || climateChange === 'Override') {
+              climateChange = 'No data available'
+            }
+
+            return `<strong>Present day:</strong><br>${presentDay}
+                  <br><br>
+                  <strong>Climate change:</strong><br>${climateChange}`
+          })()
         },
         { text: formatDate(f.properties.start, DATEFORMAT) },
         { text: formatDate(f.properties.end, DATEFORMAT) },
