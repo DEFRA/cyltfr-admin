@@ -38,7 +38,7 @@ function commentView (comment, geometry, auth, capabilities) {
   retval.viewCommentData = {
     head: [
       { text: comment.type === 'holding' ? 'Info' : 'Report' },
-      { text: comment.type === 'holding' ? 'Risk Override' : '' },
+      { text: comment.type === 'holding' ? 'Risk Override' : '', classes: 'override-column' },
       { text: 'Valid from' },
       { text: 'Valid to' },
       { text: 'Map' },
@@ -47,7 +47,30 @@ function commentView (comment, geometry, auth, capabilities) {
     rows: geometry.features.map((f, i) => {
       const row = [
         { text: f.properties.info },
-        { text: comment.type === 'holding' ? f.properties.riskOverride : '' },
+        {
+          html: (() => {
+            const doNotOverride = 'Do not override'
+            let presentDay = f.properties.riskOverride ?? f.properties.riskOverrideRS
+            // This assigns the 'Do not override' value to legacy comments where a risk override was not applied.
+            if (presentDay === null || presentDay === undefined) {
+              presentDay = doNotOverride
+            }
+
+            let climateChange = f.properties.riskOverrideCc ?? f.properties.riskOverrideRSCC
+            // This assigns the 'Do not override' value for climate change to legacy comments where a risk override was not applied.
+            if (climateChange === null || climateChange === undefined) {
+                  climateChange = doNotOverride
+                }
+
+            if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
+              climateChange = 'No data available'
+            }
+
+            return `<strong>Present day:</strong><br>${presentDay}
+                  <br><br>
+                  <strong>Climate change:</strong><br>${climateChange}`
+          })()
+        },
         { text: formatDate(f.properties.start, DATEFORMAT) },
         { text: formatDate(f.properties.end, DATEFORMAT) },
         {
