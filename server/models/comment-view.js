@@ -49,19 +49,20 @@ function commentView (comment, geometry, auth, capabilities) {
         { text: f.properties.info },
         {
           html: (() => {
+            const doNotOverride = 'Do not override'
             let presentDay = f.properties.riskOverride ?? f.properties.riskOverrideRS
             // This assigns the 'Do not override' value to legacy comments where a risk override was not applied.
             if (presentDay === null || presentDay === undefined) {
-              presentDay = 'Do not override'
+              presentDay = doNotOverride
             }
 
             let climateChange = f.properties.riskOverrideCc ?? f.properties.riskOverrideRSCC
             // This assigns the 'Do not override' value for climate change to legacy comments where a risk override was not applied.
             if (climateChange === null || climateChange === undefined) {
-                  climateChange = 'Do not override'
+                  climateChange = doNotOverride
                 }
 
-            if ((presentDay && presentDay !== 'Do not override') || climateChange === 'Override') {
+            if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
               climateChange = 'No data available'
             }
 
