@@ -1,9 +1,12 @@
 import { point } from '@turf/helpers'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
-import config from '../config.js'
 import { performance } from 'node:perf_hooks'
+import { createRequire } from 'module'
 
-const getExtraInfoDataS3 = async () => {
+const require = createRequire(import.meta.url)
+const config = require('../config.js')
+
+export const getExtraInfoDataS3 = async () => {
   let startTime
   if (config.performanceLogging) {
     startTime = performance.now()
@@ -24,9 +27,9 @@ const getExtraInfoDataS3 = async () => {
 //   return data
 // }
 
-const getExtraInfoData = getExtraInfoDataS3
+export const getExtraInfoData = getExtraInfoDataS3
 
-const formatExtraInfo = function (extraInfoData) {
+export const formatExtraInfo = function (extraInfoData) {
   const retVal = []
 
   extraInfoData.forEach((item) => {
@@ -40,7 +43,7 @@ const formatExtraInfo = function (extraInfoData) {
   return retVal
 }
 
-const featuresAtPoint = (data, x, y, approvedOnly) => {
+export const featuresAtPoint = (data, x, y, approvedOnly) => {
   const pointToCheck = point([x, y])
   const dataToCheck = approvedOnly ? data.filter((item) => item.approvedBy) : data
   const dataToReturn = []
@@ -52,10 +55,4 @@ const featuresAtPoint = (data, x, y, approvedOnly) => {
     })
   })
   return dataToReturn
-}
-
-export {
-  getExtraInfoData,
-  featuresAtPoint,
-  formatExtraInfo
 }

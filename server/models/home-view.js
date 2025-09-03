@@ -1,7 +1,7 @@
-const { formatDate } = require('../helpers')
 const { DATETIMEFORMAT } = require('../constants')
 
-function homeView (comments, currentUser) {
+async function homeView (comments, currentUser) {
+  const { formatDate } = await import('../helpers.mjs')
   const defaultMapper = (field, row) => ({
     text: row[field.name] || ''
   })

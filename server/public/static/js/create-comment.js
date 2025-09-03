@@ -44,7 +44,7 @@ class CreateCommentPage {
     }
 
     if (jsonFileData.intersects) {
-      alert(`Warning, there are other holding commnets that intersect this shape file: ${jsonFileData.intersects.join(', ')}`)
+      window.alert(`Warning, there are other holding commnets that intersect this shape file: ${jsonFileData.intersects.join(', ')}`)
     }
 
     // Add feature sections for each feature
@@ -104,7 +104,7 @@ class CreateCommentPage {
         const listOfIntersectingCommentsString = responseJson.intersectingComment.join(', ')
 
         if (responseJson.intersectingComment) {
-          alert(`There is an intersect with ${listOfIntersectingCommentsString}`)
+          window.alert(`There is an intersect with ${listOfIntersectingCommentsString}`)
         }
         if (response.ok) {
           window.location.href = '/'
@@ -220,7 +220,7 @@ class CreateCommentPage {
       method: 'post',
       body: formData
     })
-    
+
     if (!response.ok) {
       const result = await response.json()
       throw new Error(result.message)

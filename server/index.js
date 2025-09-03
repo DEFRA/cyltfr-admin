@@ -1,7 +1,5 @@
 const hapi = require('@hapi/hapi')
 const config = require('./config')
-const { getExtraInfoData } = require('./services/extraInfoService.js')
-const { getIndexedShapeData } = require('./services/indexedShapeDataService.js')
 const cache = require('./cache.js')
 
 async function createServer () {
@@ -94,6 +92,8 @@ async function createServer () {
   })
 
   // Register server methods
+  const { getExtraInfoData } = await import('./services/extraInfoService.mjs')
+
   server.method('getExtraInfoData', getExtraInfoData, {
     cache: {
       cache: 'server_cache',
@@ -104,6 +104,7 @@ async function createServer () {
     }
   })
 
+  const { getIndexedShapeData } = await import('./services/indexedShapeDataService.mjs')
   server.method('getIndexedShapeData', getIndexedShapeData, {
     cache: {
       cache: 'server_cache',

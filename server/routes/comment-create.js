@@ -1,12 +1,10 @@
 const joi = require('joi')
 const commentCreate = require('../models/comment-create')
-const { shortId } = require('../helpers')
 const capabilities = require('../models/capabilities')
 const config = require('../config')
 const { performance } = require('node:perf_hooks')
 const { booleanIntersects } = require('@turf/boolean-intersects')
 const { polygon } = require('@turf/helpers')
-
 
 module.exports = [
   {
@@ -32,6 +30,7 @@ module.exports = [
       if (config.performanceLogging) {
         startTime = performance.now()
       }
+      const { shortId } = await import('../helpers.mjs')
       const provider = request.provider
       const payload = request.payload
       const type = request.params.type

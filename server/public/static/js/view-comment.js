@@ -18,7 +18,7 @@
         ...feature,
         features: feature.filter(f => f === feature)
       }
-    
+
       window.LTFMGMT.commentMap(geo, 'map_whole', capabilities)
     })
   })

@@ -10,7 +10,7 @@
     "build:css": "bin/build-css",
     "build": " bin/build ",
     "test": "npm run test:lint && npm run test:audit && npm run test:jest",
-    "test:jest": "jest --no-cache  --detectOpenHandles --runInBand --forceExit",
+    "test:jest": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --no-cache  --detectOpenHandles --runInBand --forceExit",
     "test:audit": "npm audit",
     "test:lint": "standard",
     "postinstall": "npm run build",
@@ -57,5 +57,22 @@
       "server/public/build/js",
       "server/public/static/vendor"
     ]
+  },
+  "jest": {
+    "setupFiles": [
+      "dotenv/config"
+    ],
+    "automock": false,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "server/**/*.js",
+      "!server/public/**/*",
+      "!server/src/js/**/*.js"
+    ],
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "coverageDirectory": "test/output"
   }
 }

@@ -1,7 +1,6 @@
 const path = require('path')
 const nunjucks = require('nunjucks')
 const config = require('../config')
-const { formatDate } = require('../helpers')
 const pkg = require('../../package.json')
 const analyticsAccount = config.analyticsAccount
 
@@ -17,7 +16,8 @@ module.exports = {
             return template.render(context)
           }
         },
-        prepare: (options, next) => {
+        prepare: async (options, next) => {
+          const { formatDate } = await import('../helpers.mjs')
           const env = nunjucks.configure([
             path.join(options.relativeTo || process.cwd(), options.path),
             'node_modules/govuk-frontend/dist/govuk/',

@@ -1,9 +1,8 @@
-const { buildIndexedShapeData } = require('../services/indexedShapeDataService.js')
-
 module.exports = {
   plugin: {
     name: 'dataRefresh',
-    register: (server, options) => {
+    register: async (server, options) => {
+      const { buildIndexedShapeData } = await import('../services/indexedShapeDataService.mjs')
       const setupTimeout = () => {
         return setTimeout(() => {
           timeoutHandle = null

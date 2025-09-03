@@ -1,7 +1,7 @@
-const { bbox } = require('@turf/bbox')
-const { IndexedShapeData } = require('./indexedShapeData.js')
+import { bbox } from '@turf/bbox'
+import { IndexedShapeData } from './indexedShapeData.mjs'
 
-module.exports = class Polygon {
+export class Polygon {
   constructor (polygonArray) {
     this.turfPolygon = polygonArray
   }

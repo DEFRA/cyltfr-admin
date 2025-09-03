@@ -1,5 +1,7 @@
-import { IndexedShapeData } from './indexedShapeData.js'
-import  config from '../config.js'
+import { IndexedShapeData } from './indexedShapeData.mjs'
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
+const config = require('../config.js')
 let indexedShapeData
 let _extraInfoServiceData
 
