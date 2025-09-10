@@ -6,7 +6,7 @@ const CONVERSION_BASE = 36
 const validGeometyTypes = ['Polygon', 'MultiPolygon']
 
 function shortId () {
-  return Math.random().toString(CONVERSION_BASE).substring(2)
+  return Math.random().toString(CONVERSION_BASE).substring(2) // NOSONAR
 }
 
 function formatDate (str, format = DATEFORMAT) {

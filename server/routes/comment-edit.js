@@ -45,9 +45,9 @@ module.exports = [
 
       // Use Promise.all to handle asynchronous operations in parallel
       const allFeatures = await Promise.all(
-        comments.map(async (comment) => {
-          const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
-          return provider.getFile(key)
+        comments.map(async (cmnt) => {
+          const fileKey = `${config.holdingCommentsPrefix}/${cmnt.keyname}`
+          return provider.getFile(fileKey)
         })
       )
 

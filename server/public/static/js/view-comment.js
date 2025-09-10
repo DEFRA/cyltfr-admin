@@ -13,10 +13,10 @@
   })
 
   allFeatures.forEach(function (feature) {
-    feature.features.forEach(function (feature) {
+    feature.features.forEach(function (singleF) {
       const geo = {
-        ...feature,
-        features: feature.filter(f => f === feature)
+        ...singleF,
+        features: singleF.filter(f => f === singleF)
       }
 
       window.LTFMGMT.commentMap(geo, 'map_whole', capabilities)

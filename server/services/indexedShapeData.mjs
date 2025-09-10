@@ -64,7 +64,7 @@ export class IndexedShapeData {
   polygonHitTest (polygon) {
     const intersectingCommentsList = []
     if (!polygon) {
-      return false
+      return intersectingCommentsList
     }
     [...this.getPossibleIntersectIndices(polygon)].forEach((index) => {
       const checkIfIntersect = booleanIntersects(polygon.turfPolygon, this.geometryArray[index])

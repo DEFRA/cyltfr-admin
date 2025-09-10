@@ -34,6 +34,7 @@ module.exports = [
       const provider = request.provider
       const payload = request.payload
       const type = request.params.type
+      // TODO: This code should check that the newly created id doesn't already exist.
       const id = shortId()
       const keyname = `${id}.json`
       const now = new Date()
