@@ -59,8 +59,8 @@ function commentView (comment, geometry, auth, capabilities) {
             let climateChange = f.properties.riskOverrideCc ?? f.properties.riskOverrideRSCC
             // This assigns the 'Do not override' value for climate change to legacy comments where a risk override was not applied.
             if (climateChange === null || climateChange === undefined) {
-                  climateChange = doNotOverride
-                }
+              climateChange = doNotOverride
+            }
 
             if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
               climateChange = 'No data available'
