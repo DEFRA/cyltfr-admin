@@ -1,5 +1,8 @@
-FROM node:20-alpine AS node
-FROM ghcr.io/osgeo/gdal:alpine-small-3.8.4 AS production
+ARG PARENT_VERSION=2.5.3-node22.14.0
+
+FROM defradigital/node:${PARENT_VERSION} AS node
+FROM ghcr.io/osgeo/gdal:alpine-small-3.11.3 AS production
+
 COPY --from=node /usr/lib /usr/lib
 COPY --from=node /usr/local/share /usr/local/share
 COPY --from=node /usr/local/lib /usr/local/lib
@@ -33,9 +36,8 @@ COPY --chown=root:root ./client ./client
 
 COPY --chown=root:root ./index.js .
 
-RUN npm ci --omit=dev
-
-RUN npm run build
+RUN npm ci --omit dev \
+ && npm run build
 
 COPY --chown=root:root ./server ./server
 

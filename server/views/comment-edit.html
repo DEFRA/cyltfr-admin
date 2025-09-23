@@ -72,25 +72,35 @@
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_risk_type">
                                 <li>
                                   <label for="sw_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="sw_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
-                                    value="Surface water" checked>Surface water</label></li>
+                                    value="Surface water">Surface water</label></li>
                                 <li>
-                                  <label for="rs_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" type="radio" id="rs_{{ features.indexOf(feature) }}" name="sw_or_rs_{{ features.indexOf(feature) }}"
+                                  <label for="rs_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="rs_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
                                   value="Rivers and the sea">Rivers and the sea</label></li>
                               </ul>
                             </div>
+
+                            <!-- SW override -->
                             <div id="risk-override-radios_{{ features.indexOf(feature) }}" class="form-group field field-string govuk-form-group riskOverride">
                               <label
                                 class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride">
-                                Do you want to override the flood risk rating?'
+                                Do you want to override the present day surface water flood risk rating?
                               </label>
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride">
                                 <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-no-override"><input class="radio override_radio_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-no-override" name="override_{{ features.indexOf(feature) }}-risk"
-                                    value="Do not override" checked>No, do not override</label></li>
+                                  <label for="map_{{ features.indexOf(feature) }}-no-override"><input class="radio no_override override_radio_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-no-override" name="override_{{ features.indexOf(feature) }}-risk"
+                                    value="Do not override">No, do not override</label></li>
                                 <li>
                                   <label for="map_{{ features.indexOf(feature) }}-override"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override" name="override_{{ features.indexOf(feature) }}"
                                   value="Override">Yes, override surface water</label></li>
-                                <ul id="risk-options_{{ features.indexOf(feature) }}" class="risk-option-radios" style="display: none;">
+                                <div id="risk-override-warning_{{ features.indexOf(feature) }}" class="govuk-warning-text hide">
+                                  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                  <strong class="govuk-warning-text__text">
+                                    <span class="govuk-visually-hidden">Warning</span>
+                                    By overriding the present risk rating, climate change information will automatically show as 'no data'. 
+                                    Any surface water depth information will also be removed from the service and replaced with 'no data'.
+                                  </strong>
+                                </div>
+                                <ul id="risk-options_{{ features.indexOf(feature) }}" class="risk-option-radios hide" >
                                   <li>
                                     <label for="map_{{ features.indexOf(feature) }}-override-very-low"><input class="radio risk-option_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low" name="override_{{ features.indexOf(feature) }}-risk"
                                       value="Very low">Very low</label></li>
@@ -106,6 +116,93 @@
                                 </ul>
                               </ul>
                             </div>
+
+                            <!-- SW CC override -->
+                            <div id="risk-override-radios_{{ features.indexOf(feature) }}_cc" class="form-group field field-string govuk-form-group riskOverride hide">
+                              <label
+                                class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
+                                Do you want to override the climate change surface water flood risk rating?
+                              </label>
+                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
+                                <li>
+                                  <label for="map_{{ features.indexOf(feature) }}-no-override_cc"><input class="radio no_override override_radio_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
+                                    value="Do not override">No, do not override</label></li>
+                                <li>
+                                  <label for="map_{{ features.indexOf(feature) }}-override_cc"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
+                                  value="Override">Yes, override to show 'no data'</label></li>
+                              </ul>
+                              <div id="risk-override-warning_{{ features.indexOf(feature) }}_cc" class="govuk-warning-text hide">
+                                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                <strong class="govuk-warning-text__text">
+                                  <span class="govuk-visually-hidden">Warning</span>
+                                  By overriding the climate change risk rating, climate change information will now show as 'no data'. 
+                                  Any surface water depth information will also be removed from the service and replaced with 'no data'.
+                                </strong>
+                              </div>
+                            </div>
+
+                            <!-- RS override -->
+                            <div id="risk-override-radios_{{ features.indexOf(feature) }}_rs" class="form-group field field-string govuk-form-group riskOverride">
+                              <label
+                                class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_rs">
+                                Do you want to override the present day rivers and the sea flood risk rating?
+                              </label>
+                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_rs">
+                                <li>
+                                  <label for="map_{{ features.indexOf(feature) }}-no-override_rs"><input class="radio no_override override_radio_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_rs" name="override_{{ features.indexOf(feature) }}-risk_rs"
+                                    value="Do not override">No, do not override</label></li>
+                                <li>
+                                  <label for="map_{{ features.indexOf(feature) }}-override_rs"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_rs" name="override_{{ features.indexOf(feature) }}_rs"
+                                  value="Override">Yes, override rivers and the sea</label></li>
+                                <div id="risk-override-warning_{{ features.indexOf(feature) }}_rs" class="govuk-warning-text hide">
+                                  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                  <strong class="govuk-warning-text__text">
+                                    <span class="govuk-visually-hidden">Warning</span>
+                                    By overriding the present risk rating, climate change information will automatically show as 'no data'. 
+                                    Any rivers and the sea depth information will also be removed from the service and replaced with 'no data'.
+                                  </strong>
+                                </div>
+                                <ul id="risk-options_{{ features.indexOf(feature) }}_rs" class="risk-option-radios hide" >
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-very-low_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low_rs" name="override_{{ features.indexOf(feature) }}-risk_rs"
+                                      value="Very low">Very low</label></li>
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-low_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-low_rs" name="override_{{ features.indexOf(feature) }}-risk_rs"
+                                      value="Low">Low</label></li>
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-medium_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-medium_rs" name="override_{{ features.indexOf(feature) }}-risk_rs"
+                                      value="Medium">Medium</label></li>
+                                  <li>
+                                    <label for="map_{{ features.indexOf(feature) }}-override-high_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-high_rs" name="override_{{ features.indexOf(feature) }}-risk_rs"
+                                      value="High">High</label></li>
+                                </ul>
+                              </ul>
+                            </div>
+
+                            <!-- RS CC override -->
+                            <div id="risk-override-radios_{{ features.indexOf(feature) }}_rscc" class="form-group field field-string govuk-form-group riskOverride hide">
+                              <label
+                                class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_rscc">
+                                Do you want to override the climate change rivers and the sea flood risk rating?
+                              </label>
+                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_rscc">
+                                <li>
+                                  <label for="map_{{ features.indexOf(feature) }}-no-override_rscc"><input class="radio no_override override_radio_{{ features.indexOf(feature) }}_rscc" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_rscc" name="override_{{ features.indexOf(feature) }}-risk_rscc"
+                                    value="Do not override">No, do not override</label></li>
+                                <li>
+                                  <label for="map_{{ features.indexOf(feature) }}-override_rscc"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_rscc" name="override_{{ features.indexOf(feature) }}-risk_rscc"
+                                  value="Override">Yes, override to show 'no data'</label></li>
+                              </ul>
+                              <div id="risk-override-warning_{{ features.indexOf(feature) }}_rscc" class="govuk-warning-text hide">
+                                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                <strong class="govuk-warning-text__text">
+                                  <span class="govuk-visually-hidden">Warning</span>
+                                  By overriding the climate change risk rating, climate change information will now show as 'no data'. 
+                                  Any rivers and the sea depth information will also be removed from the service and replaced with 'no data'.
+                                </strong>
+                              </div>
+                            </div>
+
                             <div class="form-group field field-string  govuk-form-group">
                               <label class="control-label" for="features_{{ features.indexOf(feature) }}_properties_add_comment">
                                 Do you want to add holding comment text?
@@ -113,7 +210,7 @@
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_add_comment">
                                 <li>
                                   <label for="text_no_{{ features.indexOf(feature) }}"><input class="radio textComment_radio_{{ features.indexOf(feature) }}" id="text_no_{{ features.indexOf(feature) }}" type="radio" name="add_holding_comment_{{ features.indexOf(feature) }}"
-                                    value="No" checked>No, do not add a holding comment text</label></li>
+                                    value="No">No, do not add a holding comment text</label></li>
                                 <li>
                                   <label for="text_yes_{{ features.indexOf(feature) }}"><input class="radio textComment_radio_{{ features.indexOf(feature) }}" type="radio" id="text_yes_{{ features.indexOf(feature) }}" name="add_holding_comment_{{ features.indexOf(feature) }}"
                                   value="Yes">Yes, add holding comment text</label></li>
@@ -232,7 +329,7 @@
               </div>
             </fieldset>
           </div>
-          <button type="submit" class="govuk-button">Save</button>
+          <button type="submit" class="govuk-button" id="editSaveBtn">Save</button>
         </form>
       </div>
     </div>

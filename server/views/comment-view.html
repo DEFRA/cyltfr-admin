@@ -8,10 +8,14 @@
   {{ super() }}
   <style>
     .comment-map {
-      width: 400px;
+      width: 320px;
+      max-height: 180px;
     }
     .govuk-table__cell .comment-map {
-      float: right;
+      float: left;
+    }
+    .govuk-table__header.override-column {
+      min-width: 150px;
     }
   </style>
 {% endblock %}
