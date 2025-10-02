@@ -14,7 +14,7 @@ function homeView (comments, currentUser) {
     }
 
     return {
-      html: `<span title="Approved by ${approvedBy} at ${formatDate(approvedAt, DATETIMEFORMAT)}">✅</span>`,
+      html: `<span class="govuk-tag govuk-tag--green" title="Approved by ${approvedBy} at ${formatDate(approvedAt, DATETIMEFORMAT)}">Approved</span>`,
       attributes: { style: 'text-align: center;', 'data-sort': approvedAt }
     }
   }
@@ -24,14 +24,14 @@ function homeView (comments, currentUser) {
       name: 'description',
       title: 'Description',
       mapper: (_field, row) => ({
-        html: `<a href="/comment/view/${row.id}">${row.description}</a>`
+        html: `<a href="/comment/view/${row.id}" class="home-page-table description-column">${row.description}</a>`
       })
     },
     {
       name: 'riskType',
       title: 'Flood Risk',
       mapper: (_field, row) => ({
-        text: row[_field.name] || ''
+        html: `<span class="home-page-table flood-risk-column">${row[_field.name] || ''}</span>`
       })
     },
     {
@@ -41,7 +41,13 @@ function homeView (comments, currentUser) {
         text: row[field.name] === 'holding' ? 'Holding' : 'LLFA'
       })
     },
-    { name: 'createdBy', title: 'Created By' },
+    {
+      name: 'createdBy',
+      title: 'Created By',
+      mapper: (field, row) => ({
+        html: `<span class="home-page-table created-by-column">${row[field.name] || ''}</span>`
+      })
+    },
     { name: 'featureCount', title: 'Features' },
     { name: 'boundary', title: 'Boundary' },
     { name: 'approvedAt', title: 'Approved', mapper: approvedMapper }

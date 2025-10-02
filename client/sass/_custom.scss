@@ -125,3 +125,21 @@
   line-height: 1.25;
   margin-bottom: 0px;
 }
+
+.home-page-table {
+  display: inline-block;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.description-column {
+  max-width: 250px;
+}
+
+.flood-risk-column {
+  min-width: 100px;
+}
+
+.created-by-column {
+  max-width: 200px;
+}
