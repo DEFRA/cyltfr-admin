@@ -22,13 +22,35 @@ module.exports = {
     const rows = homeComments
       .map((comment, i) => {
         return files[i].features.map(feature => {
-          const { start, end, info, riskType, riskOverride } = feature.properties
+          const {
+            start,
+            end,
+            info,
+            riskType,
+            riskOverride,
+            riskOverrideCc,
+            riskOverrideRS,
+            riskOverrideRSCC
+          } = feature.properties
 
           let FloodRiskType = ''
           let FloodRiskOverride = ''
+          let FloodRiskOverrideCc = ''
+          let FloodRiskOverrideRS = ''
+          let FloodRiskOverrideRSCC = ''
+
           if (comment.type === 'holding') {
-            FloodRiskType = riskType === 'Rivers and the sea' ? riskType : 'Surface water'
-            FloodRiskOverride = riskType === 'Rivers and the sea' ? '' : riskOverride
+            FloodRiskType = riskType
+
+            if (riskType === 'Surface water') {
+              FloodRiskOverride = riskOverride || ''
+              FloodRiskOverrideCc = riskOverrideCc || ''
+            }
+
+            if (riskType === 'Rivers and the sea') {
+              FloodRiskOverrideRS = riskOverrideRS || ''
+              FloodRiskOverrideRSCC = riskOverrideRSCC || ''
+            }
           }
 
           return {
@@ -38,6 +60,9 @@ module.exports = {
             info,
             FloodRiskType,
             FloodRiskOverride,
+            FloodRiskOverrideCc,
+            FloodRiskOverrideRS,
+            FloodRiskOverrideRSCC,
             url: `${baseUrl}/comment/view/${comment.id}`
           }
         })
