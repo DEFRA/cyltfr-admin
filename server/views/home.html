@@ -16,23 +16,31 @@
 
 {% block body %}
   <div class="govuk-body">
-    <!-- Comment guidance details -->
-      {% include commentGuidance %}
-
-    <a href="/comments.csv" download class="govuk-button govuk-button--secondary home-buttons">
-      Download all comments
-    </a>
+    {% include commentGuidance %}
     <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Add a new comment</h2>
-    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">PSO users</h3>
-    <p class="govuk-body-s govuk-!-margin-bottom-2">For adding local information</p>
-    <a href="/comment/create/holding" class="govuk-button home-buttons">
-      Create holding comment
-    </a>
-    <h3 class="govuk-heading-s govuk-!-margin-bottom-2">National teams</h3>
-    <p class="govuk-body-s govuk-!-margin-bottom-2">For adding non-modelled surface water information</p>
-    <a href="/comment/create/llfa" class="govuk-button home-buttons">
-      Add LLFA comment
-    </a>
+    <div class="comment-buttons-group">
+      <div class="comment-buttons">
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">PSO users</h3>
+        <p class="govuk-body-s govuk-!-margin-bottom-2">For adding local information</p>
+        <a href="/comment/create/holding" class="govuk-button home-buttons">
+          Create holding comment
+        </a>
+      </div>
+      <div class="comment-buttons">
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">National teams</h3>
+        <p class="govuk-body-s govuk-!-margin-bottom-2">For adding non-modelled surface water information</p>
+        <a href="/comment/create/llfa" class="govuk-button home-buttons">
+          Add LLFA comment
+        </a>
+      </div>
+      <div class="comment-buttons">
+        <h3 class="govuk-heading-s govuk-!-margin-bottom-2">Download comments</h3>
+        <p class="govuk-body-s govuk-!-margin-bottom-2">For downloading all comments as a CSV file</p>
+        <a href="/comments.csv" download class="govuk-button govuk-button--secondary home-buttons">
+          Download all comments
+        </a>
+      </div>
+    </div>
     <h2 class="govuk-heading-m govuk-!-margin-top-4 govuk-!-margin-bottom-4">Comments</h2>
     {{ govukTable(table) }}
   </div>

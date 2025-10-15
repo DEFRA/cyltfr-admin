@@ -101,6 +101,26 @@
 
 .home-buttons {
   min-width: 250px;
+  max-width: 250px;
+}
+
+.comment-buttons-group {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.comment-buttons {
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+  justify-content: space-between;
+  padding-right: 25px;
+  border-right: 1px solid #b1b4b6
+}
+
+.comment-buttons:last-child {
+  border-right: none;
 }
 
 .govuk-button.danger {
