@@ -33,23 +33,16 @@ module.exports = {
             riskOverrideRSCC
           } = feature.properties
 
-          let FloodRiskType = ''
-          let FloodRiskOverride = ''
-          let FloodRiskOverrideCc = ''
-          let FloodRiskOverrideRS = ''
-          let FloodRiskOverrideRSCC = ''
+          let RiskOverride = ''
+          let RiskOverrideClimateChange = ''
 
           if (comment.type === 'holding') {
-            FloodRiskType = riskType
-
             if (riskType === 'Surface water') {
-              FloodRiskOverride = riskOverride || ''
-              FloodRiskOverrideCc = riskOverrideCc || ''
-            }
-
-            if (riskType === 'Rivers and the sea') {
-              FloodRiskOverrideRS = riskOverrideRS || ''
-              FloodRiskOverrideRSCC = riskOverrideRSCC || ''
+              RiskOverride = riskOverride || ''
+              RiskOverrideClimateChange = riskOverrideCc || ''
+            } else if (riskType === 'Rivers and the sea') {
+              RiskOverride = riskOverrideRS || ''
+              RiskOverrideClimateChange = riskOverrideRSCC || ''
             }
           }
 
@@ -58,11 +51,9 @@ module.exports = {
             start,
             end,
             info,
-            FloodRiskType,
-            FloodRiskOverride,
-            FloodRiskOverrideCc,
-            FloodRiskOverrideRS,
-            FloodRiskOverrideRSCC,
+            FloodRiskType: riskType,
+            RiskOverride,
+            RiskOverrideClimateChange,
             url: `${baseUrl}/comment/view/${comment.id}`
           }
         })
