@@ -43,6 +43,9 @@ module.exports = {
             } else if (riskType === 'Rivers and the sea') {
               RiskOverride = riskOverrideRS || ''
               RiskOverrideClimateChange = riskOverrideRSCC || ''
+            } else {
+              RiskOverride = 'risk type not selected'
+              RiskOverrideClimateChange = 'risk type not selected'
             }
           }
 
