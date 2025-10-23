@@ -52,8 +52,8 @@ module.exports = {
                 riskOverrideClimateChange = riskOverrideRSCC || ''
               }
             } else {
-              riskOverridePresentDay = ''
-              riskOverrideClimateChange = ''
+              riskOverridePresentDay = 'No risk type selected'
+              riskOverrideClimateChange = 'No risk type selected'
             }
           }
 
