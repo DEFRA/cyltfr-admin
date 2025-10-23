@@ -52,9 +52,12 @@ module.exports = {
                 riskOverrideClimateChange = riskOverrideRSCC || ''
               }
             } else {
-              riskOverridePresentDay = 'No risk type selected'
-              riskOverrideClimateChange = 'No risk type selected'
+              riskOverridePresentDay = 'Not applicable'
+              riskOverrideClimateChange = 'Not applicable'
             }
+          } else {
+            riskOverridePresentDay = 'Not applicable'
+            riskOverrideClimateChange = 'Not applicable'
           }
 
           //Fix to remove the additional riskType field
