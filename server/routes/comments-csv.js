@@ -39,24 +39,35 @@ module.exports = {
           if (comment.type === 'holding') {
             if (riskType === 'Surface water') {
               riskOverridePresentDay = riskOverride || ''
-              riskOverrideClimateChange = riskOverrideCc || ''
+              if (riskOverridePresentDay && riskOverridePresentDay !== 'Do not override') {
+                riskOverrideClimateChange = 'Override'
+              } else {
+                riskOverrideClimateChange = riskOverrideCc || ''
+              }
             } else if (riskType === 'Rivers and the sea') {
               riskOverridePresentDay = riskOverrideRS || ''
-              riskOverrideClimateChange = riskOverrideRSCC || ''
+              if (riskOverridePresentDay && riskOverridePresentDay !== 'Do not override') {
+                riskOverrideClimateChange = 'Override'
+              } else {
+                riskOverrideClimateChange = riskOverrideRSCC || ''
+              }
             } else {
-              riskOverridePresentDay = 'risk type not selected'
-              riskOverrideClimateChange = 'risk type not selected'
+              riskOverridePresentDay = ''
+              riskOverrideClimateChange = ''
             }
           }
 
+          //Fix to remove the additional riskType field
+          const { riskType: _, ...commentWithoutRisk } = comment
+
           return {
-            ...comment,
+            ...commentWithoutRisk,
             start,
             end,
             info,
-            'Risk type': riskType,
-            'Present day override': riskOverridePresentDay,
-            'Climate change override': riskOverrideClimateChange,
+            'risk type': riskType,
+            'present day override': riskOverridePresentDay,
+            'climate change override': riskOverrideClimateChange,
             url: `${baseUrl}/comment/view/${comment.id}`
           }
         })
