@@ -3,6 +3,49 @@ const jsonexport = require('jsonexport')
 const config = require('../config')
 const toCSV = util.promisify(jsonexport)
 
+function getRiskOverrides(comment, riskType, properties) {
+  const {
+    riskOverride,
+    riskOverrideCc,
+    riskOverrideRS,
+    riskOverrideRSCC
+  } = properties
+
+  if (comment.type !== 'holding') {
+    return {
+      riskOverridePresentDay: 'Not applicable',
+      riskOverrideClimateChange: 'Not applicable'
+    }
+  }
+
+  if (riskType === 'Surface water') {
+    const presentDay = riskOverride || ''
+    const climateChange = presentDay && presentDay !== 'Do not override'
+      ? 'Override'
+      : riskOverrideCc || ''
+    return {
+      riskOverridePresentDay: presentDay,
+      riskOverrideClimateChange: climateChange
+    }
+  }
+
+  if (riskType === 'Rivers and the sea') {
+    const presentDay = riskOverrideRS || ''
+    const climateChange = presentDay && presentDay !== 'Do not override'
+      ? 'Override'
+      : riskOverrideRSCC || ''
+    return {
+      riskOverridePresentDay: presentDay,
+      riskOverrideClimateChange: climateChange
+    }
+  }
+
+  return {
+    riskOverridePresentDay: 'Not applicable',
+    riskOverrideClimateChange: 'Not applicable'
+  }
+}
+
 module.exports = {
   method: 'GET',
   path: '/comments.csv',
@@ -27,38 +70,10 @@ module.exports = {
             end,
             info,
             riskType,
-            riskOverride,
-            riskOverrideCc,
-            riskOverrideRS,
-            riskOverrideRSCC
           } = feature.properties
 
-          let riskOverridePresentDay = ''
-          let riskOverrideClimateChange = ''
-
-          if (comment.type === 'holding') {
-            if (riskType === 'Surface water') {
-              riskOverridePresentDay = riskOverride || ''
-              if (riskOverridePresentDay && riskOverridePresentDay !== 'Do not override') {
-                riskOverrideClimateChange = 'Override'
-              } else {
-                riskOverrideClimateChange = riskOverrideCc || ''
-              }
-            } else if (riskType === 'Rivers and the sea') {
-              riskOverridePresentDay = riskOverrideRS || ''
-              if (riskOverridePresentDay && riskOverridePresentDay !== 'Do not override') {
-                riskOverrideClimateChange = 'Override'
-              } else {
-                riskOverrideClimateChange = riskOverrideRSCC || ''
-              }
-            } else {
-              riskOverridePresentDay = 'Not applicable'
-              riskOverrideClimateChange = 'Not applicable'
-            }
-          } else {
-            riskOverridePresentDay = 'Not applicable'
-            riskOverrideClimateChange = 'Not applicable'
-          }
+          const { riskOverridePresentDay, riskOverrideClimateChange } =
+            getRiskOverrides(comment, riskType, feature.properties)
 
           //Fix to remove the additional riskType field
           const { riskType: _, ...commentWithoutRisk } = comment
