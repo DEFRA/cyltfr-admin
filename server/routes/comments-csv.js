@@ -17,9 +17,7 @@ function getRiskOverrides(comment, riskType, properties) {
   }
 
   if (comment.type !== 'holding') {
-    return {
-      notApplicable
-    }
+    return notApplicable
   }
 
   if (riskType === 'Surface water') {
@@ -44,9 +42,7 @@ function getRiskOverrides(comment, riskType, properties) {
     }
   }
 
-  return {
-    notApplicable
-  }
+  return notApplicable
 }
 
 module.exports = {
