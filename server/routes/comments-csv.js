@@ -20,29 +20,25 @@ function getRiskOverrides(comment, riskType, properties) {
     return notApplicable
   }
 
-  if (riskType === 'Surface water') {
-    const presentDay = riskOverride || ''
+  const getOverrides = (presentDayOverride, climateChangeOverride) => {
+    const presentDay = presentDayOverride || ''
     const climateChange = presentDay && presentDay !== 'Do not override'
       ? 'Override'
-      : riskOverrideCc || ''
+      : climateChangeOverride || ''
     return {
       riskOverridePresentDay: presentDay,
       riskOverrideClimateChange: climateChange
     }
   }
 
-  if (riskType === 'Rivers and the sea') {
-    const presentDay = riskOverrideRS || ''
-    const climateChange = presentDay && presentDay !== 'Do not override'
-      ? 'Override'
-      : riskOverrideRSCC || ''
-    return {
-      riskOverridePresentDay: presentDay,
-      riskOverrideClimateChange: climateChange
-    }
+  switch (riskType) {
+    case 'Surface water':
+      return getOverrides(riskOverride, riskOverrideCc)
+    case 'Rivers and the sea':
+      return getOverrides(riskOverrideRS, riskOverrideRSCC)
+    default:
+      return notApplicable
   }
-
-  return notApplicable
 }
 
 module.exports = {
