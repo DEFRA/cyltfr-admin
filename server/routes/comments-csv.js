@@ -11,10 +11,14 @@ function getRiskOverrides(comment, riskType, properties) {
     riskOverrideRSCC
   } = properties
 
+  const notApplicable = {
+    riskOverridePresentDay: 'Not applicable',
+    riskOverrideClimateChange: 'Not applicable'
+  }
+
   if (comment.type !== 'holding') {
     return {
-      riskOverridePresentDay: 'Not applicable',
-      riskOverrideClimateChange: 'Not applicable'
+      notApplicable
     }
   }
 
@@ -41,8 +45,7 @@ function getRiskOverrides(comment, riskType, properties) {
   }
 
   return {
-    riskOverridePresentDay: 'Not applicable',
-    riskOverrideClimateChange: 'Not applicable'
+    notApplicable
   }
 }
 
