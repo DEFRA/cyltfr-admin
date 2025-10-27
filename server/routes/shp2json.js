@@ -2,8 +2,6 @@ const fs = require('fs')
 const util = require('util')
 const joi = require('joi')
 const boom = require('@hapi/boom')
-const helpers = require('../helpers')
-const { ogr2ogr } = require('ogr2ogr')
 const rename = util.promisify(fs.rename)
 
 module.exports = {
@@ -16,8 +14,13 @@ module.exports = {
     try {
       const tmpfile = geometry.path
       const zipfile = tmpfile + '.zip'
+      const helpers = await import('../helpers.mjs')
+      const { Polygon } = await import('../services/polygon.mjs')
       await rename(tmpfile, zipfile)
 
+      // CHANGE THE BELOW BACK OR IT WILL USE DUMMY FILEE!!!!!!!!!!!!
+
+      const { ogr2ogr } = require('ogr2ogr')
       let data
       try {
         ({ data } = await ogr2ogr(zipfile))
@@ -28,10 +31,16 @@ module.exports = {
       // uncomment the below to use dummy data to bypass having to upload an actual shape file on dev
       // const data = require('./dummy-data/example_file.json')
       // const data = require('./dummy-data/example_file_broken.json')
-
-      const geojson = helpers.updateAndValidateGeoJson(data, params.type)
-
-      return geojson
+      const indexedShapeData = await request.server.methods.getIndexedShapeData()
+      let intersects = []
+      for (const feature of data.features) {
+        const uploadCoordinates = feature.geometry.coordinates
+        const uploadPolygon = new Polygon(uploadCoordinates[0])
+        const featureintersects = indexedShapeData.polygonHitTest(uploadPolygon)
+        intersects = intersects.concat(featureintersects)
+      }
+      const geojson = await helpers.updateAndValidateGeoJson(data, params.type)
+      return { geojson, intersects }
     } catch (err) {
       return boom.badRequest(err.message, err)
     }

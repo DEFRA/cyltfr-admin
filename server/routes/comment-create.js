@@ -1,7 +1,10 @@
 const joi = require('joi')
 const commentCreate = require('../models/comment-create')
-const { shortId } = require('../helpers')
 const capabilities = require('../models/capabilities')
+const config = require('../config')
+const { performance } = require('node:perf_hooks')
+const { booleanIntersects } = require('@turf/boolean-intersects')
+const { polygon } = require('@turf/helpers')
 
 module.exports = [
   {
@@ -23,12 +26,51 @@ module.exports = [
     method: 'POST',
     path: '/comment/create/{type}',
     handler: async (request, _h) => {
+      let startTime
+      if (config.performanceLogging) {
+        startTime = performance.now()
+      }
+      const { shortId } = await import('../helpers.mjs')
       const provider = request.provider
       const payload = request.payload
       const type = request.params.type
+      // TODO: This code should check that the newly created id doesn't already exist.
       const id = shortId()
       const keyname = `${id}.json`
       const now = new Date()
+
+      // Incoming polygon geometry
+      const uploadCoordinates = request.payload.features[0].geometry.coordinates
+      const uploadPolygon = polygon(uploadCoordinates)
+
+      const comments = await provider.getFile()
+      const intersectingComment = []
+
+      // Iterate through comments and get coordinates so they can be compared and find interests
+      for (const element of comments) {
+        const key = `${config.holdingCommentsPrefix}/${element.keyname}`
+        const storedGeoJSON = await provider.getFile(key)
+
+        const geometry = storedGeoJSON.features[0].geometry
+
+        let storedPolygon
+        if (geometry.type === 'Polygon') {
+          storedPolygon = polygon(geometry.coordinates)
+        } else if (geometry.type === 'MultiPolygon') {
+          // Take first polygon in MultiPolygon
+          // Do we need to be checking each polygon in multipolygon?
+          storedPolygon = polygon(geometry.coordinates[0])
+        } else {
+          console.warn(`Unsupported geometry type: ${geometry.type}`)
+          continue
+        }
+
+        const intersects = booleanIntersects(uploadPolygon, storedPolygon)
+
+        if (intersects) {
+          intersectingComment.push(element.description)
+        }
+      }
 
       try {
         // Update manifest
@@ -52,8 +94,11 @@ module.exports = [
         console.log('failed to upload')
       }
 
-      // Return ok
+      if (config.performanceLogging) {
+        console.log('POST /comment/create/ time: ', performance.now() - startTime)
+      }
       return {
+        intersectingComment,
         ok: true,
         id
       }

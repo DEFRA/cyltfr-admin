@@ -1,15 +1,16 @@
-const { formatDate } = require('../helpers')
 const { DATETIMEFORMAT, DATEFORMAT } = require('../constants')
 
-function commentView (comment, geometry, auth, capabilities) {
+async function commentView (comment, geometry, auth, capabilities, allFeatures) {
   const retval = {
     comment,
     geometry,
+    allFeatures,
     capabilities,
     isApprover: auth.credentials.isApprover,
     allowDelete: auth.credentials.isApprover ||
     comment.createdBy === auth.credentials.profile.email
   }
+  const { formatDate } = await import('../helpers.mjs')
 
   retval.viewHeaderData = {
     firstCellIsHeader: true,

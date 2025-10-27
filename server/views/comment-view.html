@@ -56,6 +56,9 @@
     <div class="govuk-grid-column-one-third">
       <div id="map"></div>
     </div>
+    <div class="govuk-grid-column-one-third">
+      <div id="map_whole"></div>
+    </div>
   </div>
   {{ govukTable(viewCommentData) }}
 {% endblock %}
@@ -71,6 +74,7 @@
 
   <script>
     window.LTFMGMT.geometry = {{ geometry | dump | safe }}
+    window.LTFMGMT.allFeatures = {{ allFeatures | dump | safe }}
     window.LTFMGMT.capabilities = {{ capabilities | dump | safe }}
   </script>
   <script src="/assets/js/view-comment.js"></script>
