@@ -52,13 +52,14 @@ export class IndexedShapeData {
 
   getPossibleIntersectIndices (polygon) {
     // Can replace this reducer with union once we upgrade to Node 22.0 or above
-    return polygon.xyIndexPoints.reduce((keys, key) => {
+    const retval = polygon.xyIndexPoints.reduce((keys, key) => {
       const values = this.indexedData.get(key)
       if (this.indexedData.has(key)) {
         keys = new Set([...keys, ...values])
       }
       return keys
     }, new Set())
+    return retval
   }
 
   polygonHitTest (polygon) {

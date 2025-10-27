@@ -1,3 +1,5 @@
+import { createRequire } from 'module'
+const require = createRequire(import.meta.url)
 const spawn = require('child_process').spawn
 const moment = require('moment-timezone')
 const config = require('./config')
@@ -5,15 +7,15 @@ const { DATEFORMAT } = require('./constants')
 const CONVERSION_BASE = 36
 const validGeometyTypes = ['Polygon', 'MultiPolygon']
 
-function shortId () {
+export function shortId () {
   return Math.random().toString(CONVERSION_BASE).substring(2) // NOSONAR
 }
 
-function formatDate (str, format = DATEFORMAT) {
+export function formatDate (str, format = DATEFORMAT) {
   return moment(str).format(format)
 }
 
-async function updateAndValidateGeoJson (geojson, type) {
+export async function updateAndValidateGeoJson (geojson, type) {
   if (geojson.crs?.properties?.name !== 'urn:ogc:def:crs:EPSG::27700') {
     throw new Error('Shape file contains invalid data. Must be in British National Grid (EPSG 27700) projection')
   }
@@ -37,7 +39,7 @@ async function updateAndValidateGeoJson (geojson, type) {
   return geojson
 }
 
-async function checkIntersects (polygon, indexedShapeData) {
+export async function checkIntersects (polygon, indexedShapeData) {
   let startTime
   if (config.performanceLogging) {
     startTime = performance.now()
@@ -56,7 +58,7 @@ async function checkIntersects (polygon, indexedShapeData) {
   return { intersects }
 }
 
-function run (cmd, args, opts) {
+export function run (cmd, args, opts) {
   return new Promise((resolve, reject) => {
     console.log('Spawning', cmd, args, opts)
     const cp = spawn(cmd, args, opts)
@@ -84,10 +86,10 @@ function run (cmd, args, opts) {
   })
 }
 
-module.exports = {
-  run,
-  shortId,
-  formatDate,
-  updateAndValidateGeoJson,
-  checkIntersects
-}
+// module.exports = {
+//   run,
+//   shortId,
+//   formatDate,
+//   updateAndValidateGeoJson,
+//   checkIntersects
+// }

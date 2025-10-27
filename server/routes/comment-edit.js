@@ -51,7 +51,7 @@ module.exports = [
         })
       )
 
-      return h.view('comment-view', commentView(comment, geometry, request.auth, capabilities, allFeatures))
+      return h.view('comment-view', await commentView(comment, geometry, request.auth, capabilities, allFeatures))
     },
     options: {
       validate: {

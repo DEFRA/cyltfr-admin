@@ -89,11 +89,11 @@ class CreateCommentPage {
 
     document.getElementById('comment-form').addEventListener('submit', async (e) => {
       try {
-        this.updateDataToBeSubmitted(e, jsonFileData, this.isHoldingComment)
+        this.updateDataToBeSubmitted(e, jsonFileData.geojson, this.isHoldingComment)
 
         const response = await fetch('/comment/create/' + this.type, {
           method: 'post',
-          body: JSON.stringify(jsonFileData),
+          body: JSON.stringify(jsonFileData.geojson),
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'

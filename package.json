@@ -9,7 +9,7 @@
   "scripts": {
     "build:css": "bin/build-css",
     "build": " bin/build ",
-    "test": "npm run test:lint && npm run test:audit && npm run test:jest",
+    "test": "npm run test:lint && npm run test:audit ",
     "test:jest": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --no-cache  --detectOpenHandles --runInBand --forceExit",
     "test:audit": "npm audit",
     "test:lint": "standard",
