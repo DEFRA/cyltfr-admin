@@ -4,6 +4,7 @@ const { DATETIMEFORMAT, DATEFORMAT } = require('../constants')
 function commentView (comment, geometry, auth, capabilities) {
   const retval = {
     comment,
+    commentGuidance: 'partials/comment-guidance.html',
     geometry,
     capabilities,
     isApprover: auth.credentials.isApprover,
@@ -84,7 +85,7 @@ function commentView (comment, geometry, auth, capabilities) {
           html: '<div style="float: right;"> ' +
           `<form method="POST" action="/comment/edit/${comment.id}/deletesingle/${i}" style="display: inline-block;"` +
           'onsubmit="return confirm(\'Are you sure you want to delete this comment?\')">' +
-          '<button class="govuk-button danger" type="submit">Delete</button>' +
+          '<button class="govuk-button govuk-button--warning" type="submit">Delete</button>' +
           '</form></div>'
         })
       }
