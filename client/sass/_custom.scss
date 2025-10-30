@@ -116,15 +116,42 @@
   max-width: 250px;
   justify-content: space-between;
   padding-right: 25px;
-  border-right: 1px solid #b1b4b6
+  border-right: 1px solid #b1b4b6;
 }
 
 .comment-buttons:last-child {
   border-right: none;
 }
 
+.options-buttons {
+  margin-right: 15px;
+  border-right: 1px solid #b1b4b6;
+  padding-right: 15px;
+}
+
+.options-buttons .govuk-button {
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.options-buttons:last-of-type {
+  margin-right: 0;
+  border-right: none;
+}
+
+.comment-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .govuk-button.warning {
   background-color: $govuk-link-visited-colour;
+}
+
+.approved-message {
+  max-width: 300px;
+  margin-top: 10px;
 }
 
 .error-text {
