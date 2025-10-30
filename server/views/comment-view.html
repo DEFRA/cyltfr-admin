@@ -27,46 +27,46 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       {{ govukTable(viewHeaderData) }}
-      <div>
-        <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Risks</h2>
-        <div class="comment-options">
-          <div class="options-buttons">
-            <a class="govuk-button" href="/comment/edit/{{comment.id}}">Edit risk details</a>
-          </div>
-          {% if (isApprover) %}
-          {% if (not comment.approvedAt) %}
-          <div class="options-buttons">
-            <form method="POST" action="/comment/edit/{{ comment.id }}/approve"
-              onsubmit="return confirm('Are you sure you want to approve this comment?')">
-              <button class="govuk-button warning" type="submit">Approve this comment</button>
-            </form>
-          </div>
-          {% else %}
-          <div class="options-buttons">
-            <form method="POST" action="/comment/edit/{{ comment.id }}/undo-approve"
-              onsubmit="return confirm('Are you sure you want to undo the approval of this comment?')">
-              <button class="govuk-button warning" type="submit">Undo approve</button>
-            </form>
-          </div>
-          {% endif %}
-          {% endif %}
-          {% if (allowDelete) %}
-          <div class="options-buttons">
-            <form method="POST" action="/comment/edit/{{ comment.id }}/delete"
-              onsubmit="return confirm('Are you sure you want to delete all comments?')">
-              <button class="govuk-button govuk-button--warning" type="submit">Delete all features</button>
-            </form>
-          </div>
-          {% endif %}
-        </div>
-      </div>
-      <!-- <pre>{{comment | dump(2) | safe}}</pre>
-        <pre>{{geometry | dump(2) | safe}}</pre> -->
-      <div class="govuk-grid-column-one-third">
-        <div id="map"></div>
-      </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+      <div id="map"></div>
     </div>
   </div>
+  <div>
+    <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Risks</h2>
+    <div class="comment-options">
+      <div class="options-buttons">
+        <a class="govuk-button" href="/comment/edit/{{comment.id}}">Edit risk details</a>
+      </div>
+      {% if (isApprover) %}
+      {% if (not comment.approvedAt) %}
+      <div class="options-buttons">
+        <form method="POST" action="/comment/edit/{{ comment.id }}/approve"
+          onsubmit="return confirm('Are you sure you want to approve this comment?')">
+          <button class="govuk-button warning" type="submit">Approve this comment</button>
+        </form>
+      </div>
+      {% else %}
+      <div class="options-buttons">
+        <form method="POST" action="/comment/edit/{{ comment.id }}/undo-approve"
+          onsubmit="return confirm('Are you sure you want to undo the approval of this comment?')">
+          <button class="govuk-button warning" type="submit">Undo approve</button>
+        </form>
+      </div>
+      {% endif %}
+      {% endif %}
+      {% if (allowDelete) %}
+      <div class="options-buttons">
+        <form method="POST" action="/comment/edit/{{ comment.id }}/delete"
+          onsubmit="return confirm('Are you sure you want to delete all comments?')">
+          <button class="govuk-button govuk-button--warning" type="submit">Delete all features</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <!-- <pre>{{comment | dump(2) | safe}}</pre>
+        <pre>{{geometry | dump(2) | safe}}</pre> -->
 </div>
 {{ govukTable(viewCommentData) }}
 {% endblock %}

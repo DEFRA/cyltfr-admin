@@ -132,6 +132,8 @@
 .options-buttons .govuk-button {
   margin-bottom: 10px;
   margin-top: 10px;
+  min-width: 220px;
+  max-width: 220px;
 }
 
 .options-buttons:last-of-type {
