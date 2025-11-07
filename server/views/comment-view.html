@@ -68,15 +68,15 @@
   <!-- <pre>{{comment | dump(2) | safe}}</pre>
         <pre>{{geometry | dump(2) | safe}}</pre> -->
 </div>
-{% for featureView in featureViews %}
-  <div class="govuk-grid-row feature-row">
-    <div class="govuk-grid-column-two-thirds feature-column">
-      {{ govukTable(featureView.commentData) }}
-    </div>
-    <div class="govuk-grid-column-one-third">
-      {{ govukTable(featureView.mapData) }}
-    </div>
+{% for featureView in viewFeatureData %}
+<div class="govuk-grid-row feature-row">
+  <div class="govuk-grid-column-two-thirds feature-column">
+    {{ govukTable(featureView.commentData) }}
   </div>
+  <div class="govuk-grid-column-one-third">
+    {{ govukTable(featureView.mapData) }}
+  </div>
+</div>
 {% endfor %}
 {% endblock %}
 
