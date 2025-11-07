@@ -160,6 +160,15 @@
   color: $govuk-error-colour;
 }
 
+.feature-row {
+  display: flex;
+  margin-bottom: 30px;
+}
+
+.feature-column {
+  display: flex;
+}
+
 .risk-option-radios {
   margin-left: 5px;
   border-left: 6px solid grey;

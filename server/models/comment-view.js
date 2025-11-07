@@ -94,6 +94,48 @@ function commentView (comment, geometry, auth, capabilities) {
     })
   }
 
+retval.featureViews = geometry.features.map((f, i) => {
+  const doNotOverride = 'Do not override'
+  let presentDay = f.properties.riskOverride ?? f.properties.riskOverrideRS
+  if (presentDay === null || presentDay === undefined) presentDay = doNotOverride
+
+  let climateChange = f.properties.riskOverrideCc ?? f.properties.riskOverrideRSCC
+  if (climateChange === null || climateChange === undefined) climateChange = doNotOverride
+
+  if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
+    climateChange = 'No data available'
+  }
+
+  const commentData = {
+    firstCellIsHeader: true,
+    rows: [
+      [{ text: comment.type === 'holding' ? 'Info' : 'Report' }, { text: f.properties.info }],
+      [{ text: comment.type === 'holding' ? 'Risk Override' : '', classes: 'override-column' },
+        { html: `<strong>Present day:</strong><br>${presentDay}<br><br><strong>Climate change:</strong><br>${climateChange}` }],
+      [{ text: 'Valid from' }, { text: formatDate(f.properties.start, DATEFORMAT) }],
+      [{ text: 'Valid to' }, { text: formatDate(f.properties.end, DATEFORMAT) }]
+    ]
+  }
+
+  let mapHtml = `<div id='map_${i}' class='comment-map'></div>
+                 <button class="govuk-button enlarge-map-button" onclick="openMapModal(${i})">View larger map</button>`
+
+  if (retval.allowDelete) {
+    mapHtml += '<div style="float: right;"> ' +
+          `<form method="POST" action="/comment/edit/${comment.id}/deletesingle/${i}" style="display: inline-block;"` +
+          'onsubmit="return confirm(\'Are you sure you want to delete this comment?\')">' +
+          '<button class="govuk-button govuk-button--warning" type="submit">Delete entry</button>' +
+          '</form></div>'
+  }
+
+  const mapData = {
+    firstCellIsHeader: false,
+    rows: [[{ html: mapHtml }]]
+  }
+
+  return { commentData, mapData }
+})
+
   return retval
 }
 

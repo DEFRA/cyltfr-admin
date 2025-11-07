@@ -8,14 +8,14 @@
   {{ super() }}
   <style>
     .comment-map {
-      width: 320px;
-      max-height: 180px;
+      width: 300px;
+      height: 300px;
     }
     .govuk-table__cell .comment-map {
       float: left;
     }
     .govuk-table__header.override-column {
-      min-width: 150px;
+      width: 180px;
     }
   </style>
 {% endblock %}
@@ -68,7 +68,16 @@
   <!-- <pre>{{comment | dump(2) | safe}}</pre>
         <pre>{{geometry | dump(2) | safe}}</pre> -->
 </div>
-{{ govukTable(viewCommentData) }}
+{% for featureView in featureViews %}
+  <div class="govuk-grid-row feature-row">
+    <div class="govuk-grid-column-two-thirds feature-column">
+      {{ govukTable(featureView.commentData) }}
+    </div>
+    <div class="govuk-grid-column-one-third">
+      {{ govukTable(featureView.mapData) }}
+    </div>
+  </div>
+{% endfor %}
 {% endblock %}
 
 {% block bodyEnd %}
