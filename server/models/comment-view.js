@@ -61,12 +61,12 @@ function commentView (comment, geometry, auth, capabilities) {
       ]
     }
 
-    let mapHtml = `<div id='map_${i}' class='comment-map'></div>
+    let mapHtml = `<div id='map_${i}' class='comment-map-view'></div>
                   <button class="govuk-button enlarge-map-button" onclick="openMapModal(${i})">View larger map</button>`
 
     if (retval.allowDelete) {
-      mapHtml += '<div style="float: right;"> ' +
-                `<form method="POST" action="/comment/edit/${comment.id}/deletesingle/${i}" style="display: inline-block;"` +
+      mapHtml += '<div class="delete-entry"> ' +
+                `<form method="POST" action="/comment/edit/${comment.id}/deletesingle/${i}"` +
                 'onsubmit="return confirm(\'Are you sure you want to delete this comment?\')">' +
                 '<button class="govuk-button govuk-button--warning" type="submit">Delete entry</button>' +
                 '</form></div>'

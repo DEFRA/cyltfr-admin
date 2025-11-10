@@ -177,6 +177,17 @@
 
 .govuk-table .no-border {
   border-bottom: none !important;
+  padding-bottom: 0px;
+}
+
+.comment-map-view {
+  width: 300px;
+  height: 300px;
+  padding-bottom: 10px;
+}
+
+.delete-entry {
+  float: right;
 }
 
 .risk-option-radios {
