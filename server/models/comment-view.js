@@ -54,10 +54,10 @@ function commentView (comment, geometry, auth, capabilities) {
       firstCellIsHeader: true,
       rows: [
         [{ text: comment.type === 'holding' ? 'Info' : 'Report' }, { text: f.properties.info }],
-        [{ text: comment.type === 'holding' ? 'Risk Override' : '', classes: 'override-column' },
-          { html: `<strong>Present day:</strong><br>${presentDay}<br><br><strong>Climate change:</strong><br>${climateChange}` }],
+        [{ text: comment.type === 'holding' ? 'Present day risk override' : '', classes: 'header-column' }, { text: presentDay }],
+        [{ text: comment.type === 'holding' ? 'Climate change risk override' : '', classes: 'header-column' }, { text: climateChange }],
         [{ text: 'Valid from' }, { text: formatDate(f.properties.start, DATEFORMAT) }],
-        [{ text: 'Valid to' }, { text: formatDate(f.properties.end, DATEFORMAT) }]
+        [{ text: 'Valid to', classes: 'no-border' }, { text: formatDate(f.properties.end, DATEFORMAT), classes: 'no-border' }]
       ]
     }
 
@@ -74,7 +74,7 @@ function commentView (comment, geometry, auth, capabilities) {
 
     const mapData = {
       firstCellIsHeader: false,
-      rows: [[{ html: mapHtml }]]
+      rows: [[{ html: mapHtml, classes: 'no-border' }]]
     }
 
     return { commentData, mapData }

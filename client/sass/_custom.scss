@@ -163,10 +163,20 @@
 .feature-row {
   display: flex;
   margin-bottom: 30px;
+  border-bottom: 1px solid #b1b4b6;
 }
 
 .feature-column {
   display: flex;
+}
+
+.govuk-table__header.header-column {
+  width: 145px;
+  padding-right: 40px;
+}
+
+.govuk-table .no-border {
+  border-bottom: none !important;
 }
 
 .risk-option-radios {

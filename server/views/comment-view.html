@@ -14,9 +14,6 @@
     .govuk-table__cell .comment-map {
       float: left;
     }
-    .govuk-table__header.override-column {
-      width: 180px;
-    }
   </style>
 {% endblock %}
 
@@ -33,10 +30,9 @@
     </div>
   </div>
   <div>
-    <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Risks</h2>
-    <div class="comment-options">
+    <div class="comment-options govuk-!-margin-top-4 govuk-!-margin-bottom-4">
       <div class="options-buttons">
-        <a class="govuk-button" href="/comment/edit/{{comment.id}}">Edit risk details</a>
+        <a class="govuk-button" href="/comment/edit/{{comment.id}}">Edit comment details</a>
       </div>
       {% if (isApprover) %}
       {% if (not comment.approvedAt) %}
