@@ -30,14 +30,14 @@
       <div class="options-buttons">
         <form method="POST" action="/comment/edit/{{ comment.id }}/approve"
           onsubmit="return confirm('Are you sure you want to approve this comment?')">
-          <button class="govuk-button warning" type="submit">Approve this comment</button>
+          <button class="govuk-button warning" type="submit">Approve comment</button>
         </form>
       </div>
       {% else %}
       <div class="options-buttons">
         <form method="POST" action="/comment/edit/{{ comment.id }}/undo-approve"
           onsubmit="return confirm('Are you sure you want to undo the approval of this comment?')">
-          <button class="govuk-button warning" type="submit">Undo approve</button>
+          <button class="govuk-button warning" type="submit">Undo approval</button>
         </form>
       </div>
       {% endif %}

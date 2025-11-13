@@ -1,6 +1,24 @@
 const { formatDate } = require('../helpers')
 const { DATETIMEFORMAT, DATEFORMAT } = require('../constants')
 
+function getOverrideValues(properties, doNotOverride) {
+    let presentDay = properties.riskOverride ?? properties.riskOverrideRS
+    if (presentDay === null || presentDay === undefined) {
+      presentDay = doNotOverride
+    }
+
+    let climateChange = properties.riskOverrideCc ?? properties.riskOverrideRSCC
+    if (climateChange === null || climateChange === undefined) {
+      climateChange = doNotOverride
+    }
+
+    if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
+      climateChange = 'No data available'
+    }
+
+    return { presentDay, climateChange }
+  }
+
 function commentView (comment, geometry, auth, capabilities) {
   const retval = {
     comment,
@@ -34,24 +52,6 @@ function commentView (comment, geometry, auth, capabilities) {
       { text: 'Last error' },
       { text: `${comment.lastError.message} ${timestamp}` }
     ])
-  }
-
-  function getOverrideValues(properties, doNotOverride) {
-    let presentDay = properties.riskOverride ?? properties.riskOverrideRS
-    if (presentDay === null || presentDay === undefined) {
-      presentDay = doNotOverride
-    }
-
-    let climateChange = properties.riskOverrideCc ?? properties.riskOverrideRSCC
-    if (climateChange === null || climateChange === undefined) {
-      climateChange = doNotOverride
-    }
-
-    if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
-      climateChange = 'No data available'
-    }
-
-    return { presentDay, climateChange }
   }
 
   retval.viewFeatureData = geometry.features.map((f, i) => {
