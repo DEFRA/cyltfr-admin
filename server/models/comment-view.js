@@ -56,22 +56,23 @@ function commentView (comment, geometry, auth, capabilities) {
 
   retval.viewFeatureData = geometry.features.map((f, i) => {
     const doNotOverride = 'Do not override'
+    const headerColumn = 'header-column'
     const { presentDay, climateChange } = getOverrideValues(f.properties, doNotOverride)
 
     const rows = [
-      [{ text: comment.type === 'holding' ? 'Info' : 'Report', classes: 'header-column' }, { text: f.properties.info }]
+      [{ text: comment.type === 'holding' ? 'Info' : 'Report', classes: headerColumn }, { text: f.properties.info }]
     ]
 
     if (comment.type === 'holding') {
       rows.push(
-        [{ text: 'Present day risk override', classes: 'header-column' }, { text: presentDay }],
-        [{ text: 'Climate change risk override', classes: 'header-column' }, { text: climateChange }]
+        [{ text: 'Present day risk override', classes: headerColumn }, { text: presentDay }],
+        [{ text: 'Climate change risk override', classes: headerColumn }, { text: climateChange }]
       )
     }
 
     rows.push(
-      [{ text: 'Valid from', classes: 'header-column' }, { text: formatDate(f.properties.start, DATEFORMAT) }],
-      [{ text: 'Valid to', classes: 'no-border header-column' }, { text: formatDate(f.properties.end, DATEFORMAT), classes: 'no-border' }]
+      [{ text: 'Valid from', classes: headerColumn }, { text: formatDate(f.properties.start, DATEFORMAT) }],
+      [{ text: 'Valid to', classes: 'no-border ' + headerColumn }, { text: formatDate(f.properties.end, DATEFORMAT), classes: 'no-border' }]
     )
 
     const commentData = {
