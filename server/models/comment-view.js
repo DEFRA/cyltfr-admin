@@ -36,19 +36,27 @@ function commentView (comment, geometry, auth, capabilities) {
     ])
   }
 
-  retval.viewFeatureData = geometry.features.map((f, i) => {
-    const doNotOverride = 'Do not override'
-    let presentDay = f.properties.riskOverride ?? f.properties.riskOverrideRS
-    // This assigns the 'Do not override' value to legacy comments where a risk override was not applied.
-    if (presentDay === null || presentDay === undefined) { presentDay = doNotOverride }
+  function getOverrideValues(properties, doNotOverride) {
+    let presentDay = properties.riskOverride ?? properties.riskOverrideRS
+    if (presentDay === null || presentDay === undefined) {
+      presentDay = doNotOverride
+    }
 
-    let climateChange = f.properties.riskOverrideCc ?? f.properties.riskOverrideRSCC
-    // This assigns the 'Do not override' value for climate change to legacy comments where a risk override was not applied.
-    if (climateChange === null || climateChange === undefined) { climateChange = doNotOverride }
+    let climateChange = properties.riskOverrideCc ?? properties.riskOverrideRSCC
+    if (climateChange === null || climateChange === undefined) {
+      climateChange = doNotOverride
+    }
 
     if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
       climateChange = 'No data available'
     }
+
+    return { presentDay, climateChange }
+  }
+
+  retval.viewFeatureData = geometry.features.map((f, i) => {
+    const doNotOverride = 'Do not override'
+    const { presentDay, climateChange } = getOverrideValues(f.properties, doNotOverride)
 
     const commentData = {
       firstCellIsHeader: true,
