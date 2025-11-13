@@ -3,6 +3,44 @@ const jsonexport = require('jsonexport')
 const config = require('../config')
 const toCSV = util.promisify(jsonexport)
 
+function getRiskOverrides(comment, riskType, properties) {
+  const {
+    riskOverride,
+    riskOverrideCc,
+    riskOverrideRS,
+    riskOverrideRSCC
+  } = properties
+
+  const notApplicable = {
+    riskOverridePresentDay: 'Not applicable',
+    riskOverrideClimateChange: 'Not applicable'
+  }
+
+  if (comment.type !== 'holding') {
+    return notApplicable
+  }
+
+  const getOverrides = (presentDayOverride, climateChangeOverride) => {
+    const presentDay = presentDayOverride || ''
+    const climateChange = presentDay && presentDay !== 'Do not override'
+      ? 'Override'
+      : climateChangeOverride || ''
+    return {
+      riskOverridePresentDay: presentDay,
+      riskOverrideClimateChange: climateChange
+    }
+  }
+
+  switch (riskType) {
+    case 'Surface water':
+      return getOverrides(riskOverride, riskOverrideCc)
+    case 'Rivers and the sea':
+      return getOverrides(riskOverrideRS, riskOverrideRSCC)
+    default:
+      return notApplicable
+  }
+}
+
 module.exports = {
   method: 'GET',
   path: '/comments.csv',
@@ -22,22 +60,27 @@ module.exports = {
     const rows = homeComments
       .map((comment, i) => {
         return files[i].features.map(feature => {
-          const { start, end, info, riskType, riskOverride } = feature.properties
-
-          let FloodRiskType = ''
-          let FloodRiskOverride = ''
-          if (comment.type === 'holding') {
-            FloodRiskType = riskType === 'Rivers and the sea' ? riskType : 'Surface water'
-            FloodRiskOverride = riskType === 'Rivers and the sea' ? '' : riskOverride
-          }
-
-          return {
-            ...comment,
+          const {
             start,
             end,
             info,
-            FloodRiskType,
-            FloodRiskOverride,
+            riskType,
+          } = feature.properties
+
+          const { riskOverridePresentDay, riskOverrideClimateChange } =
+            getRiskOverrides(comment, riskType, feature.properties)
+
+          //Fix to remove the additional riskType field
+          const { riskType: _, ...commentWithoutRisk } = comment
+
+          return {
+            ...commentWithoutRisk,
+            start,
+            end,
+            info,
+            'risk type': riskType,
+            'present day override': riskOverridePresentDay,
+            'climate change override': riskOverrideClimateChange,
             url: `${baseUrl}/comment/view/${comment.id}`
           }
         })
