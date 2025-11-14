@@ -38,16 +38,16 @@ module.exports = [
       const { params } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.getFile()
+      const comments = await provider.cachedData()
       const comment = comments.find(c => c.id === id)
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
       const geometry = await provider.getFile(key)
 
       // Use Promise.all to handle asynchronous operations in parallel
+      // TODO: What is allFeatures used for?
       const allFeatures = await Promise.all(
         comments.map(async (cmnt) => {
-          const fileKey = `${config.holdingCommentsPrefix}/${cmnt.keyname}`
-          return provider.getFile(fileKey)
+          return cmnt.features
         })
       )
 

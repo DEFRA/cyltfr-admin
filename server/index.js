@@ -92,7 +92,8 @@ async function createServer () {
   })
 
   // Register server methods
-  const { getExtraInfoData } = await import('./services/extraInfoService.mjs')
+  const { getExtraInfoData, setProvider } = await import('./services/extraInfoService.mjs')
+  setProvider(server.provider)
 
   server.method('getExtraInfoData', getExtraInfoData, {
     cache: {

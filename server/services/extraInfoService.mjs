@@ -5,15 +5,26 @@ import { createRequire } from 'module'
 
 const require = createRequire(import.meta.url)
 const config = require('../config.js')
+let provider = {}
+
+export const setProvider = (newProvider) => {
+  provider = newProvider
+}
+
+const getProvider = async () => {
+  if (!provider.cachedData) {
+    const { default: S3Provider } = await import('../providers/s3/index.js')
+    provider = new S3Provider()
+  }
+  return provider
+}
 
 export const getExtraInfoDataS3 = async () => {
   let startTime
   if (config.performanceLogging) {
     startTime = performance.now()
   }
-  const { default: S3Provider } = await import('../providers/s3/index.js')
-  const s3 = new S3Provider()
-  const data = await s3.cachedData()
+  const data = await (await getProvider()).cachedData()
 
   if (config.performanceLogging) {
     console.log('Extra info data load time: ', performance.now() - startTime)
