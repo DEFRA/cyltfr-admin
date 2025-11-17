@@ -217,8 +217,8 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   </div>
                 </div>
                 <p class="govuk-heading-s">Add dates</p>
-                <p class="govuk-caption-m">You holding comment will not go live automatically. It will be uploaded once it has been approved.</p>
-                <p class="govuk-caption-m">These dates are for internal use only and will not be displayed publically.</p>
+                <p class="govuk-caption-m">Your holding comment will not go live automatically. It will be uploaded once it has been approved.</p>
+                <p class="govuk-caption-m">These dates are for internal use only and will not be displayed publicly.</p>
 
                 <div class="form-group field field-string  govuk-form-group start">
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_start">Enter the start date<span class="required">*</span></label>
