@@ -67,9 +67,10 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                 <div class="comment-map"></div>
                 <div class="form-group field field-string  govuk-form-group riskOverride">
                   <label
-                    class="control-label" for="features_${featureIndex}_properties_risk_type">
-                    Select the flood risk you want to update for points inside this area
+                    class="control-label govuk-heading-s" for="features_${featureIndex}_properties_risk_type">
+                    What flood risk do you want to update?
                   </label>
+                  <p class="govuk-caption-m">Select the flood risk type that you want to update the points inside your selected area.</p>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_risk_type">
                     <li>
                       <label for="sw_${featureIndex}"><input class="radio" id="sw_${featureIndex}" type="radio" name="sw_or_rs_${featureIndex}"
@@ -82,9 +83,10 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
 
                 <!-- Surface water override -->
                 <div id="risk-override-radios_${featureIndex}" class="form-group field field-string govuk-form-group riskOverride">
-                  <label class="control-label" for="features_${featureIndex}_properties_riskOverride">
+                  <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride">
                   Do you want to override the present day surface water flood risk rating?
                   </label>
+                  <p class="govuk-caption-m">If you select yes, the risk you select here will override the <strong>present day</strong> risk on the live service.</p>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override" type="radio" name="override_${featureIndex}-risk" value="Do not override" checked >No, do not override</label></li>
                     <li class="radio "><label><input id="map_${featureIndex}-override" type="radio" name="override_${featureIndex}" value="Override">Yes, override surface water</label></li>
@@ -107,9 +109,10 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
 
                 <!-- Surface water climate change override -->
                 <div id="risk-override-radios_${featureIndex}_cc" class="form-group field field-string govuk-form-group riskOverride hide" >
-                  <label class="control-label" for="features_${featureIndex}_properties_riskOverride_cc">
+                  <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride_cc">
                   Do you want to override the climate change surface water flood risk rating?
                   </label>
+                  <p class="govuk-caption-m">If you select yes, the <strong>climate change</strong> data will display as no data available on the live service.</p>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_cc">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override_cc" type="radio" name="override_${featureIndex}-risk_cc" value="Do not override" checked >No, do not override</label></li>
                     <li class="radio "><label><input id="map_${featureIndex}-override_cc" type="radio" name="override_${featureIndex}-risk_cc" value="Override">Yes, override to show 'no data'</label></li>
@@ -126,9 +129,10 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
 
                 <!-- rivers and the sea override -->
                 <div id="risk-override-radios_${featureIndex}_rs" class="form-group field field-string govuk-form-group riskOverride">
-                  <label class="control-label" for="features_${featureIndex}_properties_riskOverride_rs">
+                  <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride_rs">
                   Do you want to override the present day rivers and the sea flood risk rating?
                   </label>
+                  <p class="govuk-caption-m">If you select yes, the risk you select here will override the <strong>present day</strong> risk on the live service.</p>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_rs">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override_rs" type="radio" name="override_${featureIndex}-risk_rs" value="Do not override" checked >No, do not override</label></li>
                     <li class="radio "><label><input id="map_${featureIndex}-override_rs" type="radio" name="override_${featureIndex}_rs" value="Override">Yes, override rivers and the sea</label></li>
@@ -151,9 +155,10 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
 
                 <!-- Rivers and the sea climate change override -->
                 <div id="risk-override-radios_${featureIndex}_rscc" class="form-group field field-string govuk-form-group riskOverride hide" >
-                  <label class="control-label" for="features_${featureIndex}_properties_riskOverride_rscc">
+                  <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride_rscc">
                   Do you want to override the climate change rivers and the sea flood risk rating?
                   </label>
+                  <p class="govuk-caption-m">If you select yes, the <strong>climate change</strong> data will display as no data available on the live service.</p>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_rscc">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override_rscc" type="radio" name="override_${featureIndex}-risk_rscc" value="Do not override" checked >No, do not override</label></li>
                     <li class="radio "><label><input id="map_${featureIndex}-override_rscc" type="radio" name="override_${featureIndex}-risk_rscc" value="Override">Yes, override to show 'no data'</label></li>
@@ -170,9 +175,10 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
 
                 <div class="form-group field field-string  govuk-form-group">
                   <label
-                    class="control-label" for="features_${featureIndex}_properties_add_comment">
+                    class="control-label govuk-heading-s" for="features_${featureIndex}_properties_add_comment">
                     Do you want to add holding comment text?
                   </label>
+                  <p class="govuk-caption-m">If you select yes, this text will display as a warning on the live service.</p>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_add_comment">
                     <li>
                       <label for="text_no_${featureIndex}"><input class="radio" id="text_no_${featureIndex}" type="radio" name="add_holding_comment_${featureIndex}"
@@ -204,21 +210,22 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                     <p class="govuk-hint govuk-character-count__message">You have <span class="remaining-chars-text"></span> characters remaining</p>
                   </div>
                 </div>
+                <p class="govuk-heading-s">Add dates</p>
+                <p class="govuk-caption-m">You holding comment will not go live automatically. It will be uploaded once it has been approved.</p>
+                <p class="govuk-caption-m">These dates are for internal use only and will not be displayed publically.</p>
+
                 <div class="form-group field field-string  govuk-form-group start">
-                  <label class="control-label" for="features_${featureIndex}_properties_start">Enter the start date<span class="required">*</span></label>
-                  <p id="features_${featureIndex}_properties_start__description" class="field-description">
-                    Select the date the holding comment is valid from. 
-                    Your holding comment will not go live automatically - it’ll be uploaded after it’s approved. 
-                    For internal use only - the date will not be displayed to public users.
+                  <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_start">Enter the start date<span class="required">*</span></label>
+                  <p id="features_${featureIndex}_properties_start__description" class="field-description govuk-caption-m">
+                    Select the date the holding comment is valid from.
                   </p>
                   <input name="features_${featureIndex}_properties_start" type="date" id="features_${featureIndex}_properties_start" class="start-date govuk-input govuk-input--width-20" autocomplete="off" required="">
                 </div>
                 <div class="form-group field field-string  govuk-form-group end">
-                  <label class="control-label" for="features_${featureIndex}_properties_end">Enter the end date<span class="required">*</span></label>
-                  <p id="features_${featureIndex}_properties_end__description" class="field-description">
+                  <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_end">Enter the end date<span class="required">*</span></label>
+                  <p id="features_${featureIndex}_properties_end__description" class="field-description govuk-caption-m">
                     Select the date the holding comment is valid to. 
-                    You must remove your holding comment on the end date - it will not be removed automatically. 
-                    For internal use only - the date will not be displayed to public users.
+                    <strong>You must remove your comment on the end date provided, as this will not happen automatically.</strong>
                   </p>
                   <input name="features_${featureIndex}_properties_end" type="date" id="features_${featureIndex}_properties_end" class="end-date govuk-input govuk-input--width-20" autocomplete="off" required="">
                 </div>
