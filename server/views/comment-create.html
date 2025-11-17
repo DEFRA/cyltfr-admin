@@ -9,7 +9,7 @@
 {% block body %}
 <div class="govuk-body">
   {% include commentGuidance %}
-  <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Create a new comment</h2>
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Add a new comment</h2>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <div id="file">
@@ -56,18 +56,18 @@
             <fieldset id="root">
               <legend id="root__title">A geojson form</legend>
 
-              <div class="form-group field field-string  govuk-form-group name"><label class="control-label"
-                  for="root_name">Description<span class="required">*</span></label>
-                <p id="name" class="field-description">For internal use, to describe the comments that you are
-                  uploading. This will not be displayed to public users.</p>
+              <div class="form-group field field-string  govuk-form-group name"><label class="control-label govuk-heading-s"
+                  for="root_name">Title<span class="required">*</span></label>
+                <p id="name" class="field-description govuk-caption-m">Add a title or brief description to describe the comment file you have uploaded. 
+                  This is not displayed to public users.</p>
                   <input name="name" type="text" id="data_name"
-                  class="govuk-input govuk-input--width-20" autocomplete="off" required="" maxlength="75"
+                  class="govuk-input" autocomplete="off" required="" maxlength="75"
                   value="">
               </div>
-              <div class="form-group field field-string  govuk-form-group boundary"><label class="control-label"
+              <div class="form-group field field-string  govuk-form-group boundary"><label class="control-label govuk-heading-s"
                   for="root_boundary">Boundary<span class="required">*</span></label>
-                <p id="root_boundary__description" class="field-description">For internal use, choose the boundary to which this
-                  comment applies. This will not be displayed to public users.</p>
+                <p id="root_boundary__description" class="field-description govuk-caption-m">Select a boundary this
+                  comment applies to. This is not displayed to public users.</p>
                   <input name="boundary" rows="5" id="root_boundary" required=""
                     autocomplete="off" list="options" class="govuk-input" value=""><datalist id="options">
                   <option>Cumbria and Lancashire (CLA)</option>
