@@ -94,8 +94,8 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                       <strong class="govuk-warning-text__text">
                         <span class="govuk-visually-hidden">Warning</span>
-                        By overriding the present risk rating, climate change information will automatically show as 'no data'. 
-                        Any surface water depth information will also be removed from the service and replaced with 'no data'.
+                        By overriding the present risk rating, climate change information will automatically show as 'no data available'. 
+                        Any surface water depth information will also be removed from the service and replaced with 'no data available'.
                       </strong>
                     </div>
                     <ul id="risk-options_${featureIndex}" class="risk-option-radios hide">
@@ -112,17 +112,17 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride_cc">
                   Do you want to override the climate change surface water flood risk rating?
                   </label>
-                  <p class="govuk-caption-m">If you select yes, the <strong>climate change</strong> data will display as no data available on the live service.</p>
+                  <p class="govuk-caption-m">If you select yes, the <strong>climate change</strong> data will display as 'no data available' on the live service.</p>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_cc">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override_cc" type="radio" name="override_${featureIndex}-risk_cc" value="Do not override" checked >No, do not override</label></li>
-                    <li class="radio "><label><input id="map_${featureIndex}-override_cc" type="radio" name="override_${featureIndex}-risk_cc" value="Override">Yes, override to show 'no data'</label></li>
+                    <li class="radio "><label><input id="map_${featureIndex}-override_cc" type="radio" name="override_${featureIndex}-risk_cc" value="Override">Yes, override to show 'no data available'</label></li>
                   </ul>
                     <div id="risk-override-warning_${featureIndex}_cc" class="govuk-warning-text hide">
                       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                       <strong class="govuk-warning-text__text">
                         <span class="govuk-visually-hidden">Warning</span>
-                        By overriding the climate change risk rating, climate change information will now show as 'no data'. 
-                        Any surface water depth information will also be removed from the service and replaced with 'no data'.
+                        By overriding the climate change risk rating, climate change information will now show as 'no data available'. 
+                        Any surface water depth information will also be removed from the service and replaced with 'no data available'.
                       </strong>
                     </div>
                 </div>
@@ -140,8 +140,8 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                       <strong class="govuk-warning-text__text">
                         <span class="govuk-visually-hidden">Warning</span>
-                        By overriding the present risk rating, climate change information will automatically show as 'no data'. 
-                        Any rivers and the sea depth information will also be removed from the service and replaced with 'no data'.
+                        By overriding the present risk rating, climate change information will automatically show as 'no data available'. 
+                        Any rivers and the sea depth information will also be removed from the service and replaced with 'no data available'.
                       </strong>
                     </div>
                     <ul id="risk-options_${featureIndex}_rs" class="risk-option-radios hide">
@@ -158,17 +158,17 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride_rscc">
                   Do you want to override the climate change rivers and the sea flood risk rating?
                   </label>
-                  <p class="govuk-caption-m">If you select yes, the <strong>climate change</strong> data will display as no data available on the live service.</p>
+                  <p class="govuk-caption-m">If you select yes, the <strong>climate change</strong> data will display as 'no data available' on the live service.</p>
                   <ul class="field-radio-group" id="features_${featureIndex}_properties_riskOverride_rscc">
                     <li class="radio "><label><input id="map_${featureIndex}-no-override_rscc" type="radio" name="override_${featureIndex}-risk_rscc" value="Do not override" checked >No, do not override</label></li>
-                    <li class="radio "><label><input id="map_${featureIndex}-override_rscc" type="radio" name="override_${featureIndex}-risk_rscc" value="Override">Yes, override to show 'no data'</label></li>
+                    <li class="radio "><label><input id="map_${featureIndex}-override_rscc" type="radio" name="override_${featureIndex}-risk_rscc" value="Override">Yes, override to show 'no data available'</label></li>
                   </ul>
                     <div id="risk-override-warning_${featureIndex}_rscc" class="govuk-warning-text hide">
                       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                       <strong class="govuk-warning-text__text">
                         <span class="govuk-visually-hidden">Warning</span>
-                        By overriding the climate change risk rating, climate change information will now show as 'no data'. 
-                        Any rivers and the sea depth information will also be removed from the service and replaced with 'no data'.
+                        By overriding the climate change risk rating, climate change information will now show as 'no data available'. 
+                        Any rivers and the sea depth information will also be removed from the service and replaced with 'no data available'.
                       </strong>
                     </div>
                 </div>
