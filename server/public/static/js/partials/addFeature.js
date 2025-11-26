@@ -65,20 +65,23 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <input type="hidden" id="features_${featureIndex}_properties_apply" value="holding">
                 </div>
                 <div class="comment-map"></div>
-                <div class="form-group field field-string  govuk-form-group riskOverride">
-                  <label
-                    class="control-label govuk-heading-s" for="features_${featureIndex}_properties_risk_type">
-                    What flood risk do you want to update?
-                  </label>
+                <div class="form-group field field-string govuk-form-group riskOverride">
+                  <fieldset class="govuk-fieldset">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                    <h3 class="govuk-fieldset__heading">What flood risk do you want to update?</h3>
+                  </legend>
                   <p class="govuk-caption-m">Select the flood risk type that you want to update the points inside your selected area.</p>
-                  <ul class="field-radio-group" id="features_${featureIndex}_properties_risk_type">
-                    <li>
-                      <label for="sw_${featureIndex}"><input class="radio" id="sw_${featureIndex}" type="radio" name="sw_or_rs_${featureIndex}"
-                        value="Surface water" checked>Surface water</label></li>
-                    <li>
-                      <label for="rs_${featureIndex}"><input class="radio" type="radio" id="rs_${featureIndex}" name="sw_or_rs_${featureIndex}"
-                      value="Rivers and the sea">Rivers and the sea</label></li>
-                  </ul>
+                  <div class="govuk-radios" id="features_${featureIndex}_properties_risk_type">
+                    <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="sw_${featureIndex}" type="radio" name="sw_or_rs_${featureIndex}" value="Surface water" checked>
+                    <label class="govuk-label govuk-radios__label" for="sw_${featureIndex}">Surface water</label>
+                    </div>
+                    <div class="govuk-radios__item">
+                    <input class="govuk-radios__input" id="rs_${featureIndex}" type="radio" name="sw_or_rs_${featureIndex}" value="Rivers and the sea">
+                    <label class="govuk-label govuk-radios__label" for="rs_${featureIndex}">Rivers and the sea</label>
+                    </div>
+                  </div>
+                  </fieldset>
                 </div>
 
                 <!-- Surface water override -->
