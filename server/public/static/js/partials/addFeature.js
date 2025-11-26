@@ -70,7 +70,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                     <h3 class="govuk-fieldset__heading">What flood risk do you want to update?</h3>
                   </legend>
-                  <p class="govuk-caption-m">Select the flood risk type that you want to update the points inside your selected area.</p>
+                  <p class="govuk-caption-m">Select the flood risk type that you want to update for the points inside your selected area.</p>
                   <div class="govuk-radios" id="features_${featureIndex}_properties_risk_type">
                     <div class="govuk-radios__item">
                     <input class="govuk-radios__input" id="sw_${featureIndex}" type="radio" name="sw_or_rs_${featureIndex}" value="Surface water" checked>
