@@ -99,7 +99,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                       <input class="govuk-radios__input" id="map_${featureIndex}-override" type="radio" name="override_${featureIndex}" value="Override">
                       <label class="govuk-label govuk-radios__label" for="map_${featureIndex}-override">Yes, override surface water</label>
                     </div>
-                    <div id="risk-override-warning_${featureIndex}" class="govuk-warning-text hide">
+                    <div id="risk-override-warning_${featureIndex}" class="govuk-warning-text risk-selection-indent hide">
                       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                       <strong class="govuk-warning-text__text">
                       <span class="govuk-visually-hidden">Warning</span>
@@ -107,7 +107,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                       Any surface water depth information will also be removed from the service and replaced with 'no data available'.
                       </strong>
                     </div>
-                    <div id="risk-options_${featureIndex}" class="govuk-radios hide">
+                    <div id="risk-options_${featureIndex}" class="govuk-radios risk-selection-indent hide">
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="risk_very_low_${featureIndex}" type="radio" name="override_${featureIndex}-risk" value="Very low">
                         <label class="govuk-label govuk-radios__label" for="risk_very_low_${featureIndex}">Very low</label>
@@ -146,7 +146,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                       <label class="govuk-label govuk-radios__label" for="map_${featureIndex}-override_cc">Yes, override to show 'no data available'</label>
                     </div>
                   </div>
-                  <div id="risk-override-warning_${featureIndex}_cc" class="govuk-warning-text hide">
+                  <div id="risk-override-warning_${featureIndex}_cc" class="govuk-warning-text risk-selection-indent hide">
                     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                     <strong class="govuk-warning-text__text">
                       <span class="govuk-visually-hidden">Warning</span>
@@ -171,7 +171,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                       <input class="govuk-radios__input" id="map_${featureIndex}-override_rs" type="radio" name="override_${featureIndex}_rs" value="Override">
                       <label class="govuk-label govuk-radios__label" for="map_${featureIndex}-override_rs">Yes, override rivers and the sea</label>
                     </div>
-                    <div id="risk-override-warning_${featureIndex}_rs" class="govuk-warning-text hide">
+                    <div id="risk-override-warning_${featureIndex}_rs" class="govuk-warning-text risk-selection-indent hide">
                       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                       <strong class="govuk-warning-text__text">
                         <span class="govuk-visually-hidden">Warning</span>
@@ -179,7 +179,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                         Any rivers and the sea depth information will also be removed from the service and replaced with 'no data available'.
                       </strong>
                     </div>
-                    <div id="risk-options_${featureIndex}_rs" class="govuk-radios hide">
+                    <div id="risk-options_${featureIndex}_rs" class="govuk-radios risk-selection-indent hide">
                       <div class="govuk-radios__item">
                         <input class="govuk-radios__input" id="risk_very_low_${featureIndex}_rs" type="radio" name="override_${featureIndex}-risk_rs" value="Very low">
                         <label class="govuk-label govuk-radios__label" for="risk_very_low_${featureIndex}_rs">Very low</label>
@@ -218,7 +218,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                       <label class="govuk-label govuk-radios__label" for="map_${featureIndex}-override_rscc">Yes, override to show 'no data available'</label>
                     </div>
                   </div>
-                  <div id="risk-override-warning_${featureIndex}_rscc" class="govuk-warning-text hide">
+                  <div id="risk-override-warning_${featureIndex}_rscc" class="govuk-warning-text risk-selection-indent hide">
                     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                     <strong class="govuk-warning-text__text">
                       <span class="govuk-visually-hidden">Warning</span>
