@@ -256,14 +256,16 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                       </div>
                     </div>
                   </details>
-                  <ul class="field-radio-group" id="features_${featureIndex}_properties_add_comment">
-                    <li>
-                      <label for="text_no_${featureIndex}"><input class="radio" id="text_no_${featureIndex}" type="radio" name="add_holding_comment_${featureIndex}"
-                        value="No">No, do not add a holding comment text</label></li>
-                    <li>
-                      <label for="text_yes_${featureIndex}"><input class="radio" type="radio" id="text_yes_${featureIndex}" name="add_holding_comment_${featureIndex}"
-                      value="Yes" checked>Yes, add holding comment text</label></li>
-                  </ul>
+                  <div class="govuk-radios" id="features_${featureIndex}_properties_add_comment">
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="text_no_${featureIndex}" type="radio" name="add_holding_comment_${featureIndex}" value="No">
+                      <label class="govuk-label govuk-radios__label" for="text_no_${featureIndex}">No, do not add a holding comment text</label>
+                    </div>
+                    <div class="govuk-radios__item">
+                      <input class="govuk-radios__input" id="text_yes_${featureIndex}" type="radio" name="add_holding_comment_${featureIndex}" value="Yes" checked>
+                      <label class="govuk-label govuk-radios__label" for="text_yes_${featureIndex}">Yes, add holding comment text</label>
+                    </div>
+                  </div>
                 </div>
                 <div class="form-group field field-string  govuk-form-group info" id="text_area_${featureIndex}">
                   <div>
