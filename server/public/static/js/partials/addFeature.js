@@ -68,7 +68,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                 <div class="form-group field field-string govuk-form-group riskOverride">
                   <fieldset class="govuk-fieldset">
                   <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                    <h3 class="govuk-fieldset__heading">What flood risk do you want to update?</h3>
+                    <h3 class="govuk-heading-s">What flood risk do you want to update?</h3>
                   </legend>
                   <p class="govuk-hint">Select the flood risk type that you want to update for the points inside your selected area.</p>
                   <div class="govuk-radios" id="features_${featureIndex}_properties_risk_type">
@@ -133,9 +133,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride_cc">
                     Do you want to override the climate change surface water flood risk rating?
                   </label>
-                  <p class="govuk-hint">
-                    If you select yes, the <strong>climate change</strong> data will display as 'no data available' on the live service.
-                  </p>
+                  <p class="govuk-hint">If you select yes, the <strong>climate change</strong> data will display as 'no data available' on the live service.</p>
                   <div class="govuk-radios" id="features_${featureIndex}_properties_riskOverride_cc">
                     <div class="govuk-radios__item">
                       <input class="govuk-radios__input" id="map_${featureIndex}-no-override_cc" type="radio" name="override_${featureIndex}-risk_cc" value="Do not override" checked>
@@ -205,9 +203,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride_rscc">
                     Do you want to override the climate change rivers and the sea flood risk rating?
                   </label>
-                  <p class="govuk-hint">
-                    If you select yes, the <strong>climate change</strong> data will display as 'no data available' on the live service.
-                  </p>
+                  <p class="govuk-hint">If you select yes, the <strong>climate change</strong> data will display as 'no data available' on the live service.</p>
                   <div class="govuk-radios" id="features_${featureIndex}_properties_riskOverride_rscc">
                     <div class="govuk-radios__item">
                       <input class="govuk-radios__input" id="map_${featureIndex}-no-override_rscc" type="radio" name="override_${featureIndex}-risk_rscc" value="Do not override" checked>
