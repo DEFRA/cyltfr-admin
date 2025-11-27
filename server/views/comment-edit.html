@@ -4,6 +4,9 @@
 {% set pageTitle = "Edit comment" %}
 
 {% block body %}
+<div class="govuk-body">
+  {% include commentGuidance %}
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Edit comment</h2>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <div id="map">
@@ -17,18 +20,18 @@
           <div class="form-group field field-object">
             <fieldset id="root">
               <legend id="root_title">A geojson form</legend>
-              <div class="form-group field field-string  govuk-form-group name"><label class="control-label"
-                  for="name">Description<span class="required">*</span></label>
-                <p id="name__description" class="field-description">For internal use, to describe the comments that you
-                  are uploading. This will not be displayed to public users.</p>
+              <div class="form-group field field-string  govuk-form-group name"><label class="control-label govuk-heading-s"
+                  for="name">Title<span class="required">*</span></label>
+                <p id="name__description" class="field-description govuk-hint">Add a title or brief description to describe the comment file you have uploaded. 
+                  This is not displayed to public users.</p>
                   <input name="name" type="text"
                   id="root_name" class="govuk-input govuk-input--width-2{{ features.indexOf(feature) }}" autocomplete="off" required="" maxlength="75"
                   value="{{ comment.description }}">
               </div>
-              <div class="form-group field field-string  govuk-form-group boundary"><label class="control-label"
+              <div class="form-group field field-string  govuk-form-group boundary"><label class="control-label govuk-heading-s"
                   for="boundary">Boundary<span class="required">*</span></label>
-                <p id="boundary__description" class="field-description">For internal use, choose the boundary to which
-                  this comment applies. This will not be displayed to public users.</p>
+                <p id="boundary__description" class="field-description govuk-hint">Select a boundary this
+                  comment applies to. This is not displayed to public users.</p>
                   <input name="boundary" rows="5" id="boundary"
                   required="" autocomplete="off" list="options" class="govuk-input"
                   value="{{ comment.boundary }}"><datalist id="options">
@@ -334,6 +337,7 @@
       </div>
     </div>
   </div>
+</div>
 {% endblock %}
 
 {% block bodyEnd %}
