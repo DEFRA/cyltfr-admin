@@ -70,7 +70,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
                     <h3 class="govuk-fieldset__heading">What flood risk do you want to update?</h3>
                   </legend>
-                  <p class="govuk-caption-m">Select the flood risk type that you want to update for the points inside your selected area.</p>
+                  <p class="govuk-hint">Select the flood risk type that you want to update for the points inside your selected area.</p>
                   <div class="govuk-radios" id="features_${featureIndex}_properties_risk_type">
                     <div class="govuk-radios__item">
                     <input class="govuk-radios__input" id="sw_${featureIndex}" type="radio" name="sw_or_rs_${featureIndex}" value="Surface water" checked>
@@ -89,7 +89,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride">
                     Do you want to override the present day surface water flood risk rating?
                   </label>
-                  <p class="govuk-caption-m">If you select yes, the risk you select here will override the <strong>present day</strong> risk on the live service.</p>
+                  <p class="govuk-hint">If you select yes, the risk you select here will override the <strong>present day</strong> risk on the live service.</p>
                   <div class="govuk-radios" id="features_${featureIndex}_properties_riskOverride">
                     <div class="govuk-radios__item">
                       <input class="govuk-radios__input" id="map_${featureIndex}-no-override" type="radio" name="override_${featureIndex}-risk" value="Do not override" checked>
@@ -103,7 +103,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                       <strong class="govuk-warning-text__text">
                       <span class="govuk-visually-hidden">Warning</span>
-                      By overriding the present risk rating, climate change information will automatically show as 'no data available'. 
+                      By overriding the present day risk rating, climate change information will automatically show as 'no data available'. 
                       Any surface water depth information will also be removed from the service and replaced with 'no data available'.
                       </strong>
                     </div>
@@ -133,7 +133,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride_cc">
                     Do you want to override the climate change surface water flood risk rating?
                   </label>
-                  <p class="govuk-caption-m">
+                  <p class="govuk-hint">
                     If you select yes, the <strong>climate change</strong> data will display as 'no data available' on the live service.
                   </p>
                   <div class="govuk-radios" id="features_${featureIndex}_properties_riskOverride_cc">
@@ -161,7 +161,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride_rs">
                     Do you want to override the present day rivers and the sea flood risk rating?
                   </label>
-                  <p class="govuk-caption-m">If you select yes, the risk you select here will override the <strong>present day</strong> risk on the live service.</p>
+                  <p class="govuk-hint">If you select yes, the risk you select here will override the <strong>present day</strong> risk on the live service.</p>
                   <div class="govuk-radios" id="features_${featureIndex}_properties_riskOverride_rs">
                     <div class="govuk-radios__item">
                       <input class="govuk-radios__input" id="map_${featureIndex}-no-override_rs" type="radio" name="override_${featureIndex}-risk_rs" value="Do not override" checked>
@@ -175,7 +175,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                       <strong class="govuk-warning-text__text">
                         <span class="govuk-visually-hidden">Warning</span>
-                        By overriding the present risk rating, climate change information will automatically show as 'no data available'.
+                        By overriding the present day risk rating, climate change information will automatically show as 'no data available'.
                         Any rivers and the sea depth information will also be removed from the service and replaced with 'no data available'.
                       </strong>
                     </div>
@@ -205,7 +205,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_riskOverride_rscc">
                     Do you want to override the climate change rivers and the sea flood risk rating?
                   </label>
-                  <p class="govuk-caption-m">
+                  <p class="govuk-hint">
                     If you select yes, the <strong>climate change</strong> data will display as 'no data available' on the live service.
                   </p>
                   <div class="govuk-radios" id="features_${featureIndex}_properties_riskOverride_rscc">
@@ -274,19 +274,19 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   </div>
                 </div>
                 <p class="govuk-heading-s">Add dates</p>
-                <p class="govuk-caption-m">Your holding comment will not go live automatically. It will be uploaded once it has been approved.</p>
-                <p class="govuk-caption-m">These dates are for internal use only and will not be displayed publicly.</p>
+                <p class="govuk-hint">Your holding comment will not go live automatically. It will be uploaded once it has been approved.</p>
+                <p class="govuk-hint">These dates are for internal use only and will not be displayed publicly.</p>
 
                 <div class="form-group field field-string  govuk-form-group start">
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_start">Enter the start date<span class="required">*</span></label>
-                  <p id="features_${featureIndex}_properties_start__description" class="field-description govuk-caption-m">
+                  <p id="features_${featureIndex}_properties_start__description" class="field-description govuk-hint">
                     Select the date the holding comment is valid from.
                   </p>
                   <input name="features_${featureIndex}_properties_start" type="date" id="features_${featureIndex}_properties_start" class="start-date govuk-input govuk-input--width-20" autocomplete="off" required="">
                 </div>
                 <div class="form-group field field-string  govuk-form-group end">
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_end">Enter the end date<span class="required">*</span></label>
-                  <p id="features_${featureIndex}_properties_end__description" class="field-description govuk-caption-m">
+                  <p id="features_${featureIndex}_properties_end__description" class="field-description govuk-hint">
                     Select the date the holding comment is valid to. 
                     <strong>You must remove your comment on the end date provided, as this will not happen automatically.</strong>
                   </p>
