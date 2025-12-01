@@ -65,22 +65,24 @@
                         <div class="form-group field field-object">
                           <fieldset id="features_{{ features.indexOf(feature) }}_properties">
                             <legend id="features_{{ features.indexOf(feature) }}_properties__title">properties</legend>
-                            <div id="map_{{ features.indexOf(feature) }}" class="comment-map">
-                            </div>
-                            <div class="form-group field field-string  govuk-form-group riskOverride">
-                              <label
-                                class="control-label govuk-heading-s" for="features_{{ features.indexOf(feature) }}_properties_risk_type">
+                            <div id="map_{{ features.indexOf(feature) }}" class="comment-map"></div>
+                            <div class="form-group field field-string govuk-form-group riskOverride">
+                              <label class="control-label govuk-heading-s" for="features_{{ features.indexOf(feature) }}_properties_risk_type">
                                 What flood risk do you want to update?
                               </label>
-                              <p class="govuk-hint">Select the flood risk type that you want to update for the points inside your selected area.</p>
-                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_risk_type">
-                                <li>
-                                  <label for="sw_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="sw_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
-                                    value="Surface water">Surface water</label></li>
-                                <li>
-                                  <label for="rs_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="rs_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
-                                  value="Rivers and the sea">Rivers and the sea</label></li>
-                              </ul>
+                              <p class="govuk-hint">
+                                Select the flood risk type that you want to update for the points inside your selected area.
+                              </p>
+                              <div class="govuk-radios" id="features_{{ features.indexOf(feature) }}_properties_risk_type">
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-type-{{ features.indexOf(feature) }}" id="sw_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}" value="Surface water">
+                                  <label class="govuk-label govuk-radios__label" for="sw_{{ features.indexOf(feature) }}">Surface water</label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-type-{{ features.indexOf(feature) }}" id="rs_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}" value="Rivers and the sea">
+                                  <label class="govuk-label govuk-radios__label" for="rs_{{ features.indexOf(feature) }}">Rivers and the sea</label>
+                                </div>
+                              </div>
                             </div>
 
                             <!-- SW override -->

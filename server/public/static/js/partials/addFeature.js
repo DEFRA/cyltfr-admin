@@ -68,7 +68,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                 <div class="form-group field field-string govuk-form-group riskOverride">
                   <fieldset class="govuk-fieldset">
                   <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                    <h3 class="govuk-heading-s">What flood risk do you want to update?</h3>
+                    <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_risk_type">What flood risk do you want to update?</label>
                   </legend>
                   <p class="govuk-hint">Select the flood risk type that you want to update for the points inside your selected area.</p>
                   <div class="govuk-radios" id="features_${featureIndex}_properties_risk_type">
