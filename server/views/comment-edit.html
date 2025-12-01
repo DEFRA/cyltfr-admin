@@ -215,6 +215,29 @@
                               <label class="control-label govuk-heading-s" for="features_{{ features.indexOf(feature) }}_properties_add_comment">
                                 Do you want to add holding comment text?
                               </label>
+                              <p class="govuk-body">The holding comment text will display to public users in this area. 
+                                Read <a href="/comment-guidance" target="_blank" previewlistener="true">comment guidance</a>
+                                before writing or pasting anything. The maximum number of characters is 180.</p>
+                              <details class="govuk-details">
+                                <summary class="govuk-details__summary">
+                                  <span class="govuk-details__summary-text">
+                                    Examples of holding comment text
+                                  </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                  <div id="features_${featureIndex}_properties_info__description" class="field-description">
+                                    <p>For updates to when NaFRA2 data will be available: Some of the rivers and sea flood risk data for this location is 
+                                      currently unavailable. We'll publish this data by [month]</p>
+                                    <p>For other scenarios (new modelling): We will update this data to include new rivers and sea information for this area. 
+                                      For information, email <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
+                                    <p>For flood alleviation schemes: A flood management scheme in [Weston-Super-Mare] has been completed. We will include this 
+                                      in our rivers and sea data. For information, email 
+                                      <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
+                                    <p>Data currently being reviewed: We are reviewing rivers and sea data for this area. For information, contact 
+                                      <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
+                                  </div>
+                                </div>
+                              </details>
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_add_comment">
                                 <li>
                                   <label for="text_no_{{ features.indexOf(feature) }}"><input class="radio textComment_radio_{{ features.indexOf(feature) }}" id="text_no_{{ features.indexOf(feature) }}" type="radio" name="add_holding_comment_{{ features.indexOf(feature) }}"
@@ -224,23 +247,7 @@
                                   value="Yes">Yes, add holding comment text</label></li>
                               </ul>
                             </div>
-                            <div class="form-group field field-string  govuk-form-group info" id="text_area_{{ features.indexOf(feature) }}"><label class="control-label"
-                                for="features_{{ features.indexOf(feature) }}_properties_info">Enter the holding comment text</label>
-                              <div id="features_{{ features.indexOf(feature) }}_properties_info__description" class="field-description">
-                                <p>For example:</p>
-                                <p>For updates to when NaFRA2 data will be available: Some of the rivers and sea flood risk data for this location is 
-                                  currently unavailable. We'll publish this data by [month]</p>
-                                <p>For other scenarios (new modelling): We will update this data to include new rivers and sea information for this area. 
-                                  For information, email <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
-                                <p>For flood alleviation schemes: A flood management scheme in [Weston-Super-Mare] has been completed. We will include this 
-                                  in our rivers and sea data. For information, email 
-                                  <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
-                                <p>Data currently being reviewed: We are reviewing rivers and sea data for this area. For information, contact 
-                                  <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
-                                <p>The holding comment text will display to public users in this area. Read 
-                                  <a href="/comment-guidance" target="_blank" previewlistener="true">comment guidance</a>
-                                  before writing or pasting anything. The maximum number of characters is 180.</p>
-                              </div>
+                            <div class="form-group field field-string  govuk-form-group info" id="text_area_{{ features.indexOf(feature) }}">
                               <div><textarea name="features_{{ features.indexOf(feature) }}_properties_info" rows="5" maxlength="180"
                                   class="govuk-textarea">{{ feature.properties.info }}</textarea>
                                 <p class="govuk-hint govuk-character-count__message">You have <span class="remaining-chars-text"></span> characters remaining</p>

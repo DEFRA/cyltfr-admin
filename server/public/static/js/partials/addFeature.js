@@ -230,7 +230,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                     Do you want to add holding comment text?
                   </label>
                   <p class="govuk-body">The holding comment text will display to public users in this area. 
-                  Read <a href="/comment-guidance" target="_blank" previewlistener="true">comment guidance</a>
+                    Read <a href="/comment-guidance" target="_blank" previewlistener="true">comment guidance</a>
                     before writing or pasting anything. The maximum number of characters is 180.</p>
                   <details class="govuk-details">
                     <summary class="govuk-details__summary">
