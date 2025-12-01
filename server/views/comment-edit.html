@@ -253,22 +253,23 @@
                                 <p class="govuk-hint govuk-character-count__message">You have <span class="remaining-chars-text"></span> characters remaining</p>
                               </div>
                             </div>
-                            <div class="form-group field field-string  govuk-form-group start"><label class="control-label"
+
+                            <p class="govuk-heading-s">Add dates</p>
+                            <p class="govuk-hint">Your holding comment will not go live automatically. It will be uploaded once it has been approved.</p>
+                            <p class="govuk-hint">These dates are for internal use only and will not be displayed publicly.</p>
+                            <div class="form-group field field-string  govuk-form-group start"><label class="control-label govuk-heading-s"
                                 for="features_{{ features.indexOf(feature) }}_properties_start">Enter the start date<span class="required">*</span></label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_start__description" class="field-description">
-                                Select the date the holding comment is valid from. 
-                                Your holding comment will not go live automatically - it’ll be uploaded after it’s approved. 
-                                For internal use only - the date will not be displayed to public users.
+                              <p id="features_{{ features.indexOf(feature) }}_properties_start__description" class="field-description govuk-hint">
+                                Select the date the holding comment is valid from.
                               </p>
                               <input name="features_{{ features.indexOf(feature) }}_properties_start" type="date"
                                 class="govuk-input govuk-input--width-2{{ features.indexOf(feature) }}" autocomplete="off" required="" value="{{ feature.properties.start }}">
                             </div>
-                            <div class="form-group field field-string  govuk-form-group end"><label class="control-label"
+                            <div class="form-group field field-string  govuk-form-group end"><label class="control-label govuk-heading-s"
                                 for="features_{{ features.indexOf(feature) }}_properties_end">Enter the end date<span class="required">*</span></label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_end__description" class="field-description">
+                              <p id="features_{{ features.indexOf(feature) }}_properties_end__description" class="field-description govuk-hint">
                                 Select the date the holding comment is valid to. 
-                                You must remove your holding comment on the end date - it will not be removed automatically. 
-                                For internal use only - the date will not be displayed to public users.
+                                <strong>You must remove your comment on the end date provided, as this will not happen automatically.</strong>
                               </p>
                               <input name="features_{{ features.indexOf(feature) }}_properties_end" type="date"
                               class="govuk-input govuk-input--width-2{{ features.indexOf(feature) }}" autocomplete="off" required="" value="{{ feature.properties.end }}">
