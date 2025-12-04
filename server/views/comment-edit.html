@@ -300,14 +300,22 @@
                                   </div>
                                 </div>
                               </details>
-                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_add_comment">
-                                <li>
-                                  <label for="text_no_{{ features.indexOf(feature) }}"><input class="radio textComment_radio_{{ features.indexOf(feature) }}" id="text_no_{{ features.indexOf(feature) }}" type="radio" name="add_holding_comment_{{ features.indexOf(feature) }}"
-                                    value="No">No, do not add a holding comment text</label></li>
-                                <li>
-                                  <label for="text_yes_{{ features.indexOf(feature) }}"><input class="radio textComment_radio_{{ features.indexOf(feature) }}" type="radio" id="text_yes_{{ features.indexOf(feature) }}" name="add_holding_comment_{{ features.indexOf(feature) }}"
-                                  value="Yes">Yes, add holding comment text</label></li>
-                              </ul>
+                              <div class="govuk-radios" id="features_{{ features.indexOf(feature) }}_properties_add_comment">
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input textComment_radio_{{ features.indexOf(feature) }}" id="text_no_{{ features.indexOf(feature) }}" 
+                                    type="radio" name="add_holding_comment_{{ features.indexOf(feature) }}" value="No">
+                                  <label class="govuk-label govuk-radios__label" for="text_no_{{ features.indexOf(feature) }}">
+                                    No, do not add a holding comment text
+                                  </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input textComment_radio_{{ features.indexOf(feature) }}" id="text_yes_{{ features.indexOf(feature) }}" 
+                                    type="radio" name="add_holding_comment_{{ features.indexOf(feature) }}" value="Yes">
+                                  <label class="govuk-label govuk-radios__label" for="text_yes_{{ features.indexOf(feature) }}">
+                                    Yes, add holding comment text
+                                  </label>
+                                </div>
+                              </div>
                             </div>
                             <div class="form-group field field-string  govuk-form-group info" id="text_area_{{ features.indexOf(feature) }}">
                               <div><textarea name="features_{{ features.indexOf(feature) }}_properties_info" rows="5" maxlength="180"

@@ -224,7 +224,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   </div>
                 </div>
 
-                <div class="form-group field field-string  govuk-form-group">
+                <div class="form-group field field-string govuk-form-group">
                   <label
                     class="control-label govuk-heading-s" for="features_${featureIndex}_properties_add_comment">
                     Do you want to add holding comment text?
