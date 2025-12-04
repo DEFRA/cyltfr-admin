@@ -15,32 +15,56 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                 <div class="hidden"><input type="hidden" id="features_${featureIndex}_properties_apply" value="llfa"></div>
                 <div class="hidden"><input type="hidden" id="features_${featureIndex}_properties_riskOverride" value=""></div>
                 <div id="map_${featureIndex}" class="comment-map"></div>
-                <div class="form-group field field-string  govuk-form-group info"><label class="control-label"
-                    for="features_${featureIndex}_properties_info">Report</label>
-                  <p id="features_${featureIndex}_properties_info__description" class="field-description">The report text will display
-                    to public users in this geometry.</p>
-                  <div class="field-radio-group" id="features_${featureIndex}_properties_info">
-                    <div class="radio "><label><input type="radio" name="features_${featureIndex}_properties_report_type" value="Flood report">Flood report</label></div>
-                    <div class="radio "><label><input type="radio" name="features_${featureIndex}_properties_report_type" value="Non compliant mapping">Non compliant mapping</label></div>
-                    <div class="radio "><label><input type="radio" name="features_${featureIndex}_properties_report_type" value="Proposed schemes">Proposed schemes</label></div>
-                    <div class="radio "><label><input type="radio" name="features_${featureIndex}_properties_report_type" value="Completed schemes">Completed schemes</label></div>
-                    <div class="radio "><label><input type="radio" name="features_${featureIndex}_properties_report_type" value="Flood action plan">Flood action plan</label></div>
-                    <div class="radio "><label><input type="radio" name="features_${featureIndex}_properties_report_type" value="Other info">Other info</label></div>
-                  </div>
+                <div class="form-group field field-string govuk-form-group info">
+                  <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                      <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_report_type">
+                        Report
+                      </label>
+                    </legend>
+                    <p id="features_${featureIndex}_properties_info__description" class="govuk-hint">The report text will display to public users in this geometry.</p>
+                    <div class="govuk-radios" id="features_${featureIndex}_properties_report_type">
+                      <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="report_flood_${featureIndex}" type="radio" name="features_${featureIndex}_properties_report_type" value="Flood report">
+                        <label class="govuk-label govuk-radios__label" for="report_flood_${featureIndex}">Flood report</label>
+                      </div>
+                      <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="report_noncompliant_${featureIndex}" type="radio" name="features_${featureIndex}_properties_report_type" value="Non compliant mapping">
+                        <label class="govuk-label govuk-radios__label" for="report_noncompliant_${featureIndex}">Non compliant mapping</label>
+                      </div>
+                      <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="report_proposed_${featureIndex}" type="radio" name="features_${featureIndex}_properties_report_type" value="Proposed schemes">
+                        <label class="govuk-label govuk-radios__label" for="report_proposed_${featureIndex}">Proposed schemes</label>
+                      </div>
+                      <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="report_completed_${featureIndex}" type="radio" name="features_${featureIndex}_properties_report_type" value="Completed schemes">
+                        <label class="govuk-label govuk-radios__label" for="report_completed_${featureIndex}">Completed schemes</label>
+                      </div>
+                      <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="report_action_${featureIndex}" type="radio" name="features_${featureIndex}_properties_report_type" value="Flood action plan">
+                        <label class="govuk-label govuk-radios__label" for="report_action_${featureIndex}">Flood action plan</label>
+                      </div>
+                      <div class="govuk-radios__item">
+                        <input class="govuk-radios__input" id="report_other_${featureIndex}" type="radio" name="features_${featureIndex}_properties_report_type" value="Other info">
+                        <label class="govuk-label govuk-radios__label" for="report_other_${featureIndex}">Other info</label>
+                      </div>
+                    </div>
+                  </fieldset>
                 </div>
-                <div class="form-group field field-string  govuk-form-group start"><label class="control-label"
+                <p class="govuk-heading-s">Add dates</p>
+                <p class="govuk-hint">Your LLFA comment will not go live automatically. It will be uploaded once it has been approved.</p>
+                <p class="govuk-hint">These dates are for internal use only and will not be displayed publicly.</p>
+                <div class="form-group field field-string  govuk-form-group start"><label class="control-label govuk-heading-s"
                     for="features_${featureIndex}_properties_start">Enter the start date<span class="required">*</span></label>
-                  <p id="features_${featureIndex}_properties_start__description" class="field-description">Select the date the holding comment is valid from. 
-                  Your holding comment will not go live automatically - it’ll be uploaded after it’s approved. 
-                  For internal use only - the date will not be displayed to public users.</p>
+                  <p id="features_${featureIndex}_properties_start__description" class="field-description govuk-hint">Select the date the LLFA is valid from.</p>
                     <input name="features_${featureIndex}_properties_start" type="date" id="features_${featureIndex}_properties_start" class="govuk-input govuk-input--width-20 start-date"
                     autocomplete="off" required="" value="">
                 </div>
-                <div class="form-group field field-string  govuk-form-group end"><label class="control-label"
+                <div class="form-group field field-string  govuk-form-group end"><label class="control-label govuk-heading-s"
                     for="features_${featureIndex}_properties_end">Enter the end date<span class="required">*</span></label>
-                  <p id="features_${featureIndex}_properties_end__description" class="field-description">Select the date the holding comment is valid to. 
-                  You must remove your holding comment on the end date - it will not be removed automatically. 
-                  For internal use only - the date will not be displayed to public users.
+                  <p id="features_${featureIndex}_properties_end__description" class="field-description govuk-hint">
+                    Select the date the holding comment is valid to. 
+                    <strong>You must remove your comment on the end date provided, as this will not happen automatically.</strong>
                   </p>
                   <input name="features_${featureIndex}_properties_end" type="date" id="features_${featureIndex}_properties_end" class="govuk-input govuk-input--width-20 end-date"
                     autocomplete="off" required="" value="">
