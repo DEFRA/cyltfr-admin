@@ -361,9 +361,9 @@
                           <fieldset id="features_{{ features.indexOf(feature) }}_properties">
                             <legend id="features_{{ features.indexOf(feature) }}_properties__title">properties</legend>
                             <div id="map_{{ features.indexOf(feature) }}" class="comment-map"></div>
-                            <div class="form-group field field-string  govuk-form-group info"><label class="control-label"
+                            <div class="form-group field field-string  govuk-form-group info"><label class="control-label govuk-heading-s"
                                 for="features_{{ features.indexOf(feature) }}_properties_info">Report</label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_info__description" class="field-description">The report text will display
+                              <p id="features_{{ features.indexOf(feature) }}_properties_info__description" class="field-description govuk-hint">The report text will display
                                 to public users in this geometry.</p>
                               <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_info">
                                 <li>
@@ -386,19 +386,20 @@
                                 </li>
                               </ul>
                             </div>
-                            <div class="form-group field field-string  govuk-form-group start"><label class="control-label"
+                            <p class="govuk-heading-s">Add dates</p>
+                            <p class="govuk-hint">Your LLFA comment will not go live automatically. It will be uploaded once it has been approved.</p>
+                            <p class="govuk-hint">These dates are for internal use only and will not be displayed publicly.</p>
+                            <div class="form-group field field-string  govuk-form-group start"><label class="control-label govuk-heading-s"
                                 for="features_{{ features.indexOf(feature) }}_properties_start">Enter the start date<span class="required">*</span></label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_start__description" class="field-description">Select the date the holding comment is valid from. 
-                                Your holding comment will not go live automatically - it’ll be uploaded after it’s approved. 
-                                For internal use only - the date will not be displayed to public users.</p>
+                              <p id="features_{{ features.indexOf(feature) }}_properties_start__description" class="field-description govuk-hint">Select the date the LLFA is valid from.</p>
                                 <input name="features_{{ features.indexOf(feature) }}_properties_start" type="date" id="features_{{ features.indexOf(feature) }}_properties_start" class="govuk-input govuk-input--width-20 start-date"
                                 autocomplete="off" required="" value="{{ feature.properties.start }}">
                             </div>
-                            <div class="form-group field field-string  govuk-form-group end"><label class="control-label"
+                            <div class="form-group field field-string  govuk-form-group end"><label class="control-label govuk-heading-s"
                                 for="features_{{ features.indexOf(feature) }}_properties_end">Enter the end date<span class="required">*</span></label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_end__description" class="field-description">Select the date the holding comment is valid to. 
-                                You must remove your holding comment on the end date - it will not be removed automatically. 
-                                For internal use only - the date will not be displayed to public users.
+                              <p id="features_{{ features.indexOf(feature) }}_properties_end__description" class="field-description govuk-hint">
+                                Select the date the holding comment is valid to. 
+                                <strong>You must remove your comment on the end date provided, as this will not happen automatically.</strong>
                               </p>
                               <input name="features_{{ features.indexOf(feature) }}_properties_end" type="date" id="features_{{ features.indexOf(feature) }}_properties_end" class="govuk-input govuk-input--width-20 end-date"
                                 autocomplete="off" required="" value="{{ feature.properties.end }}">
