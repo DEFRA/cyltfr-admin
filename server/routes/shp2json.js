@@ -18,15 +18,15 @@ module.exports = {
       const zipfile = tmpfile + '.zip'
       await rename(tmpfile, zipfile)
 
-      /*let data
+      let data
       try {
         ({ data } = await ogr2ogr(zipfile))
       } catch (error) {
         throw new Error('Could not process uploaded file. Check if it\'s a valid shapefile')
-      }*/
+      }
 
       // uncomment the below to use dummy data to bypass having to upload an actual shape file on dev
-      const data = require('./dummy-data/example_file.json')
+      //const data = require('./dummy-data/example_file.json')
       // const data = require('./dummy-data/example_file_broken.json')
 
       const geojson = helpers.updateAndValidateGeoJson(data, params.type)
