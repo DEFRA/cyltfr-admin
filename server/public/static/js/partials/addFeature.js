@@ -60,7 +60,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                 </div>
                 <div class="form-group field field-string  govuk-form-group end"><label class="control-label govuk-heading-s"
                     for="features_${featureIndex}_properties_end">Enter the end date<span class="required">*</span></label>
-                  <p id="features_${featureIndex}_properties_end__description" class="field-description govuk-hint">
+                  <p id="features_${featureIndex}_properties_end__description_llfa" class="field-description govuk-hint">
                     Select the date the holding comment is valid to. 
                     <strong>You must remove your comment on the end date provided, as this will not happen automatically.</strong>
                   </p>
