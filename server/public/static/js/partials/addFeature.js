@@ -54,7 +54,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                 <p class="govuk-hint">These dates are for internal use only and will not be displayed publicly.</p>
                 <div class="form-group field field-string  govuk-form-group start"><label class="control-label govuk-heading-s"
                     for="features_${featureIndex}_properties_start">Enter the start date<span class="required">*</span></label>
-                  <p id="features_${featureIndex}_properties_start__description" class="field-description govuk-hint">Select the date the LLFA is valid from.</p>
+                  <p id="features_${featureIndex}_properties_start__description_llfa" class="field-description govuk-hint">Select the date the LLFA is valid from.</p>
                     <input name="features_${featureIndex}_properties_start" type="date" id="features_${featureIndex}_properties_start" class="govuk-input govuk-input--width-20 start-date"
                     autocomplete="off" required="" value="">
                 </div>
