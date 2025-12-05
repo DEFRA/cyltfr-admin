@@ -18,9 +18,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                 <div class="form-group field field-string govuk-form-group info">
                   <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
-                      <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_report_type">
-                        Report
-                      </label>
+                      <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_report_type">Report</label>
                     </legend>
                     <p id="features_${featureIndex}_properties_info__description" class="govuk-hint">The report text will display to public users in this geometry.</p>
                     <div class="govuk-radios" id="features_${featureIndex}_properties_report_type">

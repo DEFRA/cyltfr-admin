@@ -361,30 +361,57 @@
                           <fieldset id="features_{{ features.indexOf(feature) }}_properties">
                             <legend id="features_{{ features.indexOf(feature) }}_properties__title">properties</legend>
                             <div id="map_{{ features.indexOf(feature) }}" class="comment-map"></div>
-                            <div class="form-group field field-string  govuk-form-group info"><label class="control-label govuk-heading-s"
-                                for="features_{{ features.indexOf(feature) }}_properties_info">Report</label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_info__description" class="field-description govuk-hint">The report text will display
-                                to public users in this geometry.</p>
-                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_info">
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Flood report">Flood report</label>
-                                </li>
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Non compliant mapping">Non compliant mapping</label>
-                                </li>
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Proposed schemes">Proposed schemes</label>
-                                </li>
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Completed schemes">Completed schemes</label>
-                                </li>
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Flood action plan">Flood action plan</label>
-                                </li>
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Other info">Other info</label>
-                                </li>
-                              </ul>
+                            <div class="form-group field field-string govuk-form-group info">
+                              <fieldset class="govuk-fieldset">
+                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                  <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_report_type">Report</label>
+                                </legend>
+                                <p id="features_{{ features.indexOf(feature) }}_properties_info__hint" class="govuk-hint">The report text will display to public users in this geometry.</p>
+                                <div class="govuk-radios" id="features_{{ features.indexOf(feature) }}_properties_report_type">
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-flood"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Flood report">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-flood">
+                                      Flood report
+                                    </label>
+                                  </div>
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-non-compliant"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Non compliant mapping">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-non-compliant">
+                                      Non compliant mapping
+                                    </label>
+                                  </div>
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-proposed"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Proposed schemes">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-proposed">
+                                      Proposed schemes
+                                    </label>
+                                  </div>
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-completed"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Completed schemes">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-completed">
+                                      Completed schemes
+                                    </label>
+                                  </div>
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-action-plan"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Flood action plan">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-action-plan">
+                                      Flood action plan
+                                    </label>
+                                  </div>
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-other"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Other info">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-other">
+                                      Other info
+                                    </label>
+                                  </div>
+                                </div>
+                              </fieldset>
                             </div>
                             <p class="govuk-heading-s">Add dates</p>
                             <p class="govuk-hint">Your LLFA comment will not go live automatically. It will be uploaded once it has been approved.</p>
