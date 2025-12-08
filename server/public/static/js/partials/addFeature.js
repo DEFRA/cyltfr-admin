@@ -55,7 +55,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                 <div class="form-group field field-string  govuk-form-group start"><label class="control-label govuk-heading-s"
                     for="features_${featureIndex}_properties_start">Enter the start date<span class="required">*</span></label>
                   <p id="features_${featureIndex}_properties_start__description_llfa" class="field-description govuk-hint">Select the date the LLFA is valid from.</p>
-                    <input name="features_${featureIndex}_properties_start" type="date" id="features_${featureIndex}_properties_start" class="govuk-input govuk-input--width-20 start-date"
+                    <input name="features_${featureIndex}_properties_start" type="date" id="features_${featureIndex}_properties_start" class="govuk-input govuk-input--width-10 start-date"
                     autocomplete="off" required="" value="">
                 </div>
                 <div class="form-group field field-string  govuk-form-group end"><label class="control-label govuk-heading-s"
@@ -64,7 +64,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                     Select the date the holding comment is valid to. 
                     <strong>You must remove your comment on the end date provided, as this will not happen automatically.</strong>
                   </p>
-                  <input name="features_${featureIndex}_properties_end" type="date" id="features_${featureIndex}_properties_end" class="govuk-input govuk-input--width-20 end-date"
+                  <input name="features_${featureIndex}_properties_end" type="date" id="features_${featureIndex}_properties_end" class="govuk-input govuk-input--width-10 end-date"
                     autocomplete="off" required="" value="">
                 </div>
               </fieldset>
@@ -300,7 +300,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                   <p id="features_${featureIndex}_properties_start__description" class="field-description govuk-hint">
                     Select the date the holding comment is valid from.
                   </p>
-                  <input name="features_${featureIndex}_properties_start" type="date" id="features_${featureIndex}_properties_start" class="start-date govuk-input govuk-input--width-20" autocomplete="off" required="">
+                  <input name="features_${featureIndex}_properties_start" type="date" id="features_${featureIndex}_properties_start" class="start-date govuk-input govuk-input--width-10" autocomplete="off" required="">
                 </div>
                 <div class="form-group field field-string  govuk-form-group end">
                   <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_end">Enter the end date<span class="required">*</span></label>
@@ -308,7 +308,7 @@ window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
                     Select the date the holding comment is valid to. 
                     <strong>You must remove your comment on the end date provided, as this will not happen automatically.</strong>
                   </p>
-                  <input name="features_${featureIndex}_properties_end" type="date" id="features_${featureIndex}_properties_end" class="end-date govuk-input govuk-input--width-20" autocomplete="off" required="">
+                  <input name="features_${featureIndex}_properties_end" type="date" id="features_${featureIndex}_properties_end" class="end-date govuk-input govuk-input--width-10" autocomplete="off" required="">
                 </div>
               </fieldset>
             </div>
