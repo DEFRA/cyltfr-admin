@@ -26,7 +26,7 @@ module.exports = {
       }
 
       // uncomment the below to use dummy data to bypass having to upload an actual shape file on dev
-      //const data = require('./dummy-data/example_file.json')
+      // const data = require('./dummy-data/example_file.json')
       // const data = require('./dummy-data/example_file_broken.json')
 
       const geojson = helpers.updateAndValidateGeoJson(data, params.type)
