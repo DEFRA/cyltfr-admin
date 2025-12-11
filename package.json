@@ -22,7 +22,7 @@
   "author": "defra.gov.uk",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.929.0",
+    "@aws-sdk/client-s3": "^3.948.0",
     "@hapi/bell": "^13.1.0",
     "@hapi/boom": "^10.0.1",
     "@hapi/cookie": "^12.0.1",
@@ -33,7 +33,7 @@
     "dotenv": "^17.2.3",
     "govuk-frontend": "^5.13.0",
     "hapi-pino": "^13.0.0",
-    "joi": "^18.0.1",
+    "joi": "^18.0.2",
     "jsonexport": "3.2.0",
     "moment-timezone": "^0.6.0",
     "nunjucks": "^3.2.4",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "eslint": "^9.39.1",
     "jest": "^30.2.0",
-    "neostandard": "^0.12.2",
-    "sass": "^1.94.0"
+    "sass": "^1.96.0",
+    "neostandard": "^0.12.2"
   }
 }
