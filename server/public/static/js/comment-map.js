@@ -80,6 +80,7 @@
 
     if (title) {
       const titleEl = document.createElement('h3')
+      titleEl.className = 'govuk-heading-s govuk-!-margin-bottom-4'
       titleEl.textContent = title
       const mapEl = map.getTargetElement()
       mapEl.parentNode.insertBefore(titleEl, mapEl)
