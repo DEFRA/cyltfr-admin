@@ -6,52 +6,15 @@
 
 {% block head %}
   {{ super() }}
-  <style>
-    .comment-map {
-      width: 320px;
-      max-height: 180px;
-    }
-    .govuk-table__cell .comment-map {
-      float: left;
-    }
-    .govuk-table__header.override-column {
-      min-width: 150px;
-    }
-  </style>
 {% endblock %}
 
 {% block body %}
+<div class="govuk-body">
+  {% include commentGuidance %}
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Comment details</h2>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       {{ govukTable(viewHeaderData) }}
-
-      <div>
-        <a class="govuk-button" href="/comment/edit/{{comment.id}}">Edit</a>
-        {% if (allowDelete) %}
-        <div style="float: right;">
-          <form method="POST" action="/comment/edit/{{ comment.id }}/delete" style="display: inline-block;"
-            onsubmit="return confirm('Are you sure you want to delete all comments?')">
-            <button class="govuk-button danger" type="submit">Delete all</button>
-          </form>
-        </div>
-        {% endif %}
-      </div>
-      {% if (isApprover) %}
-        {% if (not comment.approvedAt) %}
-        <form method="POST" action="/comment/edit/{{ comment.id }}/approve" style="float: left; margin-right: 10px;"
-          onsubmit="return confirm('Are you sure you want to approve this comment?')">
-          <button class="govuk-button warning" type="submit">Approve</button>
-        </form>
-        <span style="float: left; max-width: 300px;" >Approved comments will be visible on the public service in approximately 1 hour.</span>
-        {% else %}
-        <form method="POST" action="/comment/edit/{{ comment.id }}/undo-approve"
-          onsubmit="return confirm('Are you sure you want to undo the approval of this comment?')">
-          <button class="govuk-button warning" type="submit">Undo approve</button>
-        </form>
-        {% endif %}
-      {% endif %}
-      <!-- <pre>{{comment | dump(2) | safe}}</pre>
-      <pre>{{geometry | dump(2) | safe}}</pre> -->
     </div>
     <div class="govuk-grid-column-one-third">
       <div id="map"></div>
@@ -60,7 +23,51 @@
       <div id="map_whole"></div>
     </div>
   </div>
-  {{ govukTable(viewCommentData) }}
+  <div>
+    <div class="comment-options govuk-!-margin-top-4 govuk-!-margin-bottom-4">
+      <div class="options-buttons">
+        <a class="govuk-button" href="/comment/edit/{{comment.id}}">Edit comment details</a>
+      </div>
+      {% if (isApprover) %}
+      {% if (not comment.approvedAt) %}
+      <div class="options-buttons">
+        <form method="POST" action="/comment/edit/{{ comment.id }}/approve"
+          onsubmit="return confirm('Are you sure you want to approve this comment?')">
+          <button class="govuk-button warning" type="submit">Approve comment</button>
+        </form>
+      </div>
+      {% else %}
+      <div class="options-buttons">
+        <form method="POST" action="/comment/edit/{{ comment.id }}/undo-approve"
+          onsubmit="return confirm('Are you sure you want to undo the approval of this comment?')">
+          <button class="govuk-button warning" type="submit">Undo approval</button>
+        </form>
+      </div>
+      {% endif %}
+      {% endif %}
+      {% if (allowDelete) %}
+      <div class="options-buttons">
+        <form method="POST" action="/comment/edit/{{ comment.id }}/delete"
+          onsubmit="return confirm('Are you sure you want to delete all comments?')">
+          <button class="govuk-button govuk-button--warning" type="submit">Delete all features</button>
+        </form>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  <!-- <pre>{{comment | dump(2) | safe}}</pre>
+        <pre>{{geometry | dump(2) | safe}}</pre> -->
+</div>
+{% for featureView in viewFeatureData %}
+<div class="govuk-grid-row feature-row">
+  <div class="govuk-grid-column-two-thirds feature-column">
+    {{ govukTable(featureView.commentData) }}
+  </div>
+  <div class="govuk-grid-column-one-third">
+    {{ govukTable(featureView.mapData) }}
+  </div>
+</div>
+{% endfor %}
 {% endblock %}
 
 {% block bodyEnd %}

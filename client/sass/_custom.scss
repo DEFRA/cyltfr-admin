@@ -4,7 +4,7 @@
 
 .govuk-template__body.internal.js-enabled {
   margin: 0;
-  background-color: #f3f3f3;
+  background-color: #ffffff;
   font-family: Arial, Helvetica, sans-serif;
 }
 
@@ -95,16 +95,99 @@
   display: none;
 }
 
-.govuk-button.danger {
-  background-color: $govuk-error-colour;
+.guidance-list li {
+  list-style-type: disc !important;
+}
+
+.home-buttons {
+  min-width: 250px;
+  max-width: 250px;
+}
+
+.comment-buttons-group {
+  display: flex;
+  gap: 25px;
+  flex-wrap: wrap;
+}
+
+.comment-buttons {
+  display: flex;
+  flex-direction: column;
+  max-width: 250px;
+  justify-content: space-between;
+  padding-right: 25px;
+  border-right: 1px solid #b1b4b6;
+}
+
+.comment-buttons:last-child {
+  border-right: none;
+}
+
+.options-buttons {
+  margin-right: 15px;
+  border-right: 1px solid #b1b4b6;
+  padding-right: 15px;
+}
+
+.options-buttons .govuk-button {
+  margin-bottom: 10px;
+  margin-top: 10px;
+  min-width: 220px;
+  max-width: 220px;
+}
+
+.options-buttons:last-of-type {
+  margin-right: 0;
+  border-right: none;
+}
+
+.comment-options {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
 
 .govuk-button.warning {
   background-color: $govuk-link-visited-colour;
 }
 
+.approved-message {
+  max-width: 300px;
+  margin-top: 10px;
+}
+
 .error-text {
   color: $govuk-error-colour;
+}
+
+.feature-row {
+  display: flex;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #b1b4b6;
+}
+
+.feature-column {
+  display: flex;
+}
+
+.govuk-table__header.header-column {
+  width: 145px;
+  padding-right: 40px;
+}
+
+.govuk-table .no-border {
+  border-bottom: none !important;
+  padding-bottom: 0px;
+}
+
+.comment-map-view {
+  width: 300px;
+  height: 300px;
+  padding-bottom: 10px;
+}
+
+.delete-entry {
+  float: right;
 }
 
 .risk-option-radios {
@@ -116,4 +199,26 @@
   font-size: 16px;
   line-height: 1.25;
   margin-bottom: 0px;
+}
+
+.risk-selection-indent {
+  margin-left: 30px;
+}
+
+.home-page-table {
+  display: inline-block;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.description-column {
+  max-width: 250px;
+}
+
+.flood-risk-column {
+  min-width: 100px;
+}
+
+.created-by-column {
+  max-width: 200px;
 }

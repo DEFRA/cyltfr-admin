@@ -23,7 +23,8 @@ function commentCreate (type, capabilities, data, err) {
   const retval = {
     type,
     data,
-    capabilities
+    capabilities,
+    commentGuidance: 'partials/comment-guidance.html'
   }
   if (err) {
     retval.errors = mapErrors(err.details)
