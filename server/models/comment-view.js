@@ -1,22 +1,22 @@
 const { DATETIMEFORMAT, DATEFORMAT } = require('../constants')
 
-function getOverrideValues(properties, doNotOverride) {
-    let presentDay = properties.riskOverride ?? properties.riskOverrideRS
-    if (presentDay === null || presentDay === undefined) {
-      presentDay = doNotOverride
-    }
-
-    let climateChange = properties.riskOverrideCc ?? properties.riskOverrideRSCC
-    if (climateChange === null || climateChange === undefined) {
-      climateChange = doNotOverride
-    }
-
-    if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
-      climateChange = 'No data available'
-    }
-
-    return { presentDay, climateChange }
+function getOverrideValues (properties, doNotOverride) {
+  let presentDay = properties.riskOverride ?? properties.riskOverrideRS
+  if (presentDay === null || presentDay === undefined) {
+    presentDay = doNotOverride
   }
+
+  let climateChange = properties.riskOverrideCc ?? properties.riskOverrideRSCC
+  if (climateChange === null || climateChange === undefined) {
+    climateChange = doNotOverride
+  }
+
+  if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
+    climateChange = 'No data available'
+  }
+
+  return { presentDay, climateChange }
+}
 
 async function commentView (comment, geometry, auth, capabilities, allFeatures) {
   const retval = {

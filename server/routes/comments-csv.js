@@ -3,7 +3,7 @@ const jsonexport = require('jsonexport')
 const config = require('../config')
 const toCSV = util.promisify(jsonexport)
 
-function getRiskOverrides(comment, riskType, properties) {
+function getRiskOverrides (comment, riskType, properties) {
   const {
     riskOverride,
     riskOverrideCc,
@@ -70,7 +70,7 @@ module.exports = {
           const { riskOverridePresentDay, riskOverrideClimateChange } =
             getRiskOverrides(comment, riskType, feature.properties)
 
-          //Fix to remove the additional riskType field
+          // Fix to remove the additional riskType field
           const { riskType: _, ...commentWithoutRisk } = comment
 
           return {
