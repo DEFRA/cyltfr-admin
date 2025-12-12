@@ -9,8 +9,8 @@
   "scripts": {
     "build:css": "bin/build-css",
     "build": " bin/build ",
-    "test": "npm run test:lint && npm run test:audit && npm run test:jest",
-    "test:jest": "jest --no-cache  --detectOpenHandles --runInBand --forceExit",
+    "test": "npm run test:lint && npm run test:audit ",
+    "test:jest": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --no-cache  --detectOpenHandles --runInBand --forceExit",
     "test:audit": "npm audit",
     "test:lint": "eslint",
     "postinstall": "npm run build",
@@ -29,6 +29,11 @@
     "@hapi/hapi": "^21.4.4",
     "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.3",
+    "@hapi/catbox-object": "^3.0.1",
+    "@turf/bbox": "^7.2.0",
+    "@turf/helpers": "^7.2.0",
+    "@turf/intersect": "^7.2.0",
+    "@turf/turf": "^7.2.0",
     "blipp": "4.0.2",
     "dotenv": "^17.2.3",
     "govuk-frontend": "^5.13.0",
@@ -44,5 +49,22 @@
     "jest": "^30.2.0",
     "sass": "^1.96.0",
     "neostandard": "^0.12.2"
+  },
+  "jest": {
+    "setupFiles": [
+      "dotenv/config"
+    ],
+    "automock": false,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "server/**/*.js",
+      "!server/public/**/*",
+      "!server/src/js/**/*.js"
+    ],
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "coverageDirectory": "test/output"
   }
 }

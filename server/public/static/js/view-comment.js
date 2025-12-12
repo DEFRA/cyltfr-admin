@@ -1,5 +1,6 @@
 ;(function () {
   const geometry = window.LTFMGMT.geometry
+  const allFeatures = window.LTFMGMT.allFeatures
   const capabilities = window.LTFMGMT.capabilities
 
   geometry.features.forEach(function (feature, index) {
@@ -9,6 +10,17 @@
     }
 
     window.LTFMGMT.commentMap(geo, 'map_' + index, capabilities)
+  })
+
+  allFeatures.forEach(function (feature) {
+    feature.features.forEach(function (singleF) {
+      const geo = {
+        ...singleF,
+        features: singleF.filter(f => f === singleF)
+      }
+
+      window.LTFMGMT.commentMap(geo, 'map_whole', capabilities)
+    })
   })
 
   if (geometry.features.length > 1) {

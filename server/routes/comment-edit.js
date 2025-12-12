@@ -38,12 +38,20 @@ module.exports = [
       const { params } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.getFile()
+      const comments = await provider.cachedData()
       const comment = comments.find(c => c.id === id)
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
       const geometry = await provider.getFile(key)
 
-      return h.view('comment-view', commentView(comment, geometry, request.auth, capabilities))
+      // Use Promise.all to handle asynchronous operations in parallel
+      // TODO: What is allFeatures used for?
+      const allFeatures = await Promise.all(
+        comments.map(async (cmnt) => {
+          return cmnt.features
+        })
+      )
+
+      return h.view('comment-view', await commentView(comment, geometry, request.auth, capabilities, allFeatures))
     },
     options: {
       validate: {

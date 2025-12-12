@@ -1,5 +1,6 @@
 ;(function () {
   function commentMap (geojson, target, capabilities, title) {
+    // console.log('commentMap', geojson)
     const ol = window.ol
     const proj4 = window.proj4
     const COORD_SYSTEM = 'EPSG:27700'
