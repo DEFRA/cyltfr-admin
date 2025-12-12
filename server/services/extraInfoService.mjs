@@ -1,7 +1,7 @@
 import { point } from '@turf/helpers'
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon'
 import { performance } from 'node:perf_hooks'
-import { createRequire } from 'module'
+import { createRequire } from 'node:module'
 
 const require = createRequire(import.meta.url)
 const config = require('../config.js')

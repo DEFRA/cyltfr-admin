@@ -1,4 +1,4 @@
-const STATUS_CODES = require('http2').constants
+const STATUS_CODES = require('node:http2').constants
 const createServer = require('../..')
 let server
 

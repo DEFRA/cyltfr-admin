@@ -1,11 +1,11 @@
-import { createRequire } from 'module'
+import { createRequire } from 'node:module'
 const require = createRequire(import.meta.url)
-const spawn = require('child_process').spawn
+const spawn = require('node:child_process').spawn
 const moment = require('moment-timezone')
 const config = require('./config')
 const { DATEFORMAT } = require('./constants')
 const CONVERSION_BASE = 36
-const validGeometyTypes = ['Polygon', 'MultiPolygon']
+const validGeometyTypes = new Set(['Polygon', 'MultiPolygon'])
 
 export function shortId () {
   return Math.random().toString(CONVERSION_BASE).substring(2) // NOSONAR
@@ -32,7 +32,7 @@ export async function updateAndValidateGeoJson (geojson, type) {
         : '',
       info: props.display2 || props.Data_Type || ''
     }
-    if (!validGeometyTypes.includes(f.geometry.type)) {
+    if (!validGeometyTypes.has(f.geometry.type)) {
       throw new Error('Shape file contains invalid data. Must only contain Polygon types')
     }
   })
