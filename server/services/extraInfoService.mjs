@@ -32,11 +32,11 @@ export const getExtraInfoDataS3 = async () => {
   return data
 }
 
-// const getExtraInfoDataFile = async () => {
-//   const fileDataLoader = await import('./__mocks__/s3dataLoader.js')
-//   const data = await fileDataLoader.default()
-//   return data
-// }
+export const getExtraInfoDataFile = async () => {
+  const fileDataLoader = await import('./__mocks__/s3dataLoader.js')
+  const data = await fileDataLoader.default()
+  return data
+}
 
 export const getExtraInfoData = getExtraInfoDataS3
 
