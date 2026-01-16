@@ -1,5 +1,4 @@
 const { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand, ListObjectsV2Command } = require('@aws-sdk/client-s3')
-const fs = require('fs')
 const config = require('../../config')
 const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`
 
@@ -18,17 +17,17 @@ class S3Provider {
     return JSON.parse(await result.Body.transformToString())
   }
 
-  async listBucketContents() {
+  async listBucketContents () {
     try {
-      const command = new ListObjectsV2Command({ 
+      const command = new ListObjectsV2Command({
         Bucket: config.awsBucketName,
         Prefix: 'email-notified-approvers/' // Correct way to filter by folder
       })
-  
+
       const response = await s3Client.send(command)
       return response.Contents || [] // Returns files in the specific folder
     } catch (error) {
-      console.error("Error listing bucket contents:", error)
+      console.error('Error listing bucket contents:', error)
       return []
     }
   }
@@ -42,14 +41,14 @@ class S3Provider {
     return JSON.parse(await result.Body.transformToString())
   }
 
-  async uploadApprover(keyname, data) {
+  async uploadApprover (keyname, data) {
     try {
       const params = {
         Bucket: 'email-notified-approver',
         Key: keyname,
         Body: data
       }
-  
+
       const command = new PutObjectCommand(params)
       await this.s3Client.send(command)
     } catch (error) {
@@ -66,7 +65,7 @@ class S3Provider {
     }))
   }
 
-  async deleteApproverObject(keyname) {
+  async deleteApproverObject (keyname) {
     try {
       await s3Client.send(new DeleteObjectCommand({
         Bucket: config.awsBucketName,
@@ -78,7 +77,6 @@ class S3Provider {
       throw error
     }
   }
-  
 
   async save (comments) {
     await s3Client.send(new PutObjectCommand({

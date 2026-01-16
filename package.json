@@ -39,7 +39,6 @@
     "nunjucks": "^3.2.4",
     "ogr2ogr": "^6.0.1",
     "node-cron": "^3.0.3",
-    "nodemailer": "^6.10.0",
     "notifications-node-client": "^8.2.1"
   },
   "devDependencies": {

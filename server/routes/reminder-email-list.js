@@ -1,7 +1,4 @@
-const joi = require('joi')
-const commentCreate = require('../models/comment-create')
 const { shortId } = require('../helpers')
-const capabilities = require('../models/capabilities')
 
 module.exports = [
   {
@@ -18,7 +15,7 @@ module.exports = [
               console.log('no itemId: ', item)
               return null // Skip this item if no ID
             }
-    
+
             try {
               const getApprovedUsers = await provider.getApprovedUsers(itemId)
               return getApprovedUsers
@@ -28,10 +25,10 @@ module.exports = [
             }
           })
       )
-    
+
       // Remove any null entries
       const filteredUserList = userList.filter(Boolean)
-      
+
       const allowAccess = auth.credentials.isApprover
       if (!allowAccess) {
         return h.view('unauthorised')
@@ -62,28 +59,28 @@ module.exports = [
     },
   },
   {
-      method: 'POST',
-      path: '/reminder-email-list/delete/{id}',
-      handler: async (request, h) => {
-        const { provider, auth } = request
-        const { id } = request.params
-  
-        // Check if user has permission to delete
-        const allowAccess = auth.credentials.isApprover
-        if (!allowAccess) {
-          return h.response({ message: 'Unauthorized' }).code(401)
-        }
-  
-        try {
-          // Delete the approver file from S3
-          await provider.deleteApproverObject(`${id}.json`)
-          
-          return h.view('reminder-email-list')
-        } catch (error) {
-          console.error('Error deleting approver:', error)
-          return h.response({ message: 'Failed to delete approver' }).code(500)
-        }
+    method: 'POST',
+    path: '/reminder-email-list/delete/{id}',
+    handler: async (request, h) => {
+      const { provider, auth } = request
+      const { id } = request.params
+
+      // Check if user has permission to delete
+      const allowAccess = auth.credentials.isApprover
+      if (!allowAccess) {
+        return h.response({ message: 'Unauthorized' }).code(401)
+      }
+
+      try {
+        // Delete the approver file from S3
+        await provider.deleteApproverObject(`${id}.json`)
+
+        return h.view('reminder-email-list')
+      } catch (error) {
+        console.error('Error deleting approver:', error)
+        return h.response({ message: 'Failed to delete approver' }).code(500)
       }
     }
-  
+  }
+
 ]
