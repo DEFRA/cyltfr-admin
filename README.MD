@@ -42,6 +42,8 @@ Docker v20.10.0+
 | HOME_PAGE               | Home page        |    no    | http://localhost:3000 |                    |       |
 | AWS_BUCKET_REGION       |                  |    yes   |                       |                    |       |
 | AWS_BUCKET_NAME         |                  |    yes   |                       |                    |       |
+| GOV_NOTIFY_API          |                  |    yes   |                       |                    |       |
+| NOTIFY_CRON             |                  |    no    | 0 0 9 * * mon-fri     |                    |       |
 | HOLDING_COMMENTS_PREFIX |                  |    no    | holding-comments      |                    |       |
 | MANIFEST_FILENAME       |                  |    no    | manifest.json         |                    |       |
 

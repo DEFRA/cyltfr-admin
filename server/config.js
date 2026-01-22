@@ -17,7 +17,8 @@ const schema = joi.object().keys({
   awsBucketName: joi.string().required(),
   holdingCommentsPrefix: joi.string().default('holding-comments'),
   manifestFilename: joi.string().default('manifest.json'),
-  govNotifyApi: joi.string().required(),
+  govNotifyApiKey: joi.string().required(),
+  notifyCron: joi.string().default('0 0 9 * * mon-fri'),
   templateId: joi.string().required()
 })
 
@@ -36,7 +37,8 @@ const config = {
   awsBucketName: process.env.AWS_BUCKET_NAME,
   holdingCommentsPrefix: process.env.HOLDING_COMMENTS_PREFIX,
   manifestFilename: process.env.MANIFEST_FILENAME,
-  govNotifyApi: process.env.GOV_NOTIFY_API,
+  govNotifyApiKey: process.env.GOV_NOTIFY_API_KEY,
+  notifyCron: process.env.NOTIFY_CRON,
   templateId: process.env.TEMPLATE_ID,
 }
 
