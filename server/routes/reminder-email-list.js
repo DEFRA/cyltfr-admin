@@ -6,7 +6,7 @@ module.exports = [
     path: '/reminder-email-list',
     handler: async (request, h) => {
       const { provider, auth } = request
-      const bucketContents = await provider.listBucketContents()
+      const bucketContents = await provider.listEmailIds()
       const userList = await Promise.all(
         bucketContents
           .map(async (item) => {
@@ -17,8 +17,8 @@ module.exports = [
             }
 
             try {
-              const getApprovedUsers = await provider.getApprovedUsers(itemId)
-              return getApprovedUsers
+              const approvedUser = await provider.getApprovedUser(itemId)
+              return approvedUser
             } catch (error) {
               console.error(`Error fetching user data for ${itemId}:`, error)
               return null

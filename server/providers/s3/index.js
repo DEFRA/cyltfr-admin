@@ -17,7 +17,7 @@ class S3Provider {
     return JSON.parse(await result.Body.transformToString())
   }
 
-  async listBucketContents () {
+  async listEmailIds () {
     try {
       const command = new ListObjectsV2Command({
         Bucket: config.awsBucketName,
@@ -32,7 +32,7 @@ class S3Provider {
     }
   }
 
-  async getApprovedUsers (itemId) {
+  async getApprovedUser (itemId) {
     const result = await s3Client.send(new GetObjectCommand({
       Bucket: config.awsBucketName,
       Key: `email-notified-approvers/${itemId}`

@@ -10,7 +10,7 @@ const onJobCalled = async () => {
 
   try {
     const providerInstance = new S3Provider()
-    const bucketContents = await providerInstance.listBucketContents()
+    const bucketContents = await providerInstance.listEmailIds()
     const userList = await Promise.all(
       bucketContents
         .map(async (item) => {
@@ -20,8 +20,8 @@ const onJobCalled = async () => {
           }
 
           try {
-            const getApprovedUsers = await providerInstance.getApprovedUsers(itemId)
-            return getApprovedUsers // Return the data
+            const approvedUser = await providerInstance.getApprovedUser(itemId)
+            return approvedUser // Return the data
           } catch (error) {
             console.error(`Error fetching user data for ${itemId}:`, error)
             return null
@@ -33,6 +33,14 @@ const onJobCalled = async () => {
     }).sort((item1, item2) => {
       return 0 - (Date.parse(item1.updatedAt) - Date.parse(item2.updatedAt))
     })
+    const dateString = new Intl.DateTimeFormat('en-GB', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    })
+    const timeString = new Intl.DateTimeFormat('en-GB', {
+      timeStyle: 'medium'
+    })
 
     if (comments && comments.length > 0) {
       const filteredUserList = await userList.filter(Boolean)
@@ -40,7 +48,8 @@ const onJobCalled = async () => {
       options.personalisation.approval_list = ''
       comments.forEach((comment) => {
         const emailLine = '[' + comment.description + '](' + config.homePage + '/comment/edit/' + comment.id +
-                          ') - Last updated ' + new Date(Date.parse(comment.updatedAt)).toLocaleString('en-GB') +
+                          ') - Last updated ' + dateString.format(Date.parse(comment.updatedAt)) +
+                          ' at ' + timeString.format(Date.parse(comment.updatedAt)) +
                           ' by ' + comment.updatedBy + '\n\n'
         options.personalisation.approval_list = options.personalisation.approval_list + emailLine
       })
