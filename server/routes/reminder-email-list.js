@@ -6,19 +6,19 @@ module.exports = [
     path: '/reminder-email-list',
     handler: async (request, h) => {
       const { provider, auth } = request
-      const bucketContents = await provider.listEmailIds()
-      const userList = await Promise.all(
-        bucketContents
-          .map(async (item) => {
-            const itemId = item.Key.split('/').pop()
-            if (!itemId) {
-              console.log('no itemId: ', item)
-              return null // Skip this item if no ID
-            }
 
+      const allowAccess = auth.credentials.isApprover
+      if (!allowAccess) {
+        return h.view('unauthorised')
+      }
+
+      const emailIds = await provider.listEmailIds()
+      const userList = await Promise.all(
+        emailIds
+          .map(async (itemId) => {
             try {
               const approvedUser = await provider.getApprovedUser(itemId)
-              return approvedUser
+              return approvedUser // Return the data
             } catch (error) {
               console.error(`Error fetching user data for ${itemId}:`, error)
               return null
@@ -26,15 +26,7 @@ module.exports = [
           })
       )
 
-      // Remove any null entries
-      const filteredUserList = userList.filter(Boolean)
-
-      const allowAccess = auth.credentials.isApprover
-      if (!allowAccess) {
-        return h.view('unauthorised')
-      }
-
-      return h.view('reminder-email-list', { filteredUserList })
+      return h.view('reminder-email-list', { userList })
     }
   },
   {
@@ -44,18 +36,17 @@ module.exports = [
       const provider = request.provider
       const payload = request.payload
       const id = shortId()
-      const keyname = `${id}.json`
 
       try {
         // Upload file to s3
         payload.id = id
-        await provider.uploadApproverObject(keyname, JSON.stringify(payload))
+        await provider.uploadApproverObject(id, payload)
       } catch {
         console.log('failed to upload')
       }
 
       // Return ok
-      return h.redirect('reminder-email-list')
+      return h.redirect('/reminder-email-list')
     },
   },
   {
@@ -73,9 +64,10 @@ module.exports = [
 
       try {
         // Delete the approver file from S3
-        await provider.deleteApproverObject(`${id}.json`)
+        await provider.deleteApproverObject(id)
 
-        return h.view('reminder-email-list')
+        // Return ok
+        return h.redirect('/reminder-email-list')
       } catch (error) {
         console.error('Error deleting approver:', error)
         return h.response({ message: 'Failed to delete approver' }).code(500)

@@ -21,11 +21,14 @@ class S3Provider {
     try {
       const command = new ListObjectsV2Command({
         Bucket: config.awsBucketName,
-        Prefix: 'email-notified-approvers/' // Correct way to filter by folder
+        Prefix: `${config.approversPrefix}/` // Correct way to filter by folder
       })
 
       const response = await s3Client.send(command)
-      return response.Contents || [] // Returns files in the specific folder
+      return response.Contents?.map((item) => {
+        const itemId = item.Key.split('/').pop()
+        if (itemId?.endsWith('.json')) { return (itemId.split('.')[0]) } else { return null }
+      }).filter(Boolean) || [] // Returns files in the specific folder
     } catch (error) {
       console.error('Error listing bucket contents:', error)
       return []
@@ -35,33 +38,19 @@ class S3Provider {
   async getApprovedUser (itemId) {
     const result = await s3Client.send(new GetObjectCommand({
       Bucket: config.awsBucketName,
-      Key: `email-notified-approvers/${itemId}`
+      Key: `${config.approversPrefix}/${itemId}.json`
     }))
 
-    return JSON.parse(await result.Body.transformToString())
-  }
-
-  async uploadApprover (keyname, data) {
-    try {
-      const params = {
-        Bucket: 'email-notified-approver',
-        Key: keyname,
-        Body: data
-      }
-
-      const command = new PutObjectCommand(params)
-      await this.s3Client.send(command)
-    } catch (error) {
-      console.error('Error uploading file to S3:', error)
-      throw error
-    }
+    const textResult = await result.Body.transformToString()
+    return JSON.parse(textResult)
   }
 
   async uploadApproverObject (keyname, data) {
-    await s3Client.send(new PutObjectCommand({
+    const toSend = JSON.stringify(data, null, 2)
+    return s3Client.send(new PutObjectCommand({
       Bucket: config.awsBucketName,
-      Key: `email-notified-approvers/${keyname}`,
-      Body: data
+      Key: `${config.approversPrefix}/${keyname}.json`,
+      Body: toSend
     }))
   }
 
@@ -69,7 +58,7 @@ class S3Provider {
     try {
       await s3Client.send(new DeleteObjectCommand({
         Bucket: config.awsBucketName,
-        Key: `email-notified-approvers/${keyname}`
+        Key: `${config.approversPrefix}/${keyname}.json`
       }))
       return true
     } catch (error) {
@@ -79,7 +68,7 @@ class S3Provider {
   }
 
   async save (comments) {
-    await s3Client.send(new PutObjectCommand({
+    return s3Client.send(new PutObjectCommand({
       Bucket: config.awsBucketName,
       Key: manifestKey,
       Body: JSON.stringify(comments, null, 2)

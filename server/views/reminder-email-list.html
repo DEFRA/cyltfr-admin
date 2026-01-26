@@ -29,7 +29,7 @@
         <div class="approver-email-list">
           <h3>Approver email list:</h3>
           <ul class="approver-list">
-            {% for user in filteredUserList %}
+            {% for user in userList %}
             <div class="item-container">
               <li>{{ user.email }}</li>
               <form method="POST" action="/reminder-email-list/delete/{{user.id}}" class="delete-form">

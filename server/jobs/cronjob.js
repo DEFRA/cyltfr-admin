@@ -10,15 +10,10 @@ const onJobCalled = async () => {
 
   try {
     const providerInstance = new S3Provider()
-    const bucketContents = await providerInstance.listEmailIds()
+    const emailAddressIds = await providerInstance.listEmailIds()
     const userList = await Promise.all(
-      bucketContents
-        .map(async (item) => {
-          const itemId = item.Key.split('/').pop()
-          if (!itemId) {
-            return null // Skip this item
-          }
-
+      emailAddressIds
+        .map(async (itemId) => {
           try {
             const approvedUser = await providerInstance.getApprovedUser(itemId)
             return approvedUser // Return the data
@@ -43,24 +38,36 @@ const onJobCalled = async () => {
     })
 
     if (comments && comments.length > 0) {
-      const filteredUserList = await userList.filter(Boolean)
-      const options = { personalisation: {} }
-      options.personalisation.approval_list = ''
-      comments.forEach((comment) => {
-        const emailLine = '[' + comment.description + '](' + config.homePage + '/comment/edit/' + comment.id +
+      userList.forEach(async (approvedUser) => {
+        console.log('Checking email for:', approvedUser.email)
+        const options = { personalisation: {} }
+        if (!approvedUser.sentEmails) {
+          approvedUser.sentEmails = []
+        }
+        options.personalisation.approval_list = ''
+        comments.forEach((comment) => {
+          if (!(approvedUser.sentEmails?.includes(comment.id))) {
+            const emailLine = '[' + comment.description + '](' + config.homePage + '/comment/edit/' + comment.id +
                           ') - Last updated ' + dateString.format(Date.parse(comment.updatedAt)) +
                           ' at ' + timeString.format(Date.parse(comment.updatedAt)) +
                           ' by ' + comment.updatedBy + '\n\n'
-        options.personalisation.approval_list = options.personalisation.approval_list + emailLine
-      })
-
-      // Example: Send an email if comments exist
-      filteredUserList.forEach(async (approvedUser) => {
-        console.log('Sending email to:', approvedUser.email)
-        notifyClient
-          .sendEmail(config.templateId, approvedUser.email, options)
-          .then(response => console.log(response))
-          .catch(err => console.error('Error while sending email: ', err))
+            options.personalisation.approval_list = options.personalisation.approval_list + emailLine
+            approvedUser.sentEmails.push(comment.id)
+          }
+        })
+        if (options.personalisation.approval_list !== '') {
+          notifyClient
+            .sendEmail(config.templateId, approvedUser.email, options)
+            .then((response) => {
+              console.log(response)
+              console.log('Sending email to:', approvedUser.email)
+              providerInstance.uploadApproverObject(approvedUser.id, approvedUser)
+              // save user back to s3 bucket to store sent comment ids
+            })
+            .catch(err => console.error('Error while sending email: ', err))
+        } else {
+          console.log(`Nothing to send to ${approvedUser.email}`)
+        }
       })
     } else {
       console.log('No pending approvals. Skipping email notifications.')
