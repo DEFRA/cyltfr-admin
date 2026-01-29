@@ -39,10 +39,11 @@ Docker v20.10.0+
 | AD_COOKIE_PASSWORD      | Cookie password  |    yes   |                       |                    |       |
 | IS_SECURE               | Secure cookie    |    no    | false                 |                    |       |
 | FORCE_HTTPS             | Force https      |    no    | false                 |                    |       |
-| HOME_PAGE               | Home page        |    no    | http://localhost:3000 |                    |       |
+| HOME_PAGE               | Home page        |    yes   |                       |                    |       |
 | AWS_BUCKET_REGION       |                  |    yes   |                       |                    |       |
 | AWS_BUCKET_NAME         |                  |    yes   |                       |                    |       |
-| GOV_NOTIFY_API          |                  |    yes   |                       |                    |       |
+| GOV_NOTIFY_API_KEY      |                  |    yes   |                       |                    |       |
+| TEMPLATE_ID             | Notify template  |    yes   |                       |                    |       |
 | NOTIFY_CRON             |                  |    no    | 0 0 9 * * mon-fri     |                    |       |
 | HOLDING_COMMENTS_PREFIX |                  |    no    | holding-comments      |                    |       |
 | MANIFEST_FILENAME       |                  |    no    | manifest.json         |                    |       |

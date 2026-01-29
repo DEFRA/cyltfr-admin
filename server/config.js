@@ -12,7 +12,7 @@ const schema = joi.object().keys({
   cookiePassword: joi.string().required(),
   isSecure: joi.boolean().default(false),
   forceHttps: joi.boolean().default(false),
-  homePage: joi.string().default('http://localhost:3000'),
+  homePage: joi.string().required(),
   awsBucketRegion: joi.string().required(),
   awsBucketName: joi.string().required(),
   holdingCommentsPrefix: joi.string().default('holding-comments'),
