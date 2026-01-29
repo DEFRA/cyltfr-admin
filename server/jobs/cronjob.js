@@ -42,24 +42,24 @@ const onJobCalled = async () => {
         console.log('Checking email for:', approvedUser.email)
         const options = { personalisation: {} }
         if (!approvedUser.sentEmails) {
-          approvedUser.sentEmails = []
+          approvedUser.sentEmails = {}
         }
         options.personalisation.approval_list = ''
         comments.forEach((comment) => {
-          if (!(approvedUser.sentEmails?.includes(comment.id))) {
+          const previousComment = approvedUser.sentEmails[comment.id]
+          if ((!previousComment) || (Date.parse(previousComment.updatedAt) < Date.parse(comment.updatedAt))) {
             const emailLine = '[' + comment.description + '](' + config.homePage + '/comment/edit/' + comment.id +
                           ') - Last updated ' + dateString.format(Date.parse(comment.updatedAt)) +
                           ' at ' + timeString.format(Date.parse(comment.updatedAt)) +
                           ' by ' + comment.updatedBy + '\n\n'
             options.personalisation.approval_list = options.personalisation.approval_list + emailLine
-            approvedUser.sentEmails.push(comment.id)
+            approvedUser.sentEmails[comment.id] = ({ updatedAt: comment.updatedAt })
           }
         })
         if (options.personalisation.approval_list !== '') {
           notifyClient
             .sendEmail(config.templateId, approvedUser.email, options)
             .then((response) => {
-              console.log(response)
               console.log('Sending email to:', approvedUser.email)
               providerInstance.uploadApproverObject(approvedUser.id, approvedUser)
               // save user back to s3 bucket to store sent comment ids

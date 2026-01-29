@@ -57,12 +57,13 @@ async function createServer () {
   })
   await server.register(require('./plugins/logging'))
   await server.register(require('blipp'))
-  console.log('Cron job scheduled to run daily at 9 AM')
   // Run cron job to send reminder emails
   const { createCronJob, onJobCalled } = require('./jobs/cronjob')
   createCronJob()
-  onJobCalled()
-  console.log('registered cron job')
+
+  if (config.isDev) {
+    onJobCalled()
+  }
 
   server.ext('onPostHandler', (request, h) => {
     const response = request.response
