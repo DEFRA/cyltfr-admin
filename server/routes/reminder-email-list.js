@@ -9,7 +9,7 @@ module.exports = [
 
       const allowAccess = auth.credentials.isApprover
       if (!allowAccess) {
-        return h.view('unauthorised')
+        return h.view('unauthorised').code(403)
       }
 
       const emailIds = await provider.listEmailIds()
@@ -33,9 +33,13 @@ module.exports = [
     method: 'POST',
     path: '/reminder-email-list',
     handler: async (request, h) => {
-      const provider = request.provider
-      const payload = request.payload
+      const { provider, auth, payload } = request
       const id = shortId()
+
+      const allowAccess = auth.credentials.isApprover
+      if (!allowAccess) {
+        return h.response({ message: 'Unauthorized' }).code(403)
+      }
 
       try {
         // Upload file to s3
@@ -59,7 +63,7 @@ module.exports = [
       // Check if user has permission to delete
       const allowAccess = auth.credentials.isApprover
       if (!allowAccess) {
-        return h.response({ message: 'Unauthorized' }).code(401)
+        return h.response({ message: 'Unauthorized' }).code(403)
       }
 
       try {
