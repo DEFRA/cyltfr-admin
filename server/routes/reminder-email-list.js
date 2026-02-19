@@ -45,8 +45,9 @@ module.exports = [
         // Upload file to s3
         payload.id = id
         await provider.uploadApproverObject(id, payload)
-      } catch {
-        console.log('failed to upload')
+      } catch (error) {
+        console.error('failed to upload', error)
+        throw new Error('Failed to save changes')
       }
 
       // Return ok
