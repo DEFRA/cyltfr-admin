@@ -14,12 +14,22 @@ module.exports = [
 
       const validUsers = await getApprovedUsers(provider)
 
-      return h.view('reminder-email-list', { userList: validUsers })
+      return h.view('reminder-email-list', {
+        userList: validUsers,
+        crumb: request.plugins.crumb
+      })
     }
   },
   {
     method: 'POST',
     path: '/reminder-email-list',
+    options: {
+      plugins: {
+        crumb: {
+          restful: false // Use form-based CSRF (default)
+        }
+      }
+    },
     handler: async (request, h) => {
       const { provider, auth, payload } = request
       const id = shortId()
@@ -70,6 +80,13 @@ module.exports = [
   {
     method: 'POST',
     path: '/reminder-email-list/delete/{id}',
+    options: {
+      plugins: {
+        crumb: {
+          restful: false // Use form-based CSRF (default)
+        }
+      }
+    },
     handler: async (request, h) => {
       const { provider, auth } = request
       const { id } = request.params

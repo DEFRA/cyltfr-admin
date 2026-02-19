@@ -11,6 +11,8 @@
           <h2>Add approver email</h2>
 
           <form id="add-approver-form" method="post" action="/reminder-email-list" style="display: flex; flex-direction: column">
+            <input type="hidden" name="crumb" value="{{ crumb }}" />
+            
             <div class="govuk-form-group">
               <label class="govuk-label" for="user-name">User Name</label>
               <input class="govuk-input" id="user-name" name="username" type="text" required>
@@ -33,6 +35,7 @@
             <div class="item-container">
               <li>{{ user.email }}</li>
               <form method="POST" action="/reminder-email-list/delete/{{user.id}}" class="delete-form">
+                <input type="hidden" name="crumb" value="{{ crumb }}" />
                 <input class="govuk-button danger button-override" type="submit" name="delete" id="delete" value="Remove">
               </form>
             </div>

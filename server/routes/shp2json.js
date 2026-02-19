@@ -9,7 +9,7 @@ const rename = util.promisify(fs.rename)
 module.exports = {
   method: 'POST',
   path: '/shp2json/{type}',
-  handler: async (request, _h) => {
+  handler: async (request, h) => {
     const { payload, params } = request
     const { geometry } = payload
 
@@ -31,12 +31,20 @@ module.exports = {
 
       const geojson = helpers.updateAndValidateGeoJson(data, params.type)
 
-      return geojson
+      return {
+        jsonFileData: geojson,
+        crumb: request.server.plugins.crumb.generate(request, h)
+      }
     } catch (err) {
       return boom.badRequest(err.message, err)
     }
   },
   options: {
+    plugins: {
+      crumb: {
+        restful: false // Accept crumb from FormData
+      }
+    },
     payload: {
       maxBytes: 209715200,
       output: 'file',
@@ -54,8 +62,9 @@ module.exports = {
           filename: joi.string().required(),
           headers: joi.object().required(),
           path: joi.string().required()
-        }).required()
-      })
+        }).required(),
+        crumb: joi.string().optional()
+      }).unknown()
     },
     app: {
       useErrorPages: false
