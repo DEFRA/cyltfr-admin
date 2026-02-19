@@ -1,4 +1,4 @@
-const { shortId } = require('../helpers')
+const { shortId, getApprovedUsers } = require('../helpers')
 
 module.exports = [
   {
@@ -12,21 +12,9 @@ module.exports = [
         return h.view('unauthorised').code(403)
       }
 
-      const emailIds = await provider.listEmailIds()
-      const userList = await Promise.all(
-        emailIds
-          .map(async (itemId) => {
-            try {
-              const approvedUser = await provider.getApprovedUser(itemId)
-              return approvedUser // Return the data
-            } catch (error) {
-              console.error(`Error fetching user data for ${itemId}:`, error)
-              return null
-            }
-          })
-      )
+      const validUsers = await getApprovedUsers(provider)
 
-      return h.view('reminder-email-list', { userList })
+      return h.view('reminder-email-list', { userList: validUsers })
     }
   },
   {
@@ -39,6 +27,31 @@ module.exports = [
       const allowAccess = auth.credentials.isApprover
       if (!allowAccess) {
         return h.response({ message: 'Unauthorized' }).code(403)
+      }
+
+      // Server-side validation
+      const { email, username } = payload
+
+      // Validate required fields
+      if (!email || !username) {
+        return h.response({
+          message: 'Email and username are required'
+        }).code(400)
+      }
+
+      // Validate username is not empty after trimming
+      if (username.trim().length === 0) {
+        return h.response({
+          message: 'Username cannot be empty'
+        }).code(400)
+      }
+
+      // Validate email format and domain
+      const emailRegex = /^[^\s@]+@(defra\.gov\.uk|environment-agency\.gov\.uk)$/i
+      if (!emailRegex.test(email)) {
+        return h.response({
+          message: 'Email must be a valid address ending in @defra.gov.uk or @environment-agency.gov.uk'
+        }).code(400)
       }
 
       try {

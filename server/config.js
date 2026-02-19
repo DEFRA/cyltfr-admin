@@ -19,6 +19,7 @@ const schema = joi.object().keys({
   approversPrefix: joi.string().default('email-notified-approvers'),
   manifestFilename: joi.string().default('manifest.json'),
   govNotifyApiKey: joi.string().required(),
+  sendEmailsOnStartup: joi.boolean().default(false),
   notifyCron: joi.string().default('0 0 9 * * mon-fri'),
   templateId: joi.string().required()
 })
@@ -40,6 +41,7 @@ const config = {
   approversPrefix: process.env.APPROVERS_PREFIX,
   manifestFilename: process.env.MANIFEST_FILENAME,
   govNotifyApiKey: process.env.GOV_NOTIFY_API_KEY,
+  sendEmailsOnStartup: process.env.SEND_EMAILS_ON_STARTUP,
   notifyCron: process.env.NOTIFY_CRON,
   templateId: process.env.TEMPLATE_ID,
 }
