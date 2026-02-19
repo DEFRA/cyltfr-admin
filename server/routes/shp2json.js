@@ -20,25 +20,20 @@ module.exports = {
 
       // CHANGE THE BELOW BACK OR IT WILL USE DUMMY FILEE!!!!!!!!!!!!
 
-      const { ogr2ogr } = require('ogr2ogr')
-      let data
-      try {
-        ({ data } = await ogr2ogr(zipfile))
-      } catch (error) {
-        throw new Error('Could not process uploaded file. Check if it\'s a valid shapefile')
-      }
+      // const { ogr2ogr } = require('ogr2ogr')
+      // let data
+      // try {
+      //   ({ data } = await ogr2ogr(zipfile))
+      // } catch (error) {
+      //   throw new Error('Could not process uploaded file. Check if it\'s a valid shapefile')
+      // }
 
       // uncomment the below to use dummy data to bypass having to upload an actual shape file on dev
-      // const data = require('./dummy-data/example_file.json')
+      const data = require('./dummy-data/example_file.json')
       // const data = require('./dummy-data/example_file_broken.json')
       const indexedShapeData = await request.server.methods.getIndexedShapeData()
-      let intersects = []
-      for (const feature of data.features) {
-        const uploadCoordinates = feature.geometry.coordinates
-        const uploadPolygon = new Polygon(uploadCoordinates[0])
-        const featureintersects = indexedShapeData.polygonHitTest(uploadPolygon)
-        intersects = intersects.concat(featureintersects)
-      }
+      const { findIntersectionsWithIndexedData } = await import('../services/intersectionService.mjs')
+      const intersects = findIntersectionsWithIndexedData(indexedShapeData, data.features, Polygon)
       const geojson = await helpers.updateAndValidateGeoJson(data, params.type)
       return { geojson, intersects }
     } catch (err) {

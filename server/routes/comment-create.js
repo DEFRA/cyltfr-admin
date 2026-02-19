@@ -3,8 +3,6 @@ const commentCreate = require('../models/comment-create')
 const capabilities = require('../models/capabilities')
 const config = require('../config')
 const { performance } = require('node:perf_hooks')
-const { booleanIntersects } = require('@turf/boolean-intersects')
-const { polygon } = require('@turf/helpers')
 
 module.exports = [
   {
@@ -39,38 +37,7 @@ module.exports = [
       const keyname = `${id}.json`
       const now = new Date()
 
-      // Incoming polygon geometry
-      const uploadCoordinates = request.payload.features[0].geometry.coordinates
-      const uploadPolygon = polygon(uploadCoordinates)
-
-      const comments = await provider.getFile()
-      const intersectingComment = []
-
-      // Iterate through comments and get coordinates so they can be compared and find interests
-      for (const element of comments) {
-        const key = `${config.holdingCommentsPrefix}/${element.keyname}`
-        const storedGeoJSON = await provider.getFile(key)
-
-        const geometry = storedGeoJSON.features[0].geometry
-
-        let storedPolygon
-        if (geometry.type === 'Polygon') {
-          storedPolygon = polygon(geometry.coordinates)
-        } else if (geometry.type === 'MultiPolygon') {
-          // Take first polygon in MultiPolygon
-          // Do we need to be checking each polygon in multipolygon?
-          storedPolygon = polygon(geometry.coordinates[0])
-        } else {
-          console.warn(`Unsupported geometry type: ${geometry.type}`)
-          continue
-        }
-
-        const intersects = booleanIntersects(uploadPolygon, storedPolygon)
-
-        if (intersects) {
-          intersectingComment.push(element.description)
-        }
-      }
+      const intersectingComment = ''
 
       try {
         // Update manifest

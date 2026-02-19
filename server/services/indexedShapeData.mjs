@@ -21,7 +21,7 @@ export class IndexedShapeData {
       features.forEach((feature) => {
         const boundingBox = bbox(feature?.geometry)
         const { id } = item
-        const geometry = { id, description, boundingBox, ...feature?.geometry }
+        const geometry = { id, description, item, boundingBox, ...feature?.geometry }
         array[index] = geometry
         const xyIndexPoints = IndexedShapeData.getXYIndexPoints(boundingBox)
         this.setIndexedDataItem(xyIndexPoints, index)
@@ -62,7 +62,7 @@ export class IndexedShapeData {
     return retval
   }
 
-  polygonHitTest (polygon) {
+  polygonHitTest (polygon, idToIgnore = '') {
     const intersectingCommentsList = []
     if (!polygon) {
       return intersectingCommentsList
@@ -70,7 +70,9 @@ export class IndexedShapeData {
     [...this.getPossibleIntersectIndices(polygon)].forEach((index) => {
       const checkIfIntersect = booleanIntersects(polygon.turfPolygon, this.geometryArray[index])
       if (checkIfIntersect) {
-        intersectingCommentsList.push(this.geometryArray[index].description)
+        if (((idToIgnore !== '') && (idToIgnore !== this.geometryArray[index].id)) || (idToIgnore === '')) {
+          intersectingCommentsList.push(this.geometryArray[index].item)
+        }
       }
     })
 

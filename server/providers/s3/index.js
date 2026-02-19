@@ -44,6 +44,7 @@ class S3Provider {
       Key: manifestKey,
       Body: JSON.stringify(comments, null, 2)
     }))
+    return this.cachedData()
   }
 
   async addComment (item) {

@@ -1,24 +1,7 @@
 const { DATETIMEFORMAT, DATEFORMAT } = require('../constants')
 
-function getOverrideValues (properties, doNotOverride) {
-  let presentDay = properties.riskOverride ?? properties.riskOverrideRS
-  if (presentDay === null || presentDay === undefined) {
-    presentDay = doNotOverride
-  }
-
-  let climateChange = properties.riskOverrideCc ?? properties.riskOverrideRSCC
-  if (climateChange === null || climateChange === undefined) {
-    climateChange = doNotOverride
-  }
-
-  if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
-    climateChange = 'No data available'
-  }
-
-  return { presentDay, climateChange }
-}
-
 async function commentView (comment, geometry, auth, capabilities, allFeatures) {
+  const { getRiskOverrideValues } = await import('../services/riskOverrideService.mjs')
   const retval = {
     comment,
     commentGuidance: 'partials/comment-guidance.html',
@@ -58,7 +41,7 @@ async function commentView (comment, geometry, auth, capabilities, allFeatures) 
   retval.viewFeatureData = geometry.features.map((f, i) => {
     const doNotOverride = 'Do not override'
     const headerColumn = 'header-column'
-    const { presentDay, climateChange } = getOverrideValues(f.properties, doNotOverride)
+    const { presentDay, climateChange } = getRiskOverrideValues(f.properties, doNotOverride)
 
     const rows = [
       [{ text: comment.type === 'holding' ? 'Info' : 'Report', classes: headerColumn }, { text: f.properties.info }]

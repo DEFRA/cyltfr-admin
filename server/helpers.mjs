@@ -2,6 +2,7 @@ import { createRequire } from 'node:module'
 const require = createRequire(import.meta.url)
 const spawn = require('node:child_process').spawn
 const moment = require('moment-timezone')
+const boom = require('@hapi/boom')
 const config = require('./config')
 const { DATEFORMAT } = require('./constants')
 const CONVERSION_BASE = 36
@@ -39,25 +40,6 @@ export async function updateAndValidateGeoJson (geojson, type) {
   return geojson
 }
 
-export async function checkIntersects (polygon, indexedShapeData) {
-  let startTime
-  if (config.performanceLogging) {
-    startTime = performance.now()
-  }
-
-  // uses the returned values of the shape data (which can be false) and the current polygon (changed to a polygon object with attributes) to evaluate if they
-  // intersect
-  const Polygon = await import('./services/polygon.mjs')
-
-  const intersects = indexedShapeData.polygonHitTest(new Polygon(polygon))
-  if (config.performanceLogging) {
-    console.log('Check intersects: ', performance.now() - startTime)
-  }
-
-  // intersects is true or false
-  return { intersects }
-}
-
 export function run (cmd, args, opts) {
   return new Promise((resolve, reject) => {
     console.log('Spawning', cmd, args, opts)
@@ -86,10 +68,18 @@ export function run (cmd, args, opts) {
   })
 }
 
+export async function getCommentById (provider, id) {
+  const comments = await provider.getFile()
+  const comment = comments.find(c => c.id === id)
+  if (!comment) {
+    throw boom.notFound('Comment not found')
+  }
+  return { comment, comments }
+}
+
 // module.exports = {
 //   run,
 //   shortId,
 //   formatDate,
-//   updateAndValidateGeoJson,
-//   checkIntersects
+//   updateAndValidateGeoJson
 // }

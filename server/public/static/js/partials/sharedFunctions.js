@@ -1,4 +1,18 @@
 const sharedFunctions = {
+
+  getIntersectionLinks: (intersects) => {
+    const idsSeen = []
+    let retval = '<ul>'
+    for (const element of intersects) {
+      if (!idsSeen.includes(element.id)) {
+        idsSeen.push(element.id)
+        retval += `<li><a href='/comment/view/${element.id}'>${element.description}</a></li>\n`
+      }
+    }
+    retval += '</ul>'
+    return retval
+  },
+
   addCharacterCounts: () => {
     const textareas = document.querySelectorAll('textarea')
     const remainingCharsTexts = document.querySelectorAll('.remaining-chars-text')

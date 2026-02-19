@@ -44,7 +44,7 @@ class CreateCommentPage {
     }
 
     if (jsonFileData.intersects?.length > 0) {
-      window.alert(`Warning, there are other holding comments that intersect this shape file: ${jsonFileData.intersects.join(', ')}`)
+      window.alert('Warning, there are other holding comments that intersect this shape file')
     }
 
     // Add feature sections for each feature
@@ -77,7 +77,15 @@ class CreateCommentPage {
         featureTextAreas[index].value = `${feature.properties.info}`
       }
       window.LTFMGMT.sharedFunctions.setInitialValues(index, this.isHoldingComment)
-      this.commentMap(geo, 'map_' + index, this.capabilities)
+      const mapDiv = document.getElementById('map_' + index)
+      if (geo.features[0].intersects?.length > 0) {
+        mapDiv.insertAdjacentHTML('beforebegin', `<label class="control-label govuk-heading-s" for="intersection_links_${index}">
+          This shape intersects with existing comments</label>
+          <div id="intersection_links_${index}" class="intersection_links">
+        ${window.LTFMGMT.sharedFunctions.getIntersectionLinks(geo.features[0].intersects)}
+        </div>`)
+      }
+      this.commentMap(geo, 'map_' + index, this.capabilities, '', geo.features[0].intersects)
     })
 
     if (jsonFileData.geojson.features.length > 1) {
@@ -100,12 +108,6 @@ class CreateCommentPage {
           }
         })
 
-        const responseJson = await response.json()
-        const listOfIntersectingCommentsString = responseJson.intersectingComment.join(', ')
-
-        if (responseJson.intersectingComment) {
-          window.alert(`There is an intersect with ${listOfIntersectingCommentsString}`)
-        }
         if (response.ok) {
           window.location.href = '/'
         } else {
