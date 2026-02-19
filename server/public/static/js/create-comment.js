@@ -31,13 +31,24 @@ class CreateCommentPage {
 
     formData.append('geometry', event.target.files[0])
 
+    // Add CSRF token from hidden input
+    const crumbField = this.document.querySelector('input[name="crumb"]')
+    if (crumbField) {
+      formData.append('crumb', crumbField.value)
+    }
+
     event.target.style.display = 'none'
     document.getElementById('spinner').style.display = 'inline'
 
-    let jsonFileData
+    let jsonFileData, crumbValue
     try {
     // Process data using the shp2json router
-      jsonFileData = await this.getJsonFileData(formData)
+      const returnedData = await this.getJsonFileData(formData)
+      jsonFileData = returnedData.jsonFileData
+      crumbValue = returnedData.crumb
+      if (crumbField) {
+        crumbField.value = crumbValue
+      }
     } catch (error) {
       this.showErrorMessage('Invalid shapefile: ' + error.message)
       return
@@ -95,9 +106,19 @@ class CreateCommentPage {
       try {
         this.updateDataToBeSubmitted(e, jsonFileData.geojson, this.isHoldingComment)
 
+        const crumbField = this.document.querySelector('input[name="crumb"]')
+        let crumb = ''
+        if (crumbField) {
+          crumb = crumbField.value
+        }
+        const dataToSubmit = {
+          jsonFileData: jsonFileData.geojson,
+          crumb
+        }
+
         const response = await fetch('/comment/create/' + this.type, {
           method: 'post',
-          body: JSON.stringify(jsonFileData.geojson),
+          body: JSON.stringify(dataToSubmit),
           headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'

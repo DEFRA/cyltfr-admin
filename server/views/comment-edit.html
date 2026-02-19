@@ -17,6 +17,7 @@
     <div class="govuk-grid-column-two-thirds">
       <div id="root">
         <form id="comment-form-edit" action="/comment/edit/{{id}}" method="POST">
+          <input type="hidden" name="crumb" value="{{ crumb }}" />
           <div class="form-group field field-object">
             <fieldset id="root">
               <legend id="root_title">A geojson form</legend>
