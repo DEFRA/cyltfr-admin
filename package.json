@@ -26,7 +26,6 @@
     "@hapi/bell": "^13.1.0",
     "@hapi/boom": "^10.0.1",
     "@hapi/cookie": "^12.0.1",
-    "@hapi/crumb": "^9.0.1",
     "@hapi/hapi": "^21.4.4",
     "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.3",
@@ -37,15 +36,15 @@
     "joi": "^18.0.2",
     "jsonexport": "3.2.0",
     "moment-timezone": "^0.6.0",
-    "node-cron": "^3.0.3",
-    "notifications-node-client": "^8.2.1",
     "nunjucks": "^3.2.4",
-    "ogr2ogr": "^6.0.1"
+    "ogr2ogr": "^6.0.1",
+    "node-cron": "^3.0.3",
+    "notifications-node-client": "^8.2.1"
   },
   "devDependencies": {
     "eslint": "^9.39.1",
     "jest": "^30.2.0",
-    "neostandard": "^0.12.2",
-    "sass": "^1.96.0"
+    "sass": "^1.96.0",
+    "neostandard": "^0.12.2"
   }
 }

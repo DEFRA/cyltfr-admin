@@ -19,13 +19,12 @@ function getOverrideValues (properties, doNotOverride) {
   return { presentDay, climateChange }
 }
 
-function commentView (comment, geometry, auth, capabilities, crumb) {
+function commentView (comment, geometry, auth, capabilities) {
   const retval = {
     comment,
     commentGuidance: 'partials/comment-guidance.html',
     geometry,
     capabilities,
-    crumb,
     isApprover: auth.credentials.isApprover,
     allowDelete: auth.credentials.isApprover ||
     comment.createdBy === auth.credentials.profile.email
@@ -88,7 +87,6 @@ function commentView (comment, geometry, auth, capabilities, crumb) {
       mapHtml += '<div class="delete-entry"> ' +
                 `<form method="POST" action="/comment/edit/${comment.id}/deletesingle/${i}"` +
                 'onsubmit="return confirm(\'Are you sure you want to delete this comment?\')">' +
-                `<input type="hidden" name="crumb" value="${crumb}" />` +
                 '<button class="govuk-button govuk-button--warning" type="submit">Delete entry</button>' +
                 '</form></div>'
     }

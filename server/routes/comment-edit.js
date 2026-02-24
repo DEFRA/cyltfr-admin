@@ -43,8 +43,7 @@ module.exports = [
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
       const geometry = await provider.getFile(key)
 
-      const viewData = commentView(comment, geometry, request.auth, capabilities, request.plugins.crumb)
-      return h.view('comment-view', viewData)
+      return h.view('comment-view', commentView(comment, geometry, request.auth, capabilities))
     },
     options: {
       validate: {
@@ -99,9 +98,8 @@ module.exports = [
         profile: request.auth.credentials.profile
       }
 
-      const viewData = commentEdit(commentData, authData)
-      viewData.crumb = request.plugins.crumb
-      return h.view('comment-edit', viewData)
+      return h.view(
+        'comment-edit', commentEdit(commentData, authData))
     },
     options: {
       validate: {
@@ -182,11 +180,6 @@ module.exports = [
       return h.redirect('/')
     },
     options: {
-      plugins: {
-        crumb: {
-          restful: false
-        }
-      },
       validate: {
         params: joi.object().keys({
           id: joi.string().required()
@@ -204,22 +197,6 @@ module.exports = [
   {
     method: 'POST',
     path: '/comment/edit/{id}/approve',
-    options: {
-      plugins: {
-        crumb: {
-          restful: false
-        }
-      },
-      auth: {
-        mode: 'required',
-        scope: '+approve:comments'
-      },
-      validate: {
-        params: joi.object().keys({
-          id: joi.string().required()
-        })
-      }
-    },
     handler: async (request, h) => {
       const { params, auth } = request
       const { id } = params
@@ -234,17 +211,8 @@ module.exports = [
       await provider.save(comments)
 
       return h.redirect('/')
-    }
-  },
-  {
-    method: 'POST',
-    path: '/comment/edit/{id}/undo-approve',
+    },
     options: {
-      plugins: {
-        crumb: {
-          restful: false
-        }
-      },
       auth: {
         mode: 'required',
         scope: '+approve:comments'
@@ -254,7 +222,11 @@ module.exports = [
           id: joi.string().required()
         })
       }
-    },
+    }
+  },
+  {
+    method: 'POST',
+    path: '/comment/edit/{id}/undo-approve',
     handler: async (request, h) => {
       const { params } = request
       const { id } = params
@@ -269,43 +241,36 @@ module.exports = [
       await provider.save(comments)
 
       return h.redirect('/')
-    }
-  },
-  {
-    method: 'POST',
-    path: '/comment/edit/{id}/delete',
+    },
     options: {
-      plugins: {
-        crumb: {
-          restful: false
-        }
+      auth: {
+        mode: 'required',
+        scope: '+approve:comments'
       },
       validate: {
         params: joi.object().keys({
           id: joi.string().required()
         })
       }
-    },
+    }
+  },
+  {
+    method: 'POST',
+    path: '/comment/edit/{id}/delete',
     handler: async (request, h) => {
       return handleCommentDelete(request, h)
+    },
+    options: {
+      validate: {
+        params: joi.object().keys({
+          id: joi.string().required()
+        })
+      }
     }
   },
   {
     method: 'POST',
     path: '/comment/edit/{id}/deletesingle/{index}',
-    options: {
-      plugins: {
-        crumb: {
-          restful: false
-        }
-      },
-      validate: {
-        params: joi.object().keys({
-          id: joi.string().required(),
-          index: joi.number().required()
-        })
-      }
-    },
     handler: async (request, h) => {
       const { params, auth } = request
       const { id } = params
@@ -346,6 +311,14 @@ module.exports = [
       await provider.save(comments)
 
       return h.redirect(`/comment/view/${id}`)
+    },
+    options: {
+      validate: {
+        params: joi.object().keys({
+          id: joi.string().required(),
+          index: joi.number().required()
+        })
+      }
     }
 
   }
