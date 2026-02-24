@@ -1,0 +1,13 @@
+{
+  "name": "test-project-accepted",
+  "version": "1.0.0",
+  "dependencies": {
+    "pkg-with-accepted-risk": "^3.0.0"
+  },
+  "audit-check": {
+    "threshold": "moderate",
+    "pkg-with-accepted-risk": {
+      "vulnerable-leaf": {}
+    }
+  }
+}

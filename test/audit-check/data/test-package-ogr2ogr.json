@@ -1,0 +1,13 @@
+{
+  "name": "test-accepted-minimatch",
+  "version": "1.0.0",
+  "dependencies": {
+    "ogr2ogr": "^6.0.1"
+  },
+  "audit-check": {
+    "threshold": "moderate",
+    "ogr2ogr": {
+      "minimatch": {}
+    }
+  }
+}

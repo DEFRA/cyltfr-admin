@@ -1,0 +1,76 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "test-package-low": {
+      "name": "test-package-low",
+      "severity": "low",
+      "isDirect": true,
+      "via": [
+        "sub-dependency"
+      ],
+      "effects": [],
+      "range": ">=1.0.0",
+      "nodes": [
+        "node_modules/test-package-low"
+      ],
+      "fixAvailable": {
+        "name": "test-package-low",
+        "version": "0.9.0",
+        "isSemVerMajor": true
+      }
+    },
+    "sub-dependency": {
+      "name": "sub-dependency",
+      "severity": "low",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1234567,
+          "name": "sub-dependency",
+          "dependency": "sub-dependency",
+          "title": "Low severity vulnerability in sub-dependency",
+          "url": "https://github.com/advisories/GHSA-test-low1",
+          "severity": "low",
+          "cwe": [
+            "CWE-1234"
+          ],
+          "cvss": {
+            "score": 3.5,
+            "vectorString": null
+          },
+          "range": "<2.0.0"
+        }
+      ],
+      "effects": [
+        "test-package-low"
+      ],
+      "range": "<2.0.0",
+      "nodes": [
+        "node_modules/sub-dependency"
+      ],
+      "fixAvailable": {
+        "name": "test-package-low",
+        "version": "0.9.0",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 2,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 2
+    },
+    "dependencies": {
+      "prod": 50,
+      "dev": 100,
+      "optional": 10,
+      "peer": 2,
+      "peerOptional": 0,
+      "total": 150
+    }
+  }
+}
