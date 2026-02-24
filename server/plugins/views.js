@@ -44,9 +44,9 @@ module.exports = {
       appStage: config.env,
       appVersion: pkg.version,
       assetPath: '/assets',
-      serviceRef: 'LTF-Admin',
-      serviceName: 'LTFRI Admin Console',
-      pageTitle: 'LTFRI Admin Console - EA.GOV.UK',
+      serviceRef: 'CYLTFR-Admin',
+      serviceName: 'CYLTFR Admin Console',
+      pageTitle: 'CYLTFR Admin Console - EA.GOV.UK',
       analyticsAccount
     }
   }

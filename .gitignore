@@ -8,3 +8,4 @@ ltfmgmt.tar
 .env
 backup/
 test/output/
+.scannerwork/

@@ -43,10 +43,6 @@ class CreateCommentPage {
       return
     }
 
-    if (jsonFileData.intersects?.length > 0) {
-      window.alert('Warning, there are other holding comments that intersect this shape file')
-    }
-
     // Add feature sections for each feature
     const featureForm = document.getElementById('features')
 

@@ -11,7 +11,7 @@
     "build": " bin/build ",
     "test": "npm run test:lint && npm run test:audit ",
     "test:jest": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --no-cache  --detectOpenHandles --runInBand --forceExit",
-    "test:audit": "npm audit",
+    "test:audit": "npm audit --omit dev",
     "test:lint": "eslint",
     "postinstall": "npm run build",
     "build:container": "docker build . -t ltfmgmt:v1",

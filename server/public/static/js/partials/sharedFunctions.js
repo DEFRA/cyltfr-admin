@@ -2,14 +2,29 @@ const sharedFunctions = {
 
   getIntersectionLinks: (intersects) => {
     const idsSeen = []
-    let retval = '<ul>'
+    let retval = `<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Description (opens in new tab)</th>
+      <th scope="col" class="govuk-table__header">Flood Risk</th>
+      <th scope="col" class="govuk-table__header">Type</th>
+      <th scope="col" class="govuk-table__header">Created By</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">`
+
     for (const element of intersects) {
       if (!idsSeen.includes(element.id)) {
         idsSeen.push(element.id)
-        retval += `<li><a href='/comment/view/${element.id}'>${element.description}</a></li>\n`
+        retval += `<tr class="govuk-table__row">\
+        <td class="govuk-table__cell"><a target="_blank" href='/comment/view/${element.id}'>${element.description}</a></td>\
+        <td class="govuk-table__cell">${element.features.features[0].properties.apply === 'holding' ? element.features.features[0].properties.riskType : ''}</td>\
+        <td class="govuk-table__cell">${element.features.features[0].properties.apply === 'holding' ? 'Holding' : 'LLFA'}</td>\
+        <td class="govuk-table__cell">${element.createdBy}</td>\
+        </tr>`
       }
     }
-    retval += '</ul>'
+    retval += '</tbody></table>'
     return retval
   },
 
