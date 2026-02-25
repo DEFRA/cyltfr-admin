@@ -210,6 +210,7 @@ function main() {
 
       // Filter out accepted risks
       const acceptedRisks = [];
+      const rejectedRisks = [];
       directVulnerabilities = directVulnerabilities.filter(([packageName, vuln]) => {
         const installedVersion = getInstalledVersion(packageName, packageLock);
         if (!installedVersion) {
@@ -220,6 +221,27 @@ function main() {
         const packageConfig = auditCheckConfig[packageName];
         if (!packageConfig) {
           return true; // No configuration, keep vulnerability
+        }
+
+        // Check if the configuration includes a version
+        if (!packageConfig.version) {
+          rejectedRisks.push({
+            packageName,
+            installedVersion,
+            reason: 'No version specified in audit-check configuration'
+          });
+          return true; // Keep vulnerability - version is required
+        }
+
+        // Check if the installed version matches the configured version
+        if (installedVersion !== packageConfig.version) {
+          rejectedRisks.push({
+            packageName,
+            installedVersion,
+            configuredVersion: packageConfig.version,
+            reason: `Version mismatch (installed: ${installedVersion}, configured: ${packageConfig.version})`
+          });
+          return true; // Keep vulnerability - versions must match
         }
 
         // Extract leaf vulnerabilities (actual vulnerable packages)
@@ -254,6 +276,16 @@ function main() {
       console.log('═══════════════════════════════════════════════════════════');
       console.log(`  Audit Check - Threshold: ${threshold.toUpperCase()}`);
       console.log('═══════════════════════════════════════════════════════════\n');
+
+      // Display rejected risks
+      if (rejectedRisks.length > 0) {
+        console.log('Rejected Risk Packages (version mismatch or missing):');
+        rejectedRisks.forEach(({ packageName, installedVersion, configuredVersion, reason }) => {
+          console.log(`  ✗ ${packageName}@${installedVersion}`);
+          console.log(`    ${reason}`);
+        });
+        console.log('\n');
+      }
 
       // Display accepted risks
       if (acceptedRisks.length > 0) {

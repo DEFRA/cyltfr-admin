@@ -11,7 +11,7 @@
     "build": " bin/build ",
     "test": "npm run test:lint && npm run test:audit && npm run test:jest",
     "test:jest": "jest --no-cache  --detectOpenHandles --runInBand --forceExit",
-    "test:audit": "npm audit --omit dev",
+    "test:audit": "npm audit --omit dev --json | bin/audit-check",
     "test:lint": "eslint",
     "postinstall": "npm run build",
     "build:container": "docker build . -t ltfmgmt:v1",
@@ -50,15 +50,19 @@
   "audit-check": {
     "threshold": "moderate",
     "ogr2ogr": {
+      "version": "6.0.1",
       "minimatch": {}
     },
     "neostandard": {
+      "version": "0.12.2",
       "minimatch": {}
     },
     "jest": {
+      "version": "30.2.0",
       "minimatch": {}
     },
     "eslint": {
+      "version": "9.39.3",
       "minimatch": {}
     }
   }

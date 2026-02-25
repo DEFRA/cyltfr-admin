@@ -29,11 +29,18 @@ Configure in your `package.json` under the `audit-check` section:
   "audit-check": {
     "threshold": "moderate",
     "direct-package-name": {
+      "version": "x.y.z",
       "leaf-vulnerable-package": {}
     }
   }
 }
 ```
+
+**Important**: Each direct package configuration **must** include a `version` property that matches the installed version in `package-lock.json`. The script will only ignore vulnerabilities when both:
+1. The `version` property is specified in the configuration
+2. The specified version matches the currently installed version
+
+This ensures accepted risks are only applied to the specific version that was reviewed.
 
 ### Severity Levels
 
@@ -53,9 +60,11 @@ Accept specific leaf vulnerabilities in direct dependencies:
   "audit-check": {
     "threshold": "high",
     "ogr2ogr": {
+      "version": "6.0.1",
       "minimatch": {}
     },
     "another-package": {
+      "version": "2.3.4",
       "lodash": {},
       "axios": {}
     }
@@ -65,8 +74,9 @@ Accept specific leaf vulnerabilities in direct dependencies:
 
 In this example:
 - The threshold is set to `high`, so only high and critical vulnerabilities will cause failures
-- For the `ogr2ogr` package, vulnerabilities that originate from `minimatch` (as a leaf vulnerability) will be accepted
-- For `another-package`, vulnerabilities from both `lodash` and `axios` will be accepted
+- For the `ogr2ogr` package (version 6.0.1), vulnerabilities that originate from `minimatch` (as a leaf vulnerability) will be accepted
+- For `another-package` (version 2.3.4), vulnerabilities from both `lodash` and `axios` will be accepted
+- If the installed version doesn't match the configured version, the risk will be rejected and vulnerabilities will be reported
 
 The script identifies the actual vulnerable package (leaf node) from the dependency chain and checks if that specific vulnerability has been accepted in the direct package's configuration.
 
@@ -78,12 +88,19 @@ The script identifies the actual vulnerable package (leaf node) from the depende
 
 ### Reporting Sections
 
-1. **Accepted Risk Packages**: 
+1. **Rejected Risk Packages**: 
+   - Lists packages with audit-check configuration that was rejected
+   - Shows reason for rejection (missing version or version mismatch)
+   - Example: `✗ ogr2ogr@6.0.2` with `Version mismatch (installed: 6.0.2, configured: 6.0.1)`
+
+2. **Accepted Risk Packages**: 
    - Lists direct dependencies with accepted vulnerabilities
    - Shows which leaf vulnerabilities (actual vulnerable packages) were accepted
    - Example: `✓ ogr2ogr@6.0.1` with `Accepted leaf vulnerabilities: minimatch`
-2. **Below Threshold Vulnerabilities**: Vulnerabilities below the severity threshold (informational)
-3. **Vulnerabilities At/Above Threshold**: Vulnerabilities that cause failure
+
+3. **Below Threshold Vulnerabilities**: Vulnerabilities below the severity threshold (informational)
+
+4. **Vulnerabilities At/Above Threshold**: Vulnerabilities that cause failure
 
 ### Example Output
 
@@ -91,6 +108,10 @@ The script identifies the actual vulnerable package (leaf node) from the depende
 ═══════════════════════════════════════════════════════════
   Audit Check - Threshold: MODERATE
 ═══════════════════════════════════════════════════════════
+
+Rejected Risk Packages (version mismatch or missing):
+  ✗ some-package@1.2.4
+    Version mismatch (installed: 1.2.4, configured: 1.2.3)
 
 Accepted Risk Packages (filtered out):
   ✓ ogr2ogr@6.0.1

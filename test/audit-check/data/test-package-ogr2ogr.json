@@ -7,6 +7,7 @@
   "audit-check": {
     "threshold": "moderate",
     "ogr2ogr": {
+      "version": "6.0.1",
       "minimatch": {}
     }
   }

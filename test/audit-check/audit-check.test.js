@@ -255,5 +255,112 @@ describe('audit-check script', () => {
       expect(result.stdout).toContain('Accepted leaf vulnerabilities: vulnerable-leaf')
       expect(result.stdout).toContain('No vulnerabilities at or above "moderate" threshold')
     })
+
+    it('should reject accepted risk when version is missing from config', async () => {
+      const tmpDir = fs.mkdtempSync(path.join(__dirname, 'tmp-'))
+      const customPackageJson = {
+        name: 'test-no-version',
+        version: '1.0.0',
+        dependencies: {
+          'pkg-with-accepted-risk': '^3.0.0'
+        },
+        'audit-check': {
+          threshold: 'moderate',
+          'pkg-with-accepted-risk': {
+            'vulnerable-leaf': {}
+          }
+        }
+      }
+      fs.writeFileSync(
+        path.join(tmpDir, 'package.json'),
+        JSON.stringify(customPackageJson, null, 2)
+      )
+      fs.copyFileSync(
+        path.join(TEST_DATA_DIR, 'test-package-lock-accepted.json'),
+        path.join(tmpDir, 'package-lock.json')
+      )
+
+      const auditData = fs.readFileSync(path.join(TEST_DATA_DIR, 'accepted-leaf-vulnerability.json'), 'utf8')
+
+      const child = spawn('node', [AUDIT_CHECK_SCRIPT], {
+        cwd: tmpDir,
+        stdio: ['pipe', 'pipe', 'pipe']
+      })
+
+      let stdout = ''
+      const result = await new Promise((resolve) => {
+        child.stdout.on('data', (data) => {
+          stdout += data.toString()
+        })
+
+        child.on('close', (exitCode) => {
+          fs.rmSync(tmpDir, { recursive: true, force: true })
+          resolve({ exitCode, stdout })
+        })
+
+        child.stdin.write(auditData)
+        child.stdin.end()
+      })
+
+      expect(result.exitCode).toBe(1)
+      expect(result.stdout).toContain('Rejected Risk Packages (version mismatch or missing)')
+      expect(result.stdout).toContain('pkg-with-accepted-risk@3.2.0')
+      expect(result.stdout).toContain('No version specified in audit-check configuration')
+      expect(result.stdout).toContain('Vulnerabilities At/Above Threshold')
+    })
+
+    it('should reject accepted risk when version does not match', async () => {
+      const tmpDir = fs.mkdtempSync(path.join(__dirname, 'tmp-'))
+      const customPackageJson = {
+        name: 'test-version-mismatch',
+        version: '1.0.0',
+        dependencies: {
+          'pkg-with-accepted-risk': '^3.0.0'
+        },
+        'audit-check': {
+          threshold: 'moderate',
+          'pkg-with-accepted-risk': {
+            version: '3.1.0',
+            'vulnerable-leaf': {}
+          }
+        }
+      }
+      fs.writeFileSync(
+        path.join(tmpDir, 'package.json'),
+        JSON.stringify(customPackageJson, null, 2)
+      )
+      fs.copyFileSync(
+        path.join(TEST_DATA_DIR, 'test-package-lock-accepted.json'),
+        path.join(tmpDir, 'package-lock.json')
+      )
+
+      const auditData = fs.readFileSync(path.join(TEST_DATA_DIR, 'accepted-leaf-vulnerability.json'), 'utf8')
+
+      const child = spawn('node', [AUDIT_CHECK_SCRIPT], {
+        cwd: tmpDir,
+        stdio: ['pipe', 'pipe', 'pipe']
+      })
+
+      let stdout = ''
+      const result = await new Promise((resolve) => {
+        child.stdout.on('data', (data) => {
+          stdout += data.toString()
+        })
+
+        child.on('close', (exitCode) => {
+          fs.rmSync(tmpDir, { recursive: true, force: true })
+          resolve({ exitCode, stdout })
+        })
+
+        child.stdin.write(auditData)
+        child.stdin.end()
+      })
+
+      expect(result.exitCode).toBe(1)
+      expect(result.stdout).toContain('Rejected Risk Packages (version mismatch or missing)')
+      expect(result.stdout).toContain('pkg-with-accepted-risk@3.2.0')
+      expect(result.stdout).toContain('Version mismatch (installed: 3.2.0, configured: 3.1.0)')
+      expect(result.stdout).toContain('Vulnerabilities At/Above Threshold')
+    })
   })
 })
