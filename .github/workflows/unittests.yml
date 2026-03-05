@@ -2,6 +2,7 @@ name: UNITTEST
 
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   build:
