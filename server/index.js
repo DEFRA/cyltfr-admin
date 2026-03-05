@@ -2,7 +2,7 @@ const hapi = require('@hapi/hapi')
 const config = require('./config')
 const cache = require('./cache.js')
 
-async function createServer () {
+async function createServer (Provider = require('./providers/s3')) {
   // Create the hapi server
   const server = hapi.server({
     port: config.port,
@@ -64,7 +64,7 @@ async function createServer () {
   await server.register({
     plugin: require('./plugins/provider'),
     options: {
-      Provider: require('./providers/s3')
+      Provider
     }
   })
   await server.register(require('./plugins/logging'))

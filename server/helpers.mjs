@@ -81,7 +81,7 @@ export async function getCommentById (provider, id) {
  * @param {Object} provider - S3 provider instance
  * @returns {Promise<Array>} Array of valid user objects
  */
-async function getApprovedUsers (provider) {
+export async function getApprovedUsers (provider) {
   const emailIds = await provider.listEmailIds()
   const userList = await Promise.all(
     emailIds
@@ -97,12 +97,4 @@ async function getApprovedUsers (provider) {
   )
   // Filter out any null values from failed fetches
   return userList.filter(user => user !== null)
-}
-
-module.exports = {
-  run,
-  shortId,
-  formatDate,
-  updateAndValidateGeoJson,
-  getApprovedUsers
 }

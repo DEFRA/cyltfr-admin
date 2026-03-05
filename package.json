@@ -9,7 +9,7 @@
   "scripts": {
     "build:css": "bin/build-css",
     "build": " bin/build ",
-    "test:jest": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --no-cache  --detectOpenHandles --runInBand --forceExit",
+    "test:jest": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" DOTENV_CONFIG_PATH=./.env.unittest jest --no-cache  --detectOpenHandles --runInBand --forceExit",
     "test": "npm run test:lint && npm run test:audit && npm run test:jest",
     "test:audit": "npm audit --omit dev --json | bin/audit-check",
     "test:lint": "eslint",

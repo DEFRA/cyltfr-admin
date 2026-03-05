@@ -1,11 +1,10 @@
-const { shortId, getApprovedUsers } = require('../helpers')
-
 module.exports = [
   {
     method: 'GET',
     path: '/reminder-email-list',
     handler: async (request, h) => {
       const { provider, auth } = request
+      const { getApprovedUsers } = await import('../helpers.mjs')
 
       const allowAccess = auth.credentials.isApprover
       if (!allowAccess) {
@@ -22,6 +21,8 @@ module.exports = [
     path: '/reminder-email-list',
     handler: async (request, h) => {
       const { provider, auth, payload } = request
+      const { shortId } = await import('../helpers.mjs')
+
       const id = shortId()
 
       const allowAccess = auth.credentials.isApprover
