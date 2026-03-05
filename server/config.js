@@ -12,12 +12,17 @@ const schema = joi.object().keys({
   cookiePassword: joi.string().required(),
   isSecure: joi.boolean().default(false),
   forceHttps: joi.boolean().default(false),
-  homePage: joi.string().default('http://localhost:3000'),
+  homePage: joi.string().required(),
   awsBucketRegion: joi.string().required(),
   awsBucketName: joi.string().required(),
   holdingCommentsPrefix: joi.string().default('holding-comments'),
+  performanceLogging: joi.boolean().default(false),
+  approversPrefix: joi.string().default('email-notified-approvers'),
   manifestFilename: joi.string().default('manifest.json'),
-  performanceLogging: joi.boolean().default(false)
+  govNotifyApiKey: joi.string().required(),
+  sendEmailsOnStartup: joi.boolean().default(false),
+  notifyCron: joi.string().default('0 0 9 * * mon-fri'),
+  templateId: joi.string().required()
 })
 
 // Build config
@@ -34,8 +39,13 @@ const config = {
   awsBucketRegion: process.env.AWS_BUCKET_REGION,
   awsBucketName: process.env.AWS_BUCKET_NAME,
   holdingCommentsPrefix: process.env.HOLDING_COMMENTS_PREFIX,
+  performanceLogging: process.env.PERFORMANCE_LOGGING,
+  approversPrefix: process.env.APPROVERS_PREFIX,
   manifestFilename: process.env.MANIFEST_FILENAME,
-  performanceLogging: process.env.PERFORMANCE_LOGGING
+  govNotifyApiKey: process.env.GOV_NOTIFY_API_KEY,
+  sendEmailsOnStartup: process.env.SEND_EMAILS_ON_STARTUP,
+  notifyCron: process.env.NOTIFY_CRON,
+  templateId: process.env.TEMPLATE_ID,
 }
 
 // Validate config

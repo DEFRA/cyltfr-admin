@@ -1,0 +1,111 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "pkg-critical": {
+      "name": "pkg-critical",
+      "severity": "critical",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 1111111,
+          "name": "pkg-critical",
+          "dependency": "pkg-critical",
+          "title": "Critical vulnerability",
+          "url": "https://github.com/advisories/GHSA-crit-1111",
+          "severity": "critical",
+          "cwe": ["CWE-111"],
+          "cvss": {"score": 9.8, "vectorString": null},
+          "range": "<5.0.0"
+        }
+      ],
+      "effects": [],
+      "range": "<5.0.0",
+      "nodes": ["node_modules/pkg-critical"],
+      "fixAvailable": true
+    },
+    "pkg-high": {
+      "name": "pkg-high",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 2222222,
+          "name": "pkg-high",
+          "dependency": "pkg-high",
+          "title": "High severity issue",
+          "url": "https://github.com/advisories/GHSA-high-2222",
+          "severity": "high",
+          "cwe": ["CWE-222"],
+          "cvss": {"score": 7.5, "vectorString": null},
+          "range": "<3.0.0"
+        }
+      ],
+      "effects": [],
+      "range": "<3.0.0",
+      "nodes": ["node_modules/pkg-high"],
+      "fixAvailable": true
+    },
+    "pkg-moderate": {
+      "name": "pkg-moderate",
+      "severity": "moderate",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 3333333,
+          "name": "pkg-moderate",
+          "dependency": "pkg-moderate",
+          "title": "Moderate severity issue",
+          "url": "https://github.com/advisories/GHSA-mod-3333",
+          "severity": "moderate",
+          "cwe": ["CWE-333"],
+          "cvss": {"score": 5.5, "vectorString": null},
+          "range": "<2.0.0"
+        }
+      ],
+      "effects": [],
+      "range": "<2.0.0",
+      "nodes": ["node_modules/pkg-moderate"],
+      "fixAvailable": true
+    },
+    "pkg-low": {
+      "name": "pkg-low",
+      "severity": "low",
+      "isDirect": true,
+      "via": [
+        {
+          "source": 4444444,
+          "name": "pkg-low",
+          "dependency": "pkg-low",
+          "title": "Low severity issue",
+          "url": "https://github.com/advisories/GHSA-low-4444",
+          "severity": "low",
+          "cwe": ["CWE-444"],
+          "cvss": {"score": 3.1, "vectorString": null},
+          "range": "<1.5.0"
+        }
+      ],
+      "effects": [],
+      "range": "<1.5.0",
+      "nodes": ["node_modules/pkg-low"],
+      "fixAvailable": true
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 1,
+      "moderate": 1,
+      "high": 1,
+      "critical": 1,
+      "total": 4
+    },
+    "dependencies": {
+      "prod": 50,
+      "dev": 100,
+      "optional": 10,
+      "peer": 2,
+      "peerOptional": 0,
+      "total": 150
+    }
+  }
+}

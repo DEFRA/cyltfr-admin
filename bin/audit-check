@@ -1,0 +1,409 @@
+#!/usr/bin/env node
+
+const fs = require('fs');
+const path = require('path');
+
+// Severity levels in ascending order
+const SEVERITY_LEVELS = ['info', 'low', 'moderate', 'high', 'critical'];
+const DEFAULT_THRESHOLD = 'moderate';
+
+/**
+ * Compare severity levels
+ * @param {string} severity - The severity to check
+ * @param {string} threshold - The threshold severity
+ * @returns {number} Negative if below threshold, 0 if equal, positive if above
+ */
+function compareSeverity(severity, threshold) {
+  const severityIndex = SEVERITY_LEVELS.indexOf(severity.toLowerCase());
+  const thresholdIndex = SEVERITY_LEVELS.indexOf(threshold.toLowerCase());
+  return severityIndex - thresholdIndex;
+}
+
+/**
+ * Check if a severity meets or exceeds the threshold
+ * @param {string} severity - The severity to check
+ * @param {string} threshold - The threshold severity
+ * @returns {boolean} True if severity meets or exceeds threshold
+ */
+function meetsThreshold(severity, threshold) {
+  return compareSeverity(severity, threshold) >= 0;
+}
+
+/**
+ * Load package.json and package-lock.json from the project
+ * @returns {object} Configuration with packageJson, packageLock, auditCheckConfig, and threshold
+ */
+function loadProjectConfig() {
+  const cwd = process.cwd();
+  const packageJsonPath = path.join(cwd, 'package.json');
+  const packageLockPath = path.join(cwd, 'package-lock.json');
+
+  let packageJson = {};
+  let packageLock = {};
+  let auditCheckConfig = {};
+  let threshold = DEFAULT_THRESHOLD;
+
+  try {
+    packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'));
+    auditCheckConfig = packageJson['audit-check'] || {};
+    threshold = auditCheckConfig.threshold || DEFAULT_THRESHOLD;
+    
+    // Validate threshold
+    if (!SEVERITY_LEVELS.includes(threshold.toLowerCase())) {
+      console.error(`Warning: Invalid threshold "${threshold}". Using default "${DEFAULT_THRESHOLD}"`);
+      threshold = DEFAULT_THRESHOLD;
+    }
+  } catch (error) {
+    console.error(`Warning: Could not read package.json: ${error.message}`);
+  }
+
+  try {
+    packageLock = JSON.parse(fs.readFileSync(packageLockPath, 'utf8'));
+  } catch (error) {
+    console.error(`Warning: Could not read package-lock.json: ${error.message}`);
+  }
+
+  return { packageJson, packageLock, auditCheckConfig, threshold };
+}
+
+/**
+ * Get the installed version of a package from package-lock.json
+ * @param {string} packageName - The package name
+ * @param {object} packageLock - The package-lock.json data
+ * @returns {string|null} The installed version or null if not found
+ */
+function getInstalledVersion(packageName, packageLock) {
+  const nodeModulesKey = `node_modules/${packageName}`;
+  if (packageLock.packages && packageLock.packages[nodeModulesKey]) {
+    return packageLock.packages[nodeModulesKey].version;
+  }
+  return null;
+}
+
+/**
+ * Extract leaf node packages (actual vulnerable packages) from a vulnerability chain
+ * @param {string} packageName - The package to extract leaf vulnerabilities from
+ * @param {object} vulnerabilities - All vulnerabilities from audit
+ * @param {Set} visited - Set of visited packages to avoid circular dependencies
+ * @returns {Array<string>} Array of leaf package names
+ */
+function extractLeafVulnerabilities(packageName, vulnerabilities, visited = new Set()) {
+  if (visited.has(packageName)) {
+    return [];
+  }
+
+  visited.add(packageName);
+  const leafPackages = [];
+
+  const vuln = vulnerabilities[packageName];
+  if (!vuln || !vuln.via) {
+    return [];
+  }
+
+  const via = vuln.via || [];
+
+  via.forEach((dep) => {
+    // Handle both string references and detailed vulnerability objects
+    if (typeof dep === 'string') {
+      // Recursively extract from this dependency
+      const subLeafs = extractLeafVulnerabilities(dep, vulnerabilities, new Set(visited));
+      leafPackages.push(...subLeafs);
+    } else if (typeof dep === 'object' && dep.name) {
+      // This is a leaf node with actual vulnerability details
+      leafPackages.push(dep.name);
+    }
+  });
+
+  return leafPackages;
+}
+
+/**
+ * Builds an ASCII tree representation of vulnerability dependencies
+ * @param {string} packageName - The package to build the tree for
+ * @param {object} vulnerabilities - All vulnerabilities from audit
+ * @param {string} prefix - Current line prefix for tree formatting
+ * @param {Set} visited - Set of visited packages to avoid circular dependencies
+ * @returns {string} ASCII tree representation
+ */
+function buildDependencyTree(packageName, vulnerabilities, prefix = '', visited = new Set()) {
+  if (visited.has(packageName)) {
+    return `${prefix}└── ${packageName} (circular reference)\n`;
+  }
+
+  visited.add(packageName);
+  let output = '';
+
+  const vuln = vulnerabilities[packageName];
+  if (!vuln) {
+    return `${prefix}└── ${packageName} (not found)\n`;
+  }
+
+  const via = vuln.via || [];
+  
+  if (via.length === 0) {
+    return '';
+  }
+
+  via.forEach((dep, index) => {
+    const isLast = index === via.length - 1;
+    const connector = isLast ? '└──' : '├──';
+    const newPrefix = prefix + (isLast ? '    ' : '│   ');
+
+    // Handle both string references and detailed vulnerability objects
+    if (typeof dep === 'string') {
+      output += `${prefix}${connector} ${dep}\n`;
+      // Recursively build tree for this dependency
+      const subVuln = vulnerabilities[dep];
+      if (subVuln && subVuln.via && subVuln.via.length > 0) {
+        output += buildDependencyTree(dep, vulnerabilities, newPrefix, new Set(visited));
+      }
+    } else if (typeof dep === 'object' && dep.name) {
+      // This is a leaf node with actual vulnerability details
+      output += `${prefix}${connector} ${dep.name} [${dep.severity}] - ${dep.title}\n`;
+      output += `${newPrefix}    URL: ${dep.url || 'N/A'}\n`;
+    }
+  });
+
+  return output;
+}
+
+/**
+ * Main function to process npm audit output
+ */
+function main() {
+  let inputData = '';
+
+  // Check if data is being piped in
+  if (process.stdin.isTTY) {
+    console.error('Error: This script expects JSON input from npm audit');
+    console.error('Usage: npm audit --json | node bin/audit-check');
+    console.error('   or: npm audit --json > audit.json && node bin/audit-check < audit.json');
+    process.exit(1);
+  }
+
+  // Load project configuration
+  const { packageLock, auditCheckConfig, threshold } = loadProjectConfig();
+
+  process.stdin.setEncoding('utf8');
+
+  process.stdin.on('data', (chunk) => {
+    inputData += chunk;
+  });
+
+  process.stdin.on('end', () => {
+    try {
+      const auditData = JSON.parse(inputData);
+      
+      if (!auditData.vulnerabilities) {
+        console.log('✓ No vulnerabilities found');
+        process.exit(0);
+      }
+
+      const vulnerabilities = auditData.vulnerabilities;
+      let directVulnerabilities = Object.entries(vulnerabilities)
+        .filter(([_, vuln]) => vuln.isDirect === true);
+
+      if (directVulnerabilities.length === 0) {
+        console.log('✓ No direct dependency vulnerabilities found');
+        process.exit(0);
+      }
+
+      // Filter out accepted risks
+      const acceptedRisks = [];
+      const rejectedRisks = [];
+      directVulnerabilities = directVulnerabilities.filter(([packageName, vuln]) => {
+        const installedVersion = getInstalledVersion(packageName, packageLock);
+        if (!installedVersion) {
+          return true; // Keep vulnerability if we can't determine version
+        }
+
+        // Check if this package has accepted risk configuration
+        const packageConfig = auditCheckConfig[packageName];
+        if (!packageConfig) {
+          return true; // No configuration, keep vulnerability
+        }
+
+        // Check if the configuration includes a version
+        if (!packageConfig.version) {
+          rejectedRisks.push({
+            packageName,
+            installedVersion,
+            reason: 'No version specified in audit-check configuration'
+          });
+          return true; // Keep vulnerability - version is required
+        }
+
+        // Check if the installed version matches the configured version
+        if (installedVersion !== packageConfig.version) {
+          rejectedRisks.push({
+            packageName,
+            installedVersion,
+            configuredVersion: packageConfig.version,
+            reason: `Version mismatch (installed: ${installedVersion}, configured: ${packageConfig.version})`
+          });
+          return true; // Keep vulnerability - versions must match
+        }
+
+        // Extract leaf vulnerabilities (actual vulnerable packages)
+        const leafVulns = extractLeafVulnerabilities(packageName, vulnerabilities);
+        
+        // Check if all leaf vulnerabilities are accepted
+        const allLeafsAccepted = leafVulns.length > 0 && leafVulns.every(leafPackage => {
+          return packageConfig.hasOwnProperty(leafPackage);
+        });
+
+        if (allLeafsAccepted) {
+          acceptedRisks.push({
+            packageName,
+            version: installedVersion,
+            leafVulns: [...new Set(leafVulns)] // Deduplicate leaf vulnerability names
+          });
+          return false; // Filter out this vulnerability
+        }
+
+        return true; // Keep vulnerability
+      });
+
+      // Separate vulnerabilities by threshold
+      const aboveThreshold = directVulnerabilities.filter(([_, vuln]) => 
+        meetsThreshold(vuln.severity, threshold)
+      );
+      const belowThreshold = directVulnerabilities.filter(([_, vuln]) => 
+        !meetsThreshold(vuln.severity, threshold)
+      );
+
+      // Display threshold info
+      console.log('═══════════════════════════════════════════════════════════');
+      console.log(`  Audit Check - Threshold: ${threshold.toUpperCase()}`);
+      console.log('═══════════════════════════════════════════════════════════\n');
+
+      // Display rejected risks
+      if (rejectedRisks.length > 0) {
+        console.log('Rejected Risk Packages (version mismatch or missing):');
+        rejectedRisks.forEach(({ packageName, installedVersion, configuredVersion, reason }) => {
+          console.log(`  ✗ ${packageName}@${installedVersion}`);
+          console.log(`    ${reason}`);
+        });
+        console.log('\n');
+      }
+
+      // Display accepted risks
+      if (acceptedRisks.length > 0) {
+        console.log('Accepted Risk Packages (filtered out):');
+        acceptedRisks.forEach(({ packageName, version, leafVulns }) => {
+          console.log(`  ✓ ${packageName}@${version}`);
+          if (leafVulns && leafVulns.length > 0) {
+            console.log(`    Accepted leaf vulnerabilities: ${leafVulns.join(', ')}`);
+          }
+        });
+        console.log('\n');
+      }
+
+      // Display below threshold vulnerabilities (informational only)
+      if (belowThreshold.length > 0) {
+        console.log('───────────────────────────────────────────────────────────');
+        console.log(`  Below Threshold Vulnerabilities (informational)`);
+        console.log('───────────────────────────────────────────────────────────\n');
+
+        belowThreshold.forEach(([packageName, vuln]) => {
+          const installedVersion = getInstalledVersion(packageName, packageLock);
+          
+          console.log(`📦 Package: ${packageName}${installedVersion ? '@' + installedVersion : ''}`);
+          console.log(`ℹ️  Severity: ${vuln.severity.toUpperCase()} (below threshold)`);
+          console.log(`   Range: ${vuln.range || 'N/A'}`);
+          
+          if (vuln.fixAvailable) {
+            if (typeof vuln.fixAvailable === 'object') {
+              console.log(`   Fix: ${vuln.fixAvailable.name}@${vuln.fixAvailable.version}${vuln.fixAvailable.isSemVerMajor ? ' (major version change)' : ''}`);
+            } else {
+              console.log(`   Fix: Available`);
+            }
+          } else {
+            console.log(`   Fix: Not available`);
+          }
+
+          console.log('\n   Dependency Chain:');
+          const tree = buildDependencyTree(packageName, vulnerabilities, '   ', new Set());
+          if (tree) {
+            console.log(tree);
+          } else {
+            console.log('   └── No vulnerable dependencies\n');
+          }
+          console.log('───────────────────────────────────────────────────────────\n');
+        });
+      }
+
+      // If no vulnerabilities above threshold remain after filtering
+      if (aboveThreshold.length === 0) {
+        console.log(`✓ No vulnerabilities at or above "${threshold}" threshold`);
+        
+        // Summary
+        const metadata = auditData.metadata?.vulnerabilities;
+        if (metadata) {
+          console.log('\nSummary:');
+          console.log(`  Critical: ${metadata.critical || 0}`);
+          console.log(`  High: ${metadata.high || 0}`);
+          console.log(`  Moderate: ${metadata.moderate || 0}`);
+          console.log(`  Low: ${metadata.low || 0}`);
+          console.log(`  Info: ${metadata.info || 0}`);
+          console.log(`  Total: ${metadata.total || 0}`);
+        }
+        
+        process.exit(0);
+      }
+
+      // Display vulnerabilities at or above threshold
+      console.log('═══════════════════════════════════════════════════════════');
+      console.log(`  Vulnerabilities At/Above Threshold`);
+      console.log('═══════════════════════════════════════════════════════════\n');
+
+      aboveThreshold.forEach(([packageName, vuln]) => {
+        const installedVersion = getInstalledVersion(packageName, packageLock);
+        
+        console.log(`📦 Package: ${packageName}${installedVersion ? '@' + installedVersion : ''}`);
+        console.log(`⚠️  Severity: ${vuln.severity.toUpperCase()}`);
+        console.log(`   Range: ${vuln.range || 'N/A'}`);
+        
+        if (vuln.fixAvailable) {
+          if (typeof vuln.fixAvailable === 'object') {
+            console.log(`   Fix: ${vuln.fixAvailable.name}@${vuln.fixAvailable.version}${vuln.fixAvailable.isSemVerMajor ? ' (major version change)' : ''}`);
+          } else {
+            console.log(`   Fix: Available`);
+          }
+        } else {
+          console.log(`   Fix: Not available`);
+        }
+
+        console.log('\n   Dependency Chain:');
+        const tree = buildDependencyTree(packageName, vulnerabilities, '   ', new Set());
+        if (tree) {
+          console.log(tree);
+        } else {
+          console.log('   └── No vulnerable dependencies\n');
+        }
+        console.log('───────────────────────────────────────────────────────────\n');
+      });
+
+      // Summary
+      const metadata = auditData.metadata?.vulnerabilities;
+      if (metadata) {
+        console.log('Summary:');
+        console.log(`  Critical: ${metadata.critical || 0}`);
+        console.log(`  High: ${metadata.high || 0}`);
+        console.log(`  Moderate: ${metadata.moderate || 0}`);
+        console.log(`  Low: ${metadata.low || 0}`);
+        console.log(`  Info: ${metadata.info || 0}`);
+        console.log(`  Total: ${metadata.total || 0}`);
+      }
+
+      // Exit with code 1 since we found vulnerabilities at or above threshold
+      process.exit(1);
+
+    } catch (error) {
+      console.error('Error parsing JSON input:', error.message);
+      process.exit(1);
+    }
+  });
+}
+
+main();

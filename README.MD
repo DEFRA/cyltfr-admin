@@ -29,21 +29,26 @@ Docker v20.10.0+
 
 ## Environment variables
 
-| name                    | description      | required |        default        |       valid        | notes |
-|-------------------------|------------------|:--------:|-----------------------|:------------------:|-------|
-| NODE_ENV                | Environment name |    no    | dev                   | dev,test,prod-green,prod-blue    |       |
-| PORT                    | Port number      |    no    | 3000                  |                    |       |
-| AD_CLIENT_ID            | AD Client Id     |    yes   |                       |                    |       |
-| AD_CLIENT_SECRET        | AD Client Secret |    yes   |                       |                    |       |
-| AD_TENANT               | AD Tenant        |    yes   |                       |                    |       |
-| AD_COOKIE_PASSWORD      | Cookie password  |    yes   |                       |                    |       |
-| IS_SECURE               | Secure cookie    |    no    | false                 |                    |       |
-| FORCE_HTTPS             | Force https      |    no    | false                 |                    |       |
-| HOME_PAGE               | Home page        |    no    | http://localhost:3000 |                    |       |
-| AWS_BUCKET_REGION       |                  |    yes   |                       |                    |       |
-| AWS_BUCKET_NAME         |                  |    yes   |                       |                    |       |
-| HOLDING_COMMENTS_PREFIX |                  |    no    | holding-comments      |                    |       |
-| MANIFEST_FILENAME       |                  |    no    | manifest.json         |                    |       |
+| name                    | description           | required |        default          |       valid        | notes |
+|-------------------------|-----------------------|:--------:|-------------------------|:------------------:|-------|
+| NODE_ENV                | Environment name      |    no    | dev                     | dev,test,prod-green,prod-blue    |       |
+| PORT                    | Port number           |    no    | 3000                    |                    |       |
+| AD_CLIENT_ID            | AD Client Id          |    yes   |                         |                    |       |
+| AD_CLIENT_SECRET        | AD Client Secret      |    yes   |                         |                    |       |
+| AD_TENANT               | AD Tenant             |    yes   |                         |                    |       |
+| AD_COOKIE_PASSWORD      | Cookie password       |    yes   |                         |                    |       |
+| IS_SECURE               | Secure cookie         |    no    | false                   |                    |       |
+| FORCE_HTTPS             | Force https           |    no    | false                   |                    |       |
+| HOME_PAGE               | Home page             |    yes   |                         |                    |       |
+| AWS_BUCKET_REGION       |                       |    yes   |                         |                    |       |
+| AWS_BUCKET_NAME         |                       |    yes   |                         |                    |       |
+| GOV_NOTIFY_API_KEY      |                       |    yes   |                         |                    |       |
+| TEMPLATE_ID             | Notify template       |    yes   |                         |                    |       |
+| NOTIFY_CRON             |                       |    no    | 0 0 9 * * mon-fri       |                    |       |
+| SEND_EMAILS_ON_STARTUP  | Run cron job on start |    no    | false                   |                    |       |
+| APPROVERS_PREFIX        |                       |    no    | email-notified-approvers|                    |       |
+| HOLDING_COMMENTS_PREFIX |                       |    no    | holding-comments        |                    |       |
+| MANIFEST_FILENAME       |                       |    no    | manifest.json           |                    |       |
 
 ## Running the application
 

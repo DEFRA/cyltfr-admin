@@ -3,7 +3,6 @@ const require = createRequire(import.meta.url)
 const spawn = require('node:child_process').spawn
 const moment = require('moment-timezone')
 const boom = require('@hapi/boom')
-const config = require('./config')
 const { DATEFORMAT } = require('./constants')
 const CONVERSION_BASE = 36
 const validGeometyTypes = new Set(['Polygon', 'MultiPolygon'])
@@ -77,9 +76,33 @@ export async function getCommentById (provider, id) {
   return { comment, comments }
 }
 
-// module.exports = {
-//   run,
-//   shortId,
-//   formatDate,
-//   updateAndValidateGeoJson
-// }
+/**
+ * Fetch all approved users from the provider, filtering out any that fail to load
+ * @param {Object} provider - S3 provider instance
+ * @returns {Promise<Array>} Array of valid user objects
+ */
+async function getApprovedUsers (provider) {
+  const emailIds = await provider.listEmailIds()
+  const userList = await Promise.all(
+    emailIds
+      .map(async (itemId) => {
+        try {
+          const approvedUser = await provider.getApprovedUser(itemId)
+          return approvedUser
+        } catch (error) {
+          console.error(`Error fetching user data for ${itemId}:`, error)
+          return null
+        }
+      })
+  )
+  // Filter out any null values from failed fetches
+  return userList.filter(user => user !== null)
+}
+
+module.exports = {
+  run,
+  shortId,
+  formatDate,
+  updateAndValidateGeoJson,
+  getApprovedUsers
+}

@@ -9,9 +9,9 @@
   "scripts": {
     "build:css": "bin/build-css",
     "build": " bin/build ",
-    "test": "npm run test:lint && npm run test:audit ",
     "test:jest": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" jest --no-cache  --detectOpenHandles --runInBand --forceExit",
-    "test:audit": "npm audit --omit dev",
+    "test": "npm run test:lint && npm run test:audit && npm run test:jest",
+    "test:audit": "npm audit --omit dev --json | bin/audit-check",
     "test:lint": "eslint",
     "postinstall": "npm run build",
     "build:container": "docker build . -t ltfmgmt:v1",
@@ -41,6 +41,8 @@
     "joi": "^18.0.2",
     "jsonexport": "3.2.0",
     "moment-timezone": "^0.6.0",
+    "node-cron": "^3.0.3",
+    "notifications-node-client": "^8.2.1",
     "nunjucks": "^3.2.4",
     "ogr2ogr": "^6.0.1"
   },
@@ -66,5 +68,24 @@
       "lcov"
     ],
     "coverageDirectory": "test/output"
+  },
+  "audit-check": {
+    "threshold": "moderate",
+    "ogr2ogr": {
+      "version": "6.0.1",
+      "minimatch": {}
+    },
+    "neostandard": {
+      "version": "0.12.2",
+      "minimatch": {}
+    },
+    "jest": {
+      "version": "30.2.0",
+      "minimatch": {}
+    },
+    "eslint": {
+      "version": "9.39.3",
+      "minimatch": {}
+    }
   }
 }

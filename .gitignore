@@ -6,6 +6,6 @@ server/public/build
 lcov.info
 ltfmgmt.tar
 .env
+test/output/*
 backup/
-test/output/
 .scannerwork/
