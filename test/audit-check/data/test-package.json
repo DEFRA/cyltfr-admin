@@ -1,0 +1,15 @@
+{
+  "name": "test-project",
+  "version": "1.0.0",
+  "dependencies": {
+    "test-package-low": "^1.0.0",
+    "test-package-high": "^2.0.0",
+    "pkg-critical": "^4.5.0",
+    "pkg-high": "^2.5.0",
+    "pkg-moderate": "^1.8.0",
+    "pkg-low": "^1.2.0"
+  },
+  "audit-check": {
+    "threshold": "moderate"
+  }
+}

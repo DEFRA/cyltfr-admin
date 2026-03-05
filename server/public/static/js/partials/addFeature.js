@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 window.LTFMGMT.addFeatureHtml = function (featureIndex, type) {
   let featureHTML
 
