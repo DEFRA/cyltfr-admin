@@ -3,49 +3,12 @@ const jsonexport = require('jsonexport')
 const config = require('../config')
 const toCSV = util.promisify(jsonexport)
 
-function getRiskOverrides (comment, riskType, properties) {
-  const {
-    riskOverride,
-    riskOverrideCc,
-    riskOverrideRS,
-    riskOverrideRSCC
-  } = properties
-
-  const notApplicable = {
-    riskOverridePresentDay: 'Not applicable',
-    riskOverrideClimateChange: 'Not applicable'
-  }
-
-  if (comment.type !== 'holding') {
-    return notApplicable
-  }
-
-  const getOverrides = (presentDayOverride, climateChangeOverride) => {
-    const presentDay = presentDayOverride || ''
-    const climateChange = presentDay && presentDay !== 'Do not override'
-      ? 'Override'
-      : climateChangeOverride || ''
-    return {
-      riskOverridePresentDay: presentDay,
-      riskOverrideClimateChange: climateChange
-    }
-  }
-
-  switch (riskType) {
-    case 'Surface water':
-      return getOverrides(riskOverride, riskOverrideCc)
-    case 'Rivers and the sea':
-      return getOverrides(riskOverrideRS, riskOverrideRSCC)
-    default:
-      return notApplicable
-  }
-}
-
 module.exports = {
   method: 'GET',
   path: '/comments.csv',
   handler: async (request, h) => {
     const { auth, provider } = request
+    const { getRiskOverridesForExport } = await import('../services/riskOverrideService.mjs')
 
     const comments = await provider.getFile()
     const homeComments = auth.credentials.isApprover
@@ -68,7 +31,7 @@ module.exports = {
           } = feature.properties
 
           const { riskOverridePresentDay, riskOverrideClimateChange } =
-            getRiskOverrides(comment, riskType, feature.properties)
+            getRiskOverridesForExport(comment, riskType, feature.properties)
 
           // Fix to remove the additional riskType field
           const { riskType: _, ...commentWithoutRisk } = comment

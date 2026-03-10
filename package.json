@@ -9,8 +9,8 @@
   "scripts": {
     "build:css": "bin/build-css",
     "build": " bin/build ",
+    "test:jest": "NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" DOTENV_CONFIG_PATH=./.env.unittest jest --no-cache  --detectOpenHandles --runInBand --forceExit",
     "test": "npm run test:lint && npm run test:audit && npm run test:jest",
-    "test:jest": "jest --no-cache  --detectOpenHandles --runInBand --forceExit",
     "test:audit": "npm audit --omit dev --json | bin/audit-check",
     "test:lint": "eslint",
     "postinstall": "npm run build",
@@ -22,16 +22,21 @@
   "author": "defra.gov.uk",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.948.0",
+    "@aws-sdk/client-s3": "^3.992.0",
     "@hapi/bell": "^13.1.0",
     "@hapi/boom": "^10.0.1",
+    "@hapi/catbox-object": "^3.0.1",
     "@hapi/cookie": "^12.0.1",
-    "@hapi/hapi": "^21.4.4",
+    "@hapi/hapi": "^21.4.5",
     "@hapi/inert": "^7.1.0",
     "@hapi/vision": "^7.0.3",
+    "@turf/bbox": "^7.3.4",
+    "@turf/helpers": "^7.3.4",
+    "@turf/intersect": "^7.3.4",
+    "@turf/turf": "^7.3.4",
     "blipp": "4.0.2",
-    "dotenv": "^17.2.3",
-    "govuk-frontend": "^5.13.0",
+    "dotenv": "^17.3.1",
+    "govuk-frontend": "^5.14.0",
     "hapi-pino": "^13.0.0",
     "joi": "^18.0.2",
     "jsonexport": "3.2.0",
@@ -42,10 +47,27 @@
     "ogr2ogr": "^6.0.1"
   },
   "devDependencies": {
-    "eslint": "^9.39.1",
+    "eslint": "^9.0.0",
     "jest": "^30.2.0",
     "neostandard": "^0.12.2",
     "sass": "^1.96.0"
+  },
+  "jest": {
+    "setupFiles": [
+      "dotenv/config"
+    ],
+    "automock": false,
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "server/**/*.js",
+      "!server/public/**/*",
+      "!server/src/js/**/*.js"
+    ],
+    "coverageReporters": [
+      "text",
+      "lcov"
+    ],
+    "coverageDirectory": "test/output"
   },
   "audit-check": {
     "threshold": "moderate",

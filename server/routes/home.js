@@ -10,7 +10,8 @@ module.exports = {
 
     // Users can see all comments
     const homeComments = comments
+    const view = await homeView(homeComments, currentUser)
 
-    return h.view('home', homeView(homeComments, currentUser))
+    return h.view('home', view)
   }
 }

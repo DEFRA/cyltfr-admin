@@ -2,12 +2,12 @@ const cron = require('node-cron')
 const S3Provider = require('../providers/s3')
 const config = require('../config')
 const NotifyClient = require('notifications-node-client').NotifyClient
-const { getApprovedUsers } = require('../helpers')
 
 const onJobCalled = async (providerInstance, notifyClient) => {
   console.log('Running cron job: Checking pending approvals...')
 
   try {
+    const { getApprovedUsers } = await import('../helpers.mjs')
     const validUsers = await getApprovedUsers(providerInstance)
 
     const comments = (await providerInstance.getFile()).filter((item) => {

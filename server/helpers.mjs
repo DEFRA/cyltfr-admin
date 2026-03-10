@@ -1,21 +1,25 @@
-const spawn = require('child_process').spawn
+import { createRequire } from 'node:module'
+const require = createRequire(import.meta.url)
+const spawn = require('node:child_process').spawn
 const moment = require('moment-timezone')
+const boom = require('@hapi/boom')
 const { DATEFORMAT } = require('./constants')
 const CONVERSION_BASE = 36
-const validGeometyTypes = ['Polygon', 'MultiPolygon']
+const validGeometyTypes = new Set(['Polygon', 'MultiPolygon'])
 
-function shortId () {
-  return Math.random().toString(CONVERSION_BASE).substring(2)
+export function shortId () {
+  return Math.random().toString(CONVERSION_BASE).substring(2) // NOSONAR
 }
 
-function formatDate (str, format = DATEFORMAT) {
+export function formatDate (str, format = DATEFORMAT) {
   return moment(str).format(format)
 }
 
-function updateAndValidateGeoJson (geojson, type) {
+export async function updateAndValidateGeoJson (geojson, type) {
   if (geojson.crs?.properties?.name !== 'urn:ogc:def:crs:EPSG::27700') {
     throw new Error('Shape file contains invalid data. Must be in British National Grid (EPSG 27700) projection')
   }
+
   geojson.features.forEach(f => {
     const props = f.properties
     f.properties = {
@@ -28,14 +32,14 @@ function updateAndValidateGeoJson (geojson, type) {
         : '',
       info: props.display2 || props.Data_Type || ''
     }
-    if (!validGeometyTypes.includes(f.geometry.type)) {
+    if (!validGeometyTypes.has(f.geometry.type)) {
       throw new Error('Shape file contains invalid data. Must only contain Polygon types')
     }
   })
   return geojson
 }
 
-function run (cmd, args, opts) {
+export function run (cmd, args, opts) {
   return new Promise((resolve, reject) => {
     console.log('Spawning', cmd, args, opts)
     const cp = spawn(cmd, args, opts)
@@ -63,12 +67,21 @@ function run (cmd, args, opts) {
   })
 }
 
+export async function getCommentById (provider, id) {
+  const comments = await provider.getFile()
+  const comment = comments.find(c => c.id === id)
+  if (!comment) {
+    throw boom.notFound('Comment not found')
+  }
+  return { comment, comments }
+}
+
 /**
  * Fetch all approved users from the provider, filtering out any that fail to load
  * @param {Object} provider - S3 provider instance
  * @returns {Promise<Array>} Array of valid user objects
  */
-async function getApprovedUsers (provider) {
+export async function getApprovedUsers (provider) {
   const emailIds = await provider.listEmailIds()
   const userList = await Promise.all(
     emailIds
@@ -84,12 +97,4 @@ async function getApprovedUsers (provider) {
   )
   // Filter out any null values from failed fetches
   return userList.filter(user => user !== null)
-}
-
-module.exports = {
-  run,
-  shortId,
-  formatDate,
-  updateAndValidateGeoJson,
-  getApprovedUsers
 }

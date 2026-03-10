@@ -195,7 +195,16 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn(`Unexpected riskType: ${riskType[index]}`)
     }
 
-    commentMap(geo, 'map_' + index, capabilities)
+    if (geo.features[0].intersects?.length > 0) {
+      const mapDiv = document.getElementById('map_' + index)
+      mapDiv.insertAdjacentHTML('beforebegin', `<label class="control-label govuk-heading-s" for="intersection_links_${index}">
+          This shape intersects with existing comments</label>
+          <div id="intersection_links_${index}" class="intersection_links">
+        ${window.LTFMGMT.sharedFunctions.getIntersectionLinks(geo.features[0].intersects)}
+        </div>`)
+    }
+
+    commentMap(geo, 'map_' + index, capabilities, '', geo.features[0].intersects)
   })
 })
 

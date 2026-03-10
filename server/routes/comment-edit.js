@@ -9,8 +9,8 @@ const handleCommentDelete = async (request, h) => {
   const { params, auth } = request
   const { id } = params
   const provider = request.provider
-  const comments = await provider.getFile()
-  const comment = comments.find(c => c.id === id)
+  const { getCommentById } = await import('../helpers.mjs')
+  const { comment, comments } = await getCommentById(provider, id)
 
   // Only approvers or comment authors can delete
   const allowDelete = auth.credentials.isApprover ||
@@ -38,12 +38,21 @@ module.exports = [
       const { params } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.getFile()
-      const comment = comments.find(c => c.id === id)
+      const comments = await provider.cachedData()
+      const { getCommentById } = await import('../helpers.mjs')
+      const { comment } = await getCommentById(provider, id)
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
       const geometry = await provider.getFile(key)
 
-      return h.view('comment-view', commentView(comment, geometry, request.auth, capabilities))
+      // Use Promise.all to handle asynchronous operations in parallel
+      // TODO: What is allFeatures used for?
+      const allFeatures = await Promise.all(
+        comments.map(async (cmnt) => {
+          return cmnt.features
+        })
+      )
+
+      return h.view('comment-view', await commentView(comment, geometry, request.auth, capabilities, allFeatures))
     },
     options: {
       validate: {
@@ -60,15 +69,20 @@ module.exports = [
       const { params } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.getFile()
-      const comment = comments.find(c => c.id === id)
+      const { getCommentById } = await import('../helpers.mjs')
+      const { comment } = await getCommentById(provider, id)
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
       const geometry = await provider.getFile(key)
       const features = geometry.features
+      features.id = id
       const type = comment.type
       const riskType = []
       const selectedRadio = []
       const textCommentRadio = []
+      const { Polygon } = await import('../services/polygon.mjs')
+      const indexedShapeData = await request.server.methods.getIndexedShapeData()
+      const { findIntersectionsWithIndexedData } = await import('../services/intersectionService.mjs')
+      const intersects = findIntersectionsWithIndexedData(indexedShapeData, geometry.features, Polygon)
 
       features.forEach(function (feature) {
         if (type === 'holding') {
@@ -90,7 +104,8 @@ module.exports = [
         type,
         riskType,
         selectedRadio,
-        textCommentRadio
+        textCommentRadio,
+        intersects
       }
 
       const authData = {
@@ -116,8 +131,8 @@ module.exports = [
       const { payload, params, auth } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.getFile()
-      const comment = comments.find(c => c.id === id)
+      const { getCommentById } = await import('../helpers.mjs')
+      const { comment, comments } = await getCommentById(provider, id)
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
       const geometry = await provider.getFile(key)
       const features = geometry.features
@@ -135,7 +150,7 @@ module.exports = [
       })
 
       formattedPayload.name = payload.name
-      formattedPayload.name = payload.boundary
+      formattedPayload.boundary = payload.boundary
 
       features.forEach(function (_feature, index) {
         if (type === 'llfa') {
@@ -201,8 +216,8 @@ module.exports = [
       const { params, auth } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.getFile()
-      const comment = comments.find(c => c.id === id)
+      const { getCommentById } = await import('../helpers.mjs')
+      const { comment, comments } = await getCommentById(provider, id)
 
       // Approve
       comment.approvedAt = new Date()
@@ -231,8 +246,8 @@ module.exports = [
       const { params } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.getFile()
-      const comment = comments.find(c => c.id === id)
+      const { getCommentById } = await import('../helpers.mjs')
+      const { comment, comments } = await getCommentById(provider, id)
 
       // Undo approve
       comment.approvedAt = null
@@ -275,8 +290,8 @@ module.exports = [
       const { params, auth } = request
       const { id } = params
       const provider = request.provider
-      const comments = await provider.getFile()
-      const comment = comments.find(c => c.id === id)
+      const { getCommentById } = await import('../helpers.mjs')
+      const { comment, comments } = await getCommentById(provider, id)
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
       const geometry = await provider.getFile(key)
       const features = geometry.features
