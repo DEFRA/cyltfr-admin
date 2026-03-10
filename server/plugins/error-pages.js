@@ -26,6 +26,13 @@ module.exports = {
             // In the event of 403
             // return the `403` view
             if (statusCode === STATUS_CODES.HTTP_STATUS_FORBIDDEN) {
+              // Check if it's a CSRF validation error
+              if (response.message && response.message.includes('crumb')) {
+                request.log('warn', 'CSRF validation failed')
+                return h.view('403', {
+                  message: 'Your session has expired or the security token is invalid. Please refresh the page and try again.'
+                }).code(STATUS_CODES.HTTP_STATUS_OK)
+              }
               return h.view('403').code(STATUS_CODES.HTTP_STATUS_OK)
             }
 

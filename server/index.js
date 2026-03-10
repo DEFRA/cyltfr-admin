@@ -53,6 +53,18 @@ async function createServer (Provider = require('./providers/s3')) {
   // Register the remaining plugins
   await server.register(require('@hapi/inert'))
   await server.register(require('./plugins/views'))
+
+  // Register CSRF protection
+  await server.register({
+    plugin: require('@hapi/crumb'),
+    options: {
+      key: 'crumb',
+      cookieOptions: {
+        isSecure: config.isSecure
+      }
+    }
+  })
+
   await server.register(require('./plugins/router'))
   await server.register(require('./plugins/error-pages'))
   await server.register({

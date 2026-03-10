@@ -1,13 +1,13 @@
 const { DATETIMEFORMAT, DATEFORMAT } = require('../constants')
 
-async function commentView (comment, geometry, auth, capabilities, allFeatures) {
+async function commentView (comment, geometry, auth, capabilities, crumb) {
   const { getRiskOverrideValues } = await import('../services/riskOverrideService.mjs')
   const retval = {
     comment,
     commentGuidance: 'partials/comment-guidance.html',
     geometry,
-    allFeatures,
     capabilities,
+    crumb,
     isApprover: auth.credentials.isApprover,
     allowDelete: auth.credentials.isApprover ||
     comment.createdBy === auth.credentials.profile.email
@@ -71,6 +71,7 @@ async function commentView (comment, geometry, auth, capabilities, allFeatures) 
       mapHtml += '<div class="delete-entry"> ' +
                 `<form method="POST" action="/comment/edit/${comment.id}/deletesingle/${i}"` +
                 'onsubmit="return confirm(\'Are you sure you want to delete this comment?\')">' +
+                `<input type="hidden" name="crumb" value="${crumb}" />` +
                 '<button class="govuk-button govuk-button--warning" type="submit">Delete entry</button>' +
                 '</form></div>'
     }
