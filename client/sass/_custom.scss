@@ -148,7 +148,7 @@
 }
 
 .govuk-button.warning {
-  background-color: $govuk-link-visited-colour;
+  background-color: govuk-functional-colour(link-visited);
 }
 
 .approved-message {
@@ -157,7 +157,7 @@
 }
 
 .error-text {
-  color: $govuk-error-colour;
+  color: govuk-functional-colour(error);
 }
 
 .feature-row {

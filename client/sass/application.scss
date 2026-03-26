@@ -13,7 +13,7 @@
     vertical-align: top;
 
     &.required {
-      color: $govuk-error-colour;
+      color: govuk-functional-colour(error);
     }
   }
 
