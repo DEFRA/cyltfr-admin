@@ -18,24 +18,37 @@
 
 .internal {
   .govuk-header {
-    color: #454a4c;
+    color: govuk-functional-colour("secondary-text");
     background: #ffffff;
     border-bottom: 3px solid #029e42;
     padding-bottom: 15px;
   }
 
-  .govuk-header__link:link,
-  .govuk-header__link:visited {
-    color: #000;
+  .govuk-header__homepage-link:hover,
+  .govuk-header__homepage-link:active {
+    border-bottom-color: govuk-colour("black");
   }
 
   .govuk-header__container {
     border-bottom: none;
+    display: flex;
+    align-items: center;
+  }
+
+  .govuk-header__homepage-link {
+    display: inline-block;
+    line-height: 0;
+    background-color: transparent;
+  }
+
+  .govuk-header__homepage-link:focus .ea-logo,
+  .govuk-header__homepage-link:focus-visible .ea-logo {
+    background-color: govuk-functional-colour("focus");
   }
 
   .govuk-footer {
+    color: govuk-functional-colour("secondary-text");
     border-top: 2px solid #029e42;
-    color: #454a4c;
     background: #ffffff;
   }
 
@@ -71,14 +84,12 @@
 
 // *** header ***
 .login-section {
-  float: right;
   display: block;
-  position: relative;
-  width: 300px;
-  height: 60px;
-  clear: none;
+  margin-left: auto;
+  width: auto;
+  height: auto;
   text-align: right;
-  line-height: 60px;
+  line-height: 1.25;
 }
 
 .ea-logo {
