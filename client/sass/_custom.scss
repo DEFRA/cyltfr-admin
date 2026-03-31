@@ -1,3 +1,5 @@
+$ea-green: #029e42;
+
 .govuk-template {
   background-color: white;
 }
@@ -9,7 +11,7 @@
 }
 
 .govuk-caption-l {
-  color: black;
+  color: govuk-functional-colour("text");
 }
 
 .hide {
@@ -20,7 +22,7 @@
   .govuk-header {
     color: govuk-functional-colour("secondary-text");
     background: #ffffff;
-    border-bottom: 3px solid #029e42;
+    border-bottom: 3px solid $ea-green;
     padding-bottom: 15px;
   }
 
@@ -48,7 +50,7 @@
 
   .govuk-footer {
     color: govuk-functional-colour("secondary-text");
-    border-top: 2px solid #029e42;
+    border-top: 2px solid $ea-green;
     background: #ffffff;
   }
 
@@ -57,11 +59,11 @@
   }
 
   .govuk-inset-text {
-    border-color: #029e42;
+    border-color: $ea-green;
   }
 
   .divider {
-    color: #029e42;
+    color: $ea-green;
     font-weight: bold;
   }
 
