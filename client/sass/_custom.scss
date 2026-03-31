@@ -21,7 +21,7 @@ $ea-green: #029e42;
 .internal {
   .govuk-header {
     color: govuk-functional-colour("secondary-text");
-    background: govuk-functional-colour(body-background);
+    background: govuk-functional-colour("body-background");
     border-bottom: 3px solid $ea-green;
     padding-bottom: 15px;
   }
@@ -49,7 +49,7 @@ $ea-green: #029e42;
   }
 
   .govuk-tabs__panel {
-    background: govuk-functional-colour(body-background);
+    background: govuk-functional-colour("body-background");
   }
 
   .govuk-inset-text {
@@ -66,11 +66,11 @@ $ea-green: #029e42;
   }
 
   .govuk-tabs__tab--selected {
-    background-color: govuk-functional-colour(body-background);
+    background-color: govuk-functional-colour("body-background");
   }
 
   .govuk-tabs__tab--selected:focus {
-    background-color: govuk-functional-colour(body-background);
+    background-color: govuk-functional-colour("body-background");
   }
 
   .govuk-header__logotype-text {
@@ -138,7 +138,7 @@ $ea-green: #029e42;
   max-width: 250px;
   justify-content: space-between;
   padding-right: 25px;
-  border-right: 1px solid govuk-functional-colour(border);
+  border-right: 1px solid govuk-functional-colour("border");
 }
 
 .comment-buttons:last-child {
@@ -147,7 +147,7 @@ $ea-green: #029e42;
 
 .options-buttons {
   margin-right: 15px;
-  border-right: 1px solid govuk-functional-colour(border);
+  border-right: 1px solid govuk-functional-colour("border");
   padding-right: 15px;
 }
 
@@ -170,7 +170,7 @@ $ea-green: #029e42;
 }
 
 .govuk-button.warning {
-  background-color: govuk-functional-colour(link-visited);
+  background-color: govuk-functional-colour("link-visited");
 }
 
 .approved-message {
@@ -179,13 +179,13 @@ $ea-green: #029e42;
 }
 
 .error-text {
-  color: govuk-functional-colour(error);
+  color: govuk-functional-colour("error");
 }
 
 .feature-row {
   display: flex;
   margin-bottom: 30px;
-  border-bottom: 1px solid govuk-functional-colour(border);
+  border-bottom: 1px solid govuk-functional-colour("border");
 }
 
 .feature-column {
