@@ -1,6 +1,6 @@
 {
   "name": "risk-admin",
-  "version": "5.5.0",
+  "version": "5.6.0",
   "description": "CYLTFR Admin Web App",
   "main": "index.js",
   "engines": {
