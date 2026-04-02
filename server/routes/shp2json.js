@@ -21,15 +21,15 @@ module.exports = {
       // CHANGE THE BELOW BACK OR IT WILL USE DUMMY FILEE!!!!!!!!!!!!
 
       const { ogr2ogr } = require('ogr2ogr')
-      /*let data
+      let data
       try {
         ({ data } = await ogr2ogr(zipfile))
       } catch (error) {
         throw new Error('Could not process uploaded file. Check if it\'s a valid shapefile')
-      }*/
+      }
 
       // uncomment the below to use dummy data to bypass having to upload an actual shape file on dev
-      const data = require('./dummy-data/example_file.json')
+      // const data = require('./dummy-data/example_file.json')
       // const data = require('./dummy-data/example_file_broken.json')
       const indexedShapeData = await request.server.methods.getIndexedShapeData()
       const { findIntersectionsWithIndexedData } = await import('../services/intersectionService.mjs')
