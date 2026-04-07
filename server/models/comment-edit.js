@@ -10,7 +10,8 @@ function commentEdit (commentData, authData) {
     type: commentData.type,
     selectedRadio: commentData.selectedRadio,
     riskType: commentData.riskType,
-    textCommentRadio: commentData.textCommentRadio
+    textCommentRadio: commentData.textCommentRadio,
+    commentGuidance: 'partials/comment-guidance.html'
   }
   return retval
 }

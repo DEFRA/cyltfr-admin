@@ -1,5 +1,6 @@
 ;(function () {
-  function commentMap (geojson, target, capabilities, title) {
+  function commentMap (geojson, target, capabilities, title, intersections) {
+    // console.log('commentMap', geojson)
     const ol = window.ol
     const proj4 = window.proj4
     const COORD_SYSTEM = 'EPSG:27700'
@@ -8,6 +9,21 @@
     const vectorSource = new ol.source.Vector({
       features: (new ol.format.GeoJSON()).readFeatures(geojson)
     })
+
+    let intersectionFeatures, intersectSource
+    if (intersections?.length > 0) {
+      for (const element of intersections) {
+        if (!intersectionFeatures) {
+          intersectionFeatures = element.features
+        } else {
+          intersectionFeatures.features = intersectionFeatures.features.concat(element.features.features)
+        }
+      }
+
+      intersectSource = new ol.source.Vector({
+        features: (new ol.format.GeoJSON()).readFeatures(intersectionFeatures)
+      })
+    }
 
     const styleFunction = function (_feature) {
       return new ol.style.Style({
@@ -22,10 +38,30 @@
       })
     }
 
+    const intersectStyle = function (_feature) {
+      return new ol.style.Style({
+        stroke: new ol.style.Stroke({
+          color: 'red',
+          lineDash: [4],
+          width: 3
+        }),
+        fill: new ol.style.Fill({
+          color: 'rgba(251, 0, 255, 0.1)'
+        })
+      })
+    }
+
     const vectorLayer = new ol.layer.Vector({
       source: vectorSource,
       style: styleFunction
     })
+
+    const intersectLayer = intersectSource
+      ? new ol.layer.Vector({
+        source: intersectSource,
+        style: intersectStyle
+      })
+      : null
 
     proj4.defs(COORD_SYSTEM, '+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 ' +
         '+x_0=400000 +y_0=-100000 +ellps=airy ' +
@@ -51,6 +87,9 @@
       source
     })
 
+    const layers = [layer, vectorLayer]
+    if (intersectLayer) layers.push(intersectLayer)
+
     const map = new ol.Map({
       target,
       view: new ol.View({
@@ -58,10 +97,7 @@
         center: [0, 0],
         zoom: 2
       }),
-      layers: [
-        layer,
-        vectorLayer
-      ],
+      layers,
       controls: ol.control.defaults({ attribution: false })
     })
 
@@ -80,6 +116,7 @@
 
     if (title) {
       const titleEl = document.createElement('h3')
+      titleEl.className = 'govuk-heading-s govuk-!-margin-bottom-4'
       titleEl.textContent = title
       const mapEl = map.getTargetElement()
       mapEl.parentNode.insertBefore(titleEl, mapEl)

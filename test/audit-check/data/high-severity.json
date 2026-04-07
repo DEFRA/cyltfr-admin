@@ -1,0 +1,76 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "test-package-high": {
+      "name": "test-package-high",
+      "severity": "high",
+      "isDirect": true,
+      "via": [
+        "vulnerable-dep"
+      ],
+      "effects": [],
+      "range": ">=2.0.0",
+      "nodes": [
+        "node_modules/test-package-high"
+      ],
+      "fixAvailable": {
+        "name": "test-package-high",
+        "version": "1.9.0",
+        "isSemVerMajor": true
+      }
+    },
+    "vulnerable-dep": {
+      "name": "vulnerable-dep",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 9876543,
+          "name": "vulnerable-dep",
+          "dependency": "vulnerable-dep",
+          "title": "High severity vulnerability in vulnerable-dep",
+          "url": "https://github.com/advisories/GHSA-test-high1",
+          "severity": "high",
+          "cwe": [
+            "CWE-5678"
+          ],
+          "cvss": {
+            "score": 8.5,
+            "vectorString": null
+          },
+          "range": "<3.0.0"
+        }
+      ],
+      "effects": [
+        "test-package-high"
+      ],
+      "range": "<3.0.0",
+      "nodes": [
+        "node_modules/vulnerable-dep"
+      ],
+      "fixAvailable": {
+        "name": "test-package-high",
+        "version": "1.9.0",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 2,
+      "critical": 0,
+      "total": 2
+    },
+    "dependencies": {
+      "prod": 50,
+      "dev": 100,
+      "optional": 10,
+      "peer": 2,
+      "peerOptional": 0,
+      "total": 150
+    }
+  }
+}

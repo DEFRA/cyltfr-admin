@@ -1,10 +1,11 @@
-const STATUS_CODES = require('http2').constants
-const createServer = require('../../../server')
+const STATUS_CODES = require('node:http2').constants
+const createServer = require('../..')
 let server
 
 beforeAll(async () => {
   try {
-    server = await createServer()
+    const Provider = require('../../providers/unittest')
+    server = await createServer(Provider)
     await server.initialize()
   } catch (error) {
     console.error('Failed to create server:', error)

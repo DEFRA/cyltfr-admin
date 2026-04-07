@@ -1,0 +1,100 @@
+import { createRequire } from 'node:module'
+const require = createRequire(import.meta.url)
+const spawn = require('node:child_process').spawn
+const moment = require('moment-timezone')
+const boom = require('@hapi/boom')
+const { DATEFORMAT } = require('./constants')
+const CONVERSION_BASE = 36
+const validGeometyTypes = new Set(['Polygon', 'MultiPolygon'])
+
+export function shortId () {
+  return Math.random().toString(CONVERSION_BASE).substring(2) // NOSONAR
+}
+
+export function formatDate (str, format = DATEFORMAT) {
+  return moment(str).format(format)
+}
+
+export async function updateAndValidateGeoJson (geojson, type) {
+  if (geojson.crs?.properties?.name !== 'urn:ogc:def:crs:EPSG::27700') {
+    throw new Error('Shape file contains invalid data. Must be in British National Grid (EPSG 27700) projection')
+  }
+
+  geojson.features.forEach(f => {
+    const props = f.properties
+    f.properties = {
+      apply: type,
+      start: props.Start_date
+        ? moment(props.Start_date, 'YYYY/MM/DD').format('YYYY-MM-DD')
+        : '',
+      end: props.End_date
+        ? moment(props.End_date, 'YYYY/MM/DD').format('YYYY-MM-DD')
+        : '',
+      info: props.display2 || props.Data_Type || ''
+    }
+    if (!validGeometyTypes.has(f.geometry.type)) {
+      throw new Error('Shape file contains invalid data. Must only contain Polygon types')
+    }
+  })
+  return geojson
+}
+
+export function run (cmd, args, opts) {
+  return new Promise((resolve, reject) => {
+    console.log('Spawning', cmd, args, opts)
+    const cp = spawn(cmd, args, opts)
+    console.log('Spawned', cmd, args, opts)
+    let stdout = ''
+    let stderr = ''
+
+    cp.stdout.on('data', (data) => {
+      stdout += data
+    })
+
+    cp.stderr.on('data', (data) => {
+      stderr += data
+    })
+
+    cp.on('error', reject)
+
+    cp.on('close', (code) => {
+      if (code === 0) {
+        resolve(stdout)
+      } else {
+        reject(new Error(`${stderr}, ${code}`))
+      }
+    })
+  })
+}
+
+export async function getCommentById (provider, id) {
+  const comments = await provider.getFile()
+  const comment = comments.find(c => c.id === id)
+  if (!comment) {
+    throw boom.notFound('Comment not found')
+  }
+  return { comment, comments }
+}
+
+/**
+ * Fetch all approved users from the provider, filtering out any that fail to load
+ * @param {Object} provider - S3 provider instance
+ * @returns {Promise<Array>} Array of valid user objects
+ */
+export async function getApprovedUsers (provider) {
+  const emailIds = await provider.listEmailIds()
+  const userList = await Promise.all(
+    emailIds
+      .map(async (itemId) => {
+        try {
+          const approvedUser = await provider.getApprovedUser(itemId)
+          return approvedUser
+        } catch (error) {
+          console.error(`Error fetching user data for ${itemId}:`, error)
+          return null
+        }
+      })
+  )
+  // Filter out any null values from failed fetches
+  return userList.filter(user => user !== null)
+}

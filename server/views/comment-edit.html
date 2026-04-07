@@ -4,6 +4,9 @@
 {% set pageTitle = "Edit comment" %}
 
 {% block body %}
+<div class="govuk-body">
+  {% include commentGuidance %}
+  <h2 class="govuk-heading-m govuk-!-margin-bottom-4">Edit comment</h2>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
       <div id="map">
@@ -17,18 +20,18 @@
           <div class="form-group field field-object">
             <fieldset id="root">
               <legend id="root_title">A geojson form</legend>
-              <div class="form-group field field-string  govuk-form-group name"><label class="control-label"
-                  for="name">Description<span class="required">*</span></label>
-                <p id="name__description" class="field-description">For internal use, to describe the comments that you
-                  are uploading. This will not be displayed to public users.</p>
+              <div class="form-group field field-string  govuk-form-group name"><label class="control-label govuk-heading-s"
+                  for="name">Title<span class="required">*</span></label>
+                <p id="name__description" class="field-description govuk-hint">Add a title or brief description to describe the comment file you have uploaded. 
+                  This is not displayed to public users.</p>
                   <input name="name" type="text"
                   id="root_name" class="govuk-input govuk-input--width-2{{ features.indexOf(feature) }}" autocomplete="off" required="" maxlength="75"
                   value="{{ comment.description }}">
               </div>
-              <div class="form-group field field-string  govuk-form-group boundary"><label class="control-label"
+              <div class="form-group field field-string  govuk-form-group boundary"><label class="control-label govuk-heading-s"
                   for="boundary">Boundary<span class="required">*</span></label>
-                <p id="boundary__description" class="field-description">For internal use, choose the boundary to which
-                  this comment applies. This will not be displayed to public users.</p>
+                <p id="boundary__description" class="field-description govuk-hint">Select a boundary this
+                  comment applies to. This is not displayed to public users.</p>
                   <input name="boundary" rows="5" id="boundary"
                   required="" autocomplete="off" list="options" class="govuk-input"
                   value="{{ comment.boundary }}"><datalist id="options">
@@ -62,201 +65,284 @@
                         <div class="form-group field field-object">
                           <fieldset id="features_{{ features.indexOf(feature) }}_properties">
                             <legend id="features_{{ features.indexOf(feature) }}_properties__title">properties</legend>
-                            <div id="map_{{ features.indexOf(feature) }}" class="comment-map">
-                            </div>
-                            <div class="form-group field field-string  govuk-form-group riskOverride">
-                              <label
-                                class="control-label" for="features_{{ features.indexOf(feature) }}_properties_risk_type">
-                                Select the flood risk you want to update for points inside this area
+                            <div id="map_{{ features.indexOf(feature) }}" class="comment-map"></div>
+                            <div class="form-group field field-string govuk-form-group riskOverride">
+                              <label class="control-label govuk-heading-s" for="features_{{ features.indexOf(feature) }}_properties_risk_type">
+                                What flood risk do you want to update?
                               </label>
-                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_risk_type">
-                                <li>
-                                  <label for="sw_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="sw_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
-                                    value="Surface water">Surface water</label></li>
-                                <li>
-                                  <label for="rs_{{ features.indexOf(feature) }}"><input class="radio risk-type-{{ features.indexOf(feature) }}" id="rs_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}"
-                                  value="Rivers and the sea">Rivers and the sea</label></li>
-                              </ul>
+                              <p class="govuk-hint">
+                                Select the flood risk type that you want to update for the points inside your selected area.
+                              </p>
+                              <div class="govuk-radios" id="features_{{ features.indexOf(feature) }}_properties_risk_type">
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-type-{{ features.indexOf(feature) }}" id="sw_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}" value="Surface water">
+                                  <label class="govuk-label govuk-radios__label" for="sw_{{ features.indexOf(feature) }}">Surface water</label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-type-{{ features.indexOf(feature) }}" id="rs_{{ features.indexOf(feature) }}" type="radio" name="sw_or_rs_{{ features.indexOf(feature) }}" value="Rivers and the sea">
+                                  <label class="govuk-label govuk-radios__label" for="rs_{{ features.indexOf(feature) }}">Rivers and the sea</label>
+                                </div>
+                              </div>
                             </div>
 
                             <!-- SW override -->
                             <div id="risk-override-radios_{{ features.indexOf(feature) }}" class="form-group field field-string govuk-form-group riskOverride">
-                              <label
-                                class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride">
+                              <label class="control-label govuk-heading-s" for="features_{{ features.indexOf(feature) }}_properties_riskOverride">
                                 Do you want to override the present day surface water flood risk rating?
                               </label>
-                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride">
-                                <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-no-override"><input class="radio no_override override_radio_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-no-override" name="override_{{ features.indexOf(feature) }}-risk"
-                                    value="Do not override">No, do not override</label></li>
-                                <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-override"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override" name="override_{{ features.indexOf(feature) }}"
-                                  value="Override">Yes, override surface water</label></li>
-                                <div id="risk-override-warning_{{ features.indexOf(feature) }}" class="govuk-warning-text hide">
-                                  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                                  <strong class="govuk-warning-text__text">
-                                    <span class="govuk-visually-hidden">Warning</span>
-                                    By overriding the present risk rating, climate change information will automatically show as 'no data'. 
-                                    Any surface water depth information will also be removed from the service and replaced with 'no data'.
-                                  </strong>
+                              <p class="govuk-hint">If you select yes, the risk you select here will override the <strong>present day</strong> risk on the live service.</p>
+                              <div class="govuk-radios" id="features_{{ features.indexOf(feature) }}_properties_riskOverride">
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input no_override override_radio_{{ features.indexOf(feature) }}" id="map_{{ features.indexOf(feature) }}-no-override" 
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk" value="Do not override">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-no-override">
+                                    No, do not override
+                                  </label>
                                 </div>
-                                <ul id="risk-options_{{ features.indexOf(feature) }}" class="risk-option-radios hide" >
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-very-low"><input class="radio risk-option_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low" name="override_{{ features.indexOf(feature) }}-risk"
-                                      value="Very low">Very low</label></li>
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-low"><input class="radio risk-option_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-override-low" name="override_{{ features.indexOf(feature) }}-risk"
-                                      value="Low">Low</label></li>
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-medium"><input class="radio risk-option_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-override-medium" name="override_{{ features.indexOf(feature) }}-risk"
-                                      value="Medium">Medium</label></li>
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-high"><input class="radio risk-option_{{ features.indexOf(feature) }}" type="radio" id="map_{{ features.indexOf(feature) }}-override-high" name="override_{{ features.indexOf(feature) }}-risk"
-                                      value="High">High</label></li>
-                                </ul>
-                              </ul>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input" id="map_{{ features.indexOf(feature) }}-override" 
+                                    type="radio" name="override_{{ features.indexOf(feature) }}" value="Override">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override">
+                                    Yes, override surface water
+                                  </label>
+                                </div>
+                              </div>
+                              <div id="risk-override-warning_{{ features.indexOf(feature) }}" class="govuk-warning-text risk-selection-indent hide">
+                                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                <strong class="govuk-warning-text__text">
+                                  <span class="govuk-visually-hidden">Warning</span>
+                                  By overriding the present risk rating, climate change information will automatically show as 'no data available'. 
+                                  Any surface water depth information will also be removed from the service and replaced with 'no data available'.
+                                </strong>
+                              </div>
+                              <div id="risk-options_{{ features.indexOf(feature) }}" class="govuk-radios risk-selection-indent hide">
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-option_{{ features.indexOf(feature) }}" id="map_{{ features.indexOf(feature) }}-override-very-low" 
+                                        type="radio" name="override_{{ features.indexOf(feature) }}-risk" value="Very low">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override-very-low">
+                                    Very low
+                                  </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-option_{{ features.indexOf(feature) }}" id="map_{{ features.indexOf(feature) }}-override-low" 
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk" value="Low">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override-low">
+                                    Low
+                                  </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-option_{{ features.indexOf(feature) }}" id="map_{{ features.indexOf(feature) }}-override-medium" 
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk" value="Medium">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override-medium">
+                                    Medium
+                                  </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-option_{{ features.indexOf(feature) }}" id="map_{{ features.indexOf(feature) }}-override-high" 
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk" value="High">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override-high">
+                                    High
+                                  </label>
+                                </div>
+                              </div>
                             </div>
 
                             <!-- SW CC override -->
                             <div id="risk-override-radios_{{ features.indexOf(feature) }}_cc" class="form-group field field-string govuk-form-group riskOverride hide">
-                              <label
-                                class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
+                              <label class="control-label govuk-heading-s" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
                                 Do you want to override the climate change surface water flood risk rating?
                               </label>
-                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
-                                <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-no-override_cc"><input class="radio no_override override_radio_{{ features.indexOf(feature) }}_cc" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
-                                    value="Do not override">No, do not override</label></li>
-                                <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-override_cc"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_cc" name="override_{{ features.indexOf(feature) }}-risk_cc"
-                                  value="Override">Yes, override to show 'no data'</label></li>
-                              </ul>
-                              <div id="risk-override-warning_{{ features.indexOf(feature) }}_cc" class="govuk-warning-text hide">
+                              <p class="govuk-hint">If you select yes, the <strong>climate change</strong> data will display as 'no data available' on the live service.</p>
+                              <div class="govuk-radios" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_cc">
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input no_override override_radio_{{ features.indexOf(feature) }}_cc" id="map_{{ features.indexOf(feature) }}-no-override_cc" 
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk_cc" value="Do not override">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-no-override_cc">
+                                    No, do not override
+                                  </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input" id="map_{{ features.indexOf(feature) }}-override_cc" 
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk_cc" value="Override">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override_cc">
+                                    Yes, override to show 'no data available'
+                                  </label>
+                                </div>
+                              </div>
+                              <div id="risk-override-warning_{{ features.indexOf(feature) }}_cc" class="govuk-warning-text risk-selection-indent hide">
                                 <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                                 <strong class="govuk-warning-text__text">
                                   <span class="govuk-visually-hidden">Warning</span>
-                                  By overriding the climate change risk rating, climate change information will now show as 'no data'. 
-                                  Any surface water depth information will also be removed from the service and replaced with 'no data'.
+                                  By overriding the climate change risk rating, climate change information will now show as 'no data available'.
+                                  Any surface water depth information will also be removed from the service and replaced with 'no data available'.
                                 </strong>
                               </div>
                             </div>
 
                             <!-- RS override -->
                             <div id="risk-override-radios_{{ features.indexOf(feature) }}_rs" class="form-group field field-string govuk-form-group riskOverride">
-                              <label
-                                class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_rs">
+                              <label class="control-label govuk-heading-s" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_rs">
                                 Do you want to override the present day rivers and the sea flood risk rating?
                               </label>
-                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_rs">
-                                <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-no-override_rs"><input class="radio no_override override_radio_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_rs" name="override_{{ features.indexOf(feature) }}-risk_rs"
-                                    value="Do not override">No, do not override</label></li>
-                                <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-override_rs"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_rs" name="override_{{ features.indexOf(feature) }}_rs"
-                                  value="Override">Yes, override rivers and the sea</label></li>
-                                <div id="risk-override-warning_{{ features.indexOf(feature) }}_rs" class="govuk-warning-text hide">
-                                  <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-                                  <strong class="govuk-warning-text__text">
-                                    <span class="govuk-visually-hidden">Warning</span>
-                                    By overriding the present risk rating, climate change information will automatically show as 'no data'. 
-                                    Any rivers and the sea depth information will also be removed from the service and replaced with 'no data'.
-                                  </strong>
+                              <p class="govuk-hint">If you select yes, the risk you select here will override the <strong>present day</strong> risk on the live service.</p>
+                              <div class="govuk-radios" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_rs">
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input no_override override_radio_{{ features.indexOf(feature) }}_rs" id="map_{{ features.indexOf(feature) }}-no-override_rs"
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk_rs" value="Do not override">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-no-override_rs">
+                                    No, do not override
+                                  </label>
                                 </div>
-                                <ul id="risk-options_{{ features.indexOf(feature) }}_rs" class="risk-option-radios hide" >
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-very-low_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-very-low_rs" name="override_{{ features.indexOf(feature) }}-risk_rs"
-                                      value="Very low">Very low</label></li>
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-low_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-low_rs" name="override_{{ features.indexOf(feature) }}-risk_rs"
-                                      value="Low">Low</label></li>
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-medium_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-medium_rs" name="override_{{ features.indexOf(feature) }}-risk_rs"
-                                      value="Medium">Medium</label></li>
-                                  <li>
-                                    <label for="map_{{ features.indexOf(feature) }}-override-high_rs"><input class="radio risk-option_{{ features.indexOf(feature) }}_rs" type="radio" id="map_{{ features.indexOf(feature) }}-override-high_rs" name="override_{{ features.indexOf(feature) }}-risk_rs"
-                                      value="High">High</label></li>
-                                </ul>
-                              </ul>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input" id="map_{{ features.indexOf(feature) }}-override_rs"
+                                    type="radio" name="override_{{ features.indexOf(feature) }}_rs" value="Override">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override_rs">
+                                    Yes, override rivers and the sea
+                                  </label>
+                                </div>
+                              </div>
+                              <div id="risk-override-warning_{{ features.indexOf(feature) }}_rs" class="govuk-warning-text risk-selection-indent hide">
+                                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                                <strong class="govuk-warning-text__text">
+                                  <span class="govuk-visually-hidden">Warning</span>
+                                  By overriding the present risk rating, climate change information will automatically show as 'no data available'.
+                                  Any rivers and the sea depth information will also be removed from the service and replaced with 'no data available'.
+                                </strong>
+                              </div>
+                              <div id="risk-options_{{ features.indexOf(feature) }}_rs" class="govuk-radios risk-selection-indent hide">
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-option_{{ features.indexOf(feature) }}_rs" id="map_{{ features.indexOf(feature) }}-override-very-low_rs"
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk_rs" value="Very low">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override-very-low_rs">
+                                    Very low
+                                  </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-option_{{ features.indexOf(feature) }}_rs" id="map_{{ features.indexOf(feature) }}-override-low_rs"
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk_rs" value="Low">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override-low_rs">
+                                    Low
+                                  </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-option_{{ features.indexOf(feature) }}_rs" id="map_{{ features.indexOf(feature) }}-override-medium_rs"
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk_rs" value="Medium">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override-medium_rs">
+                                    Medium
+                                  </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input risk-option_{{ features.indexOf(feature) }}_rs" id="map_{{ features.indexOf(feature) }}-override-high_rs"
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk_rs" value="High">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override-high_rs">
+                                    High
+                                  </label>
+                                </div>
+                              </div>
                             </div>
 
                             <!-- RS CC override -->
                             <div id="risk-override-radios_{{ features.indexOf(feature) }}_rscc" class="form-group field field-string govuk-form-group riskOverride hide">
-                              <label
-                                class="control-label" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_rscc">
+                              <label class="control-label govuk-heading-s" for="features_{{ features.indexOf(feature) }}_properties_riskOverride_rscc">
                                 Do you want to override the climate change rivers and the sea flood risk rating?
                               </label>
-                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_rscc">
-                                <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-no-override_rscc"><input class="radio no_override override_radio_{{ features.indexOf(feature) }}_rscc" type="radio" id="map_{{ features.indexOf(feature) }}-no-override_rscc" name="override_{{ features.indexOf(feature) }}-risk_rscc"
-                                    value="Do not override">No, do not override</label></li>
-                                <li>
-                                  <label for="map_{{ features.indexOf(feature) }}-override_rscc"><input class="radio " type="radio" id="map_{{ features.indexOf(feature) }}-override_rscc" name="override_{{ features.indexOf(feature) }}-risk_rscc"
-                                  value="Override">Yes, override to show 'no data'</label></li>
-                              </ul>
-                              <div id="risk-override-warning_{{ features.indexOf(feature) }}_rscc" class="govuk-warning-text hide">
+                              <p class="govuk-hint">If you select yes, the <strong>climate change</strong> data will display as 'no data available' on the live service.</p>
+                              <div class="govuk-radios" id="features_{{ features.indexOf(feature) }}_properties_riskOverride_rscc">
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input no_override override_radio_{{ features.indexOf(feature) }}_rscc" id="map_{{ features.indexOf(feature) }}-no-override_rscc" 
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk_rscc" value="Do not override">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-no-override_rscc">
+                                    No, do not override
+                                  </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input" id="map_{{ features.indexOf(feature) }}-override_rscc" 
+                                    type="radio" name="override_{{ features.indexOf(feature) }}-risk_rscc" value="Override">
+                                  <label class="govuk-label govuk-radios__label" for="map_{{ features.indexOf(feature) }}-override_rscc">
+                                    Yes, override to show 'no data available'
+                                  </label>
+                                </div>
+                              </div>
+                              <div id="risk-override-warning_{{ features.indexOf(feature) }}_rscc" class="govuk-warning-text risk-selection-indent hide">
                                 <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
                                 <strong class="govuk-warning-text__text">
                                   <span class="govuk-visually-hidden">Warning</span>
-                                  By overriding the climate change risk rating, climate change information will now show as 'no data'. 
-                                  Any rivers and the sea depth information will also be removed from the service and replaced with 'no data'.
+                                  By overriding the climate change risk rating, climate change information will now show as 'no data available'.
+                                  Any rivers and the sea depth information will also be removed from the service and replaced with 'no data available'.
                                 </strong>
                               </div>
                             </div>
 
                             <div class="form-group field field-string  govuk-form-group">
-                              <label class="control-label" for="features_{{ features.indexOf(feature) }}_properties_add_comment">
+                              <label class="control-label govuk-heading-s" for="features_{{ features.indexOf(feature) }}_properties_add_comment">
                                 Do you want to add holding comment text?
                               </label>
-                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_add_comment">
-                                <li>
-                                  <label for="text_no_{{ features.indexOf(feature) }}"><input class="radio textComment_radio_{{ features.indexOf(feature) }}" id="text_no_{{ features.indexOf(feature) }}" type="radio" name="add_holding_comment_{{ features.indexOf(feature) }}"
-                                    value="No">No, do not add a holding comment text</label></li>
-                                <li>
-                                  <label for="text_yes_{{ features.indexOf(feature) }}"><input class="radio textComment_radio_{{ features.indexOf(feature) }}" type="radio" id="text_yes_{{ features.indexOf(feature) }}" name="add_holding_comment_{{ features.indexOf(feature) }}"
-                                  value="Yes">Yes, add holding comment text</label></li>
-                              </ul>
-                            </div>
-                            <div class="form-group field field-string  govuk-form-group info" id="text_area_{{ features.indexOf(feature) }}"><label class="control-label"
-                                for="features_{{ features.indexOf(feature) }}_properties_info">Enter the holding comment text</label>
-                              <div id="features_{{ features.indexOf(feature) }}_properties_info__description" class="field-description">
-                                <p>For example:</p>
-                                <p>For updates to when NaFRA2 data will be available: Some of the rivers and sea flood risk data for this location is 
-                                  currently unavailable. We'll publish this data by [month]</p>
-                                <p>For other scenarios (new modelling): We will update this data to include new rivers and sea information for this area. 
-                                  For information, email <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
-                                <p>For flood alleviation schemes: A flood management scheme in [Weston-Super-Mare] has been completed. We will include this 
-                                  in our rivers and sea data. For information, email 
-                                  <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
-                                <p>Data currently being reviewed: We are reviewing rivers and sea data for this area. For information, contact 
-                                  <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
-                                <p>The holding comment text will display to public users in this area. Read 
-                                  <a href="/comment-guidance" target="_blank" previewlistener="true">comment guidance</a>
-                                  before writing or pasting anything. The maximum number of characters is 180.</p>
+                              <p class="govuk-body">The holding comment text will display to public users in this area. 
+                                Read <a href="/comment-guidance" target="_blank" previewlistener="true">comment guidance</a>
+                                before writing or pasting anything. The maximum number of characters is 180.</p>
+                              <details class="govuk-details">
+                                <summary class="govuk-details__summary">
+                                  <span class="govuk-details__summary-text">
+                                    Examples of holding comment text
+                                  </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                  <div id="features_${featureIndex}_properties_info__description" class="field-description">
+                                    <p>For updates to when NaFRA2 data will be available: Some of the rivers and sea flood risk data for this location is 
+                                      currently unavailable. We'll publish this data by [month]</p>
+                                    <p>For other scenarios (new modelling): We will update this data to include new rivers and sea information for this area. 
+                                      For information, email <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
+                                    <p>For flood alleviation schemes: A flood management scheme in [Weston-Super-Mare] has been completed. We will include this 
+                                      in our rivers and sea data. For information, email 
+                                      <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
+                                    <p>Data currently being reviewed: We are reviewing rivers and sea data for this area. For information, contact 
+                                      <a href="mailto:enquiries@environment-agency.gov.uk">enquiries@environment-agency.gov.uk</a></p>
+                                  </div>
+                                </div>
+                              </details>
+                              <div class="govuk-radios" id="features_{{ features.indexOf(feature) }}_properties_add_comment">
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input textComment_radio_{{ features.indexOf(feature) }}" id="text_no_{{ features.indexOf(feature) }}" 
+                                    type="radio" name="add_holding_comment_{{ features.indexOf(feature) }}" value="No">
+                                  <label class="govuk-label govuk-radios__label" for="text_no_{{ features.indexOf(feature) }}">
+                                    No, do not add a holding comment text
+                                  </label>
+                                </div>
+                                <div class="govuk-radios__item">
+                                  <input class="govuk-radios__input textComment_radio_{{ features.indexOf(feature) }}" id="text_yes_{{ features.indexOf(feature) }}" 
+                                    type="radio" name="add_holding_comment_{{ features.indexOf(feature) }}" value="Yes">
+                                  <label class="govuk-label govuk-radios__label" for="text_yes_{{ features.indexOf(feature) }}">
+                                    Yes, add holding comment text
+                                  </label>
+                                </div>
                               </div>
+                            </div>
+                            <div class="form-group field field-string  govuk-form-group info" id="text_area_{{ features.indexOf(feature) }}">
                               <div><textarea name="features_{{ features.indexOf(feature) }}_properties_info" rows="5" maxlength="180"
                                   class="govuk-textarea">{{ feature.properties.info }}</textarea>
                                 <p class="govuk-hint govuk-character-count__message">You have <span class="remaining-chars-text"></span> characters remaining</p>
                               </div>
                             </div>
-                            <div class="form-group field field-string  govuk-form-group start"><label class="control-label"
+
+                            <p class="govuk-heading-s">Add dates</p>
+                            <p class="govuk-hint">Your holding comment will not go live automatically. It will be uploaded once it has been approved.</p>
+                            <p class="govuk-hint">These dates are for internal use only and will not be displayed publicly.</p>
+                            <div class="form-group field field-string  govuk-form-group start"><label class="control-label govuk-heading-s"
                                 for="features_{{ features.indexOf(feature) }}_properties_start">Enter the start date<span class="required">*</span></label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_start__description" class="field-description">
-                                Select the date the holding comment is valid from. 
-                                Your holding comment will not go live automatically - it’ll be uploaded after it’s approved. 
-                                For internal use only - the date will not be displayed to public users.
+                              <p id="features_{{ features.indexOf(feature) }}_properties_start__description" class="field-description govuk-hint">
+                                Select the date the holding comment is valid from.
                               </p>
                               <input name="features_{{ features.indexOf(feature) }}_properties_start" type="date"
-                                class="govuk-input govuk-input--width-2{{ features.indexOf(feature) }}" autocomplete="off" required="" value="{{ feature.properties.start }}">
+                                class="govuk-input govuk-input--width-10" autocomplete="off" required="" value="{{ feature.properties.start }}">
                             </div>
-                            <div class="form-group field field-string  govuk-form-group end"><label class="control-label"
+                            <div class="form-group field field-string  govuk-form-group end"><label class="control-label govuk-heading-s"
                                 for="features_{{ features.indexOf(feature) }}_properties_end">Enter the end date<span class="required">*</span></label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_end__description" class="field-description">
+                              <p id="features_{{ features.indexOf(feature) }}_properties_end__description" class="field-description govuk-hint">
                                 Select the date the holding comment is valid to. 
-                                You must remove your holding comment on the end date - it will not be removed automatically. 
-                                For internal use only - the date will not be displayed to public users.
+                                <strong>You must remove your comment on the end date provided, as this will not happen automatically.</strong>
                               </p>
                               <input name="features_{{ features.indexOf(feature) }}_properties_end" type="date"
-                              class="govuk-input govuk-input--width-2{{ features.indexOf(feature) }}" autocomplete="off" required="" value="{{ feature.properties.end }}">
+                              class="govuk-input govuk-input--width-10" autocomplete="off" required="" value="{{ feature.properties.end }}">
                             </div>
                           </fieldset>
                         </div>
@@ -275,46 +361,74 @@
                           <fieldset id="features_{{ features.indexOf(feature) }}_properties">
                             <legend id="features_{{ features.indexOf(feature) }}_properties__title">properties</legend>
                             <div id="map_{{ features.indexOf(feature) }}" class="comment-map"></div>
-                            <div class="form-group field field-string  govuk-form-group info"><label class="control-label"
-                                for="features_{{ features.indexOf(feature) }}_properties_info">Report</label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_info__description" class="field-description">The report text will display
-                                to public users in this geometry.</p>
-                              <ul class="field-radio-group" id="features_{{ features.indexOf(feature) }}_properties_info">
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Flood report">Flood report</label>
-                                </li>
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Non compliant mapping">Non compliant mapping</label>
-                                </li>
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Proposed schemes">Proposed schemes</label>
-                                </li>
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Completed schemes">Completed schemes</label>
-                                </li>
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Flood action plan">Flood action plan</label>
-                                </li>
-                                <li>
-                                  <label><input class="radio risk-report_{{ features.indexOf(feature) }}" type="radio" name="features_{{ features.indexOf(feature) }}_properties_report_type" value="Other info">Other info</label>
-                                </li>
-                              </ul>
+                            <div class="form-group field field-string govuk-form-group info">
+                              <fieldset class="govuk-fieldset">
+                                <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                  <label class="control-label govuk-heading-s" for="features_${featureIndex}_properties_report_type">Report</label>
+                                </legend>
+                                <p id="features_{{ features.indexOf(feature) }}_properties_info__hint" class="govuk-hint">The report text will display to public users in this geometry.</p>
+                                <div class="govuk-radios" id="features_{{ features.indexOf(feature) }}_properties_report_type">
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-flood"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Flood report">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-flood">
+                                      Flood report
+                                    </label>
+                                  </div>
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-non-compliant"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Non compliant mapping">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-non-compliant">
+                                      Non compliant mapping
+                                    </label>
+                                  </div>
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-proposed"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Proposed schemes">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-proposed">
+                                      Proposed schemes
+                                    </label>
+                                  </div>
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-completed"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Completed schemes">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-completed">
+                                      Completed schemes
+                                    </label>
+                                  </div>
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-action-plan"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Flood action plan">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-action-plan">
+                                      Flood action plan
+                                    </label>
+                                  </div>
+                                  <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input risk-report_{{ features.indexOf(feature) }}" id="features_{{ features.indexOf(feature) }}_properties_report_type-other"
+                                      name="features_{{ features.indexOf(feature) }}_properties_report_type" type="radio" value="Other info">
+                                    <label class="govuk-label govuk-radios__label" for="features_{{ features.indexOf(feature) }}_properties_report_type-other">
+                                      Other info
+                                    </label>
+                                  </div>
+                                </div>
+                              </fieldset>
                             </div>
-                            <div class="form-group field field-string  govuk-form-group start"><label class="control-label"
+                            <p class="govuk-heading-s">Add dates</p>
+                            <p class="govuk-hint">Your LLFA comment will not go live automatically. It will be uploaded once it has been approved.</p>
+                            <p class="govuk-hint">These dates are for internal use only and will not be displayed publicly.</p>
+                            <div class="form-group field field-string  govuk-form-group start"><label class="control-label govuk-heading-s"
                                 for="features_{{ features.indexOf(feature) }}_properties_start">Enter the start date<span class="required">*</span></label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_start__description" class="field-description">Select the date the holding comment is valid from. 
-                                Your holding comment will not go live automatically - it’ll be uploaded after it’s approved. 
-                                For internal use only - the date will not be displayed to public users.</p>
-                                <input name="features_{{ features.indexOf(feature) }}_properties_start" type="date" id="features_{{ features.indexOf(feature) }}_properties_start" class="govuk-input govuk-input--width-20 start-date"
+                              <p id="features_{{ features.indexOf(feature) }}_properties_start__description_llfa" class="field-description govuk-hint">Select the date the LLFA is valid from.</p>
+                                <input name="features_{{ features.indexOf(feature) }}_properties_start" type="date" id="features_{{ features.indexOf(feature) }}_properties_start" class="govuk-input govuk-input--width-10 start-date"
                                 autocomplete="off" required="" value="{{ feature.properties.start }}">
                             </div>
-                            <div class="form-group field field-string  govuk-form-group end"><label class="control-label"
+                            <div class="form-group field field-string  govuk-form-group end"><label class="control-label govuk-heading-s"
                                 for="features_{{ features.indexOf(feature) }}_properties_end">Enter the end date<span class="required">*</span></label>
-                              <p id="features_{{ features.indexOf(feature) }}_properties_end__description" class="field-description">Select the date the holding comment is valid to. 
-                                You must remove your holding comment on the end date - it will not be removed automatically. 
-                                For internal use only - the date will not be displayed to public users.
+                              <p id="features_{{ features.indexOf(feature) }}_properties_end__description_llfa" class="field-description govuk-hint">
+                                Select the date the holding comment is valid to. 
+                                <strong>You must remove your comment on the end date provided, as this will not happen automatically.</strong>
                               </p>
-                              <input name="features_{{ features.indexOf(feature) }}_properties_end" type="date" id="features_{{ features.indexOf(feature) }}_properties_end" class="govuk-input govuk-input--width-20 end-date"
+                              <input name="features_{{ features.indexOf(feature) }}_properties_end" type="date" id="features_{{ features.indexOf(feature) }}_properties_end" class="govuk-input govuk-input--width-10 end-date"
                                 autocomplete="off" required="" value="{{ feature.properties.end }}">
                             </div>
                           </fieldset>
@@ -334,6 +448,7 @@
       </div>
     </div>
   </div>
+</div>
 {% endblock %}
 
 {% block bodyEnd %}

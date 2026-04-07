@@ -1,7 +1,8 @@
 const joi = require('joi')
 const commentCreate = require('../models/comment-create')
-const { shortId } = require('../helpers')
 const capabilities = require('../models/capabilities')
+const config = require('../config')
+const { performance } = require('node:perf_hooks')
 
 module.exports = [
   {
@@ -23,12 +24,20 @@ module.exports = [
     method: 'POST',
     path: '/comment/create/{type}',
     handler: async (request, _h) => {
+      let startTime
+      if (config.performanceLogging) {
+        startTime = performance.now()
+      }
+      const { shortId } = await import('../helpers.mjs')
       const provider = request.provider
       const payload = request.payload
       const type = request.params.type
+      // TODO: This code should check that the newly created id doesn't already exist.
       const id = shortId()
       const keyname = `${id}.json`
       const now = new Date()
+
+      const intersectingComment = ''
 
       try {
         // Update manifest
@@ -52,8 +61,11 @@ module.exports = [
         console.log('failed to upload')
       }
 
-      // Return ok
+      if (config.performanceLogging) {
+        console.log('POST /comment/create/ time: ', performance.now() - startTime)
+      }
       return {
+        intersectingComment,
         ok: true,
         id
       }

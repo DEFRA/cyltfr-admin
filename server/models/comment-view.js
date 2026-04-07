@@ -1,15 +1,18 @@
-const { formatDate } = require('../helpers')
 const { DATETIMEFORMAT, DATEFORMAT } = require('../constants')
 
-function commentView (comment, geometry, auth, capabilities) {
+async function commentView (comment, geometry, auth, capabilities, allFeatures) {
+  const { getRiskOverrideValues } = await import('../services/riskOverrideService.mjs')
   const retval = {
     comment,
+    commentGuidance: 'partials/comment-guidance.html',
     geometry,
+    allFeatures,
     capabilities,
     isApprover: auth.credentials.isApprover,
     allowDelete: auth.credentials.isApprover ||
     comment.createdBy === auth.credentials.profile.email
   }
+  const { formatDate } = await import('../helpers.mjs')
 
   retval.viewHeaderData = {
     firstCellIsHeader: true,
@@ -35,63 +38,50 @@ function commentView (comment, geometry, auth, capabilities) {
     ])
   }
 
-  retval.viewCommentData = {
-    head: [
-      { text: comment.type === 'holding' ? 'Info' : 'Report' },
-      { text: comment.type === 'holding' ? 'Risk Override' : '', classes: 'override-column' },
-      { text: 'Valid from' },
-      { text: 'Valid to' },
-      { text: 'Map' },
-      ...(retval.allowDelete ? [{ text: 'Delete' }] : [])
-    ],
-    rows: geometry.features.map((f, i) => {
-      const row = [
-        { text: f.properties.info },
-        {
-          html: (() => {
-            const doNotOverride = 'Do not override'
-            let presentDay = f.properties.riskOverride ?? f.properties.riskOverrideRS
-            // This assigns the 'Do not override' value to legacy comments where a risk override was not applied.
-            if (presentDay === null || presentDay === undefined) {
-              presentDay = doNotOverride
-            }
+  retval.viewFeatureData = geometry.features.map((f, i) => {
+    const doNotOverride = 'Do not override'
+    const headerColumn = 'header-column'
+    const { presentDay, climateChange } = getRiskOverrideValues(f.properties, doNotOverride)
 
-            let climateChange = f.properties.riskOverrideCc ?? f.properties.riskOverrideRSCC
-            // This assigns the 'Do not override' value for climate change to legacy comments where a risk override was not applied.
-            if (climateChange === null || climateChange === undefined) {
-              climateChange = doNotOverride
-            }
+    const rows = [
+      [{ text: comment.type === 'holding' ? 'Info' : 'Report', classes: headerColumn }, { text: f.properties.info }]
+    ]
 
-            if ((presentDay && presentDay !== doNotOverride) || climateChange === 'Override') {
-              climateChange = 'No data available'
-            }
+    if (comment.type === 'holding') {
+      rows.push(
+        [{ text: 'Present day risk override', classes: headerColumn }, { text: presentDay }],
+        [{ text: 'Climate change risk override', classes: headerColumn }, { text: climateChange }]
+      )
+    }
 
-            return `<strong>Present day:</strong><br>${presentDay}
-                  <br><br>
-                  <strong>Climate change:</strong><br>${climateChange}`
-          })()
-        },
-        { text: formatDate(f.properties.start, DATEFORMAT) },
-        { text: formatDate(f.properties.end, DATEFORMAT) },
-        {
-          html: `<div id='map_${i}' class='comment-map'></div>
-                 <button class="govuk-button enlarge-map-button" onclick="openMapModal(${i})">View larger map</button>`
-        }
-      ]
+    rows.push(
+      [{ text: 'Valid from', classes: headerColumn }, { text: formatDate(f.properties.start, DATEFORMAT) }],
+      [{ text: 'Valid to', classes: 'no-border ' + headerColumn }, { text: formatDate(f.properties.end, DATEFORMAT), classes: 'no-border' }]
+    )
 
-      if (retval.allowDelete) {
-        row.push({
-          html: '<div style="float: right;"> ' +
-          `<form method="POST" action="/comment/edit/${comment.id}/deletesingle/${i}" style="display: inline-block;"` +
-          'onsubmit="return confirm(\'Are you sure you want to delete this comment?\')">' +
-          '<button class="govuk-button danger" type="submit">Delete</button>' +
-          '</form></div>'
-        })
-      }
+    const commentData = {
+      firstCellIsHeader: true,
+      rows
+    }
 
-      return row
-    })
-  }
+    let mapHtml = `<div id='map_${i}' class='comment-map-view'></div>
+                  <button class="govuk-button enlarge-map-button" onclick="openMapModal(${i})">View larger map</button>`
+
+    if (retval.allowDelete) {
+      mapHtml += '<div class="delete-entry"> ' +
+                `<form method="POST" action="/comment/edit/${comment.id}/deletesingle/${i}"` +
+                'onsubmit="return confirm(\'Are you sure you want to delete this comment?\')">' +
+                '<button class="govuk-button govuk-button--warning" type="submit">Delete entry</button>' +
+                '</form></div>'
+    }
+
+    const mapData = {
+      firstCellIsHeader: false,
+      rows: [[{ html: mapHtml, classes: 'no-border' }]]
+    }
+
+    return { commentData, mapData }
+  })
 
   return retval
 }

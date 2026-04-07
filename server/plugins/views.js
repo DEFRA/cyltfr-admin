@@ -1,7 +1,6 @@
 const path = require('path')
 const nunjucks = require('nunjucks')
 const config = require('../config')
-const { formatDate } = require('../helpers')
 const pkg = require('../../package.json')
 const analyticsAccount = config.analyticsAccount
 
@@ -17,7 +16,8 @@ module.exports = {
             return template.render(context)
           }
         },
-        prepare: (options, next) => {
+        prepare: async (options, next) => {
+          const { formatDate } = await import('../helpers.mjs')
           const env = nunjucks.configure([
             path.join(options.relativeTo || process.cwd(), options.path),
             'node_modules/govuk-frontend/dist/govuk/',
@@ -44,9 +44,9 @@ module.exports = {
       appStage: config.env,
       appVersion: pkg.version,
       assetPath: '/assets',
-      serviceRef: 'LTF-Admin',
-      serviceName: 'LTFRI Admin Console',
-      pageTitle: 'LTFRI Admin Console - EA.GOV.UK',
+      serviceRef: 'CYLTFR-Admin',
+      serviceName: 'CYLTFR Admin Console',
+      pageTitle: 'CYLTFR Admin Console - EA.GOV.UK',
       analyticsAccount
     }
   }

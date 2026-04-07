@@ -1,7 +1,8 @@
 const hapi = require('@hapi/hapi')
 const config = require('./config')
+const cache = require('./cache.js')
 
-async function createServer () {
+async function createServer (Provider = require('./providers/s3')) {
   // Create the hapi server
   const server = hapi.server({
     port: config.port,
@@ -14,8 +15,13 @@ async function createServer () {
           abortEarly: false
         }
       }
-    }
+    },
+    cache
   })
+
+  const CACHE_EXPIRY = 600 // 10 minutes
+  const CACHE_STALE = 460 // 8 minutes
+  const CACHE_GENERATE_TIMEOUT = 20 // 20 seconds
 
   // Register the auth plugins
   await server.register(require('@hapi/bell'))
@@ -50,13 +56,22 @@ async function createServer () {
   await server.register(require('./plugins/router'))
   await server.register(require('./plugins/error-pages'))
   await server.register({
+    plugin: require('./plugins/dataRefresh.js'),
+    options: {
+      time: CACHE_STALE * 1000
+    }
+  })
+  await server.register({
     plugin: require('./plugins/provider'),
     options: {
-      Provider: require('./providers/s3')
+      Provider
     }
   })
   await server.register(require('./plugins/logging'))
   await server.register(require('blipp'))
+  // Run cron job to send reminder emails
+  const { createCronJob } = require('./jobs/cronjob')
+  createCronJob()
 
   server.ext('onPostHandler', (request, h) => {
     const response = request.response
@@ -77,6 +92,31 @@ async function createServer () {
       response.source.context = ctx
     }
     return h.continue
+  })
+
+  // Register server methods
+  const { getExtraInfoData, setProvider } = await import('./services/extraInfoService.mjs')
+  setProvider(server.provider)
+
+  server.method('getExtraInfoData', getExtraInfoData, {
+    cache: {
+      cache: 'server_cache',
+      expiresIn: CACHE_EXPIRY * 1000,
+      staleIn: CACHE_STALE * 1000,
+      staleTimeout: 50,
+      generateTimeout: CACHE_GENERATE_TIMEOUT * 1000
+    }
+  })
+
+  const { getIndexedShapeData } = await import('./services/indexedShapeDataService.mjs')
+  server.method('getIndexedShapeData', getIndexedShapeData, {
+    cache: {
+      cache: 'server_cache',
+      expiresIn: CACHE_EXPIRY * 1000,
+      staleIn: CACHE_STALE * 1000,
+      staleTimeout: 50,
+      generateTimeout: CACHE_GENERATE_TIMEOUT * 1000
+    }
   })
 
   return server
