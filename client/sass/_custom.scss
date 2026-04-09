@@ -1,15 +1,17 @@
+$ea-green: #029e42;
+
 .govuk-template {
-  background-color: white;
+  background-color: govuk-functional-colour(body-background);
 }
 
 .govuk-template__body.internal.js-enabled {
   margin: 0;
-  background-color: #ffffff;
+  background-color: govuk-functional-colour(body-background);
   font-family: Arial, Helvetica, sans-serif;
 }
 
 .govuk-caption-l {
-  color: black;
+  color: govuk-functional-colour("text");
 }
 
 .hide {
@@ -18,37 +20,44 @@
 
 .internal {
   .govuk-header {
-    color: #454a4c;
-    background: #ffffff;
-    border-bottom: 3px solid #029e42;
+    color: govuk-functional-colour("secondary-text");
+    background: govuk-functional-colour("body-background");
+    border-bottom: 3px solid $ea-green;
     padding-bottom: 15px;
   }
 
-  .govuk-header__link:link,
-  .govuk-header__link:visited {
-    color: #000;
+  .govuk-header__homepage-link:hover,
+  .govuk-header__homepage-link:active {
+    border-bottom-color: govuk-colour("black");
   }
 
   .govuk-header__container {
     border-bottom: none;
+    display: flex;
+    align-items: center;
   }
 
-  .govuk-footer {
-    border-top: 2px solid #029e42;
-    color: #454a4c;
-    background: #ffffff;
+  .govuk-header__homepage-link {
+    display: inline-block;
+    line-height: 0;
+    background-color: transparent;
+  }
+
+  .govuk-header__homepage-link:focus .ea-logo,
+  .govuk-header__homepage-link:focus-visible .ea-logo {
+    background-color: govuk-functional-colour("focus");
   }
 
   .govuk-tabs__panel {
-    background: #ffffff;
+    background: govuk-functional-colour("body-background");
   }
 
   .govuk-inset-text {
-    border-color: #029e42;
+    border-color: $ea-green;
   }
 
   .divider {
-    color: #029e42;
+    color: $ea-green;
     font-weight: bold;
   }
 
@@ -57,11 +66,11 @@
   }
 
   .govuk-tabs__tab--selected {
-    background-color: white;
+    background-color: govuk-functional-colour("body-background");
   }
 
   .govuk-tabs__tab--selected:focus {
-    background-color: white;
+    background-color: govuk-functional-colour("body-background");
   }
 
   .govuk-header__logotype-text {
@@ -71,14 +80,12 @@
 
 // *** header ***
 .login-section {
-  float: right;
   display: block;
-  position: relative;
-  width: 300px;
-  height: 60px;
-  clear: none;
+  margin-left: auto;
+  width: auto;
+  height: auto;
   text-align: right;
-  line-height: 60px;
+  line-height: 1.25;
 }
 
 .ea-logo {
@@ -93,6 +100,21 @@
 
 .govuk-footer {
   display: none;
+}
+
+.console-footer {
+  position: relative;
+  padding-top: 12px;
+}
+
+.console-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 100vw;
+  transform: translateX(-50%);
+  border-top: 2px solid $ea-green;
 }
 
 .guidance-list li {
@@ -116,7 +138,7 @@
   max-width: 250px;
   justify-content: space-between;
   padding-right: 25px;
-  border-right: 1px solid #b1b4b6;
+  border-right: 1px solid govuk-functional-colour("border");
 }
 
 .comment-buttons:last-child {
@@ -125,7 +147,7 @@
 
 .options-buttons {
   margin-right: 15px;
-  border-right: 1px solid #b1b4b6;
+  border-right: 1px solid govuk-functional-colour("border");
   padding-right: 15px;
 }
 
@@ -148,7 +170,7 @@
 }
 
 .govuk-button.warning {
-  background-color: $govuk-link-visited-colour;
+  background-color: govuk-functional-colour("link-visited");
 }
 
 .approved-message {
@@ -157,13 +179,13 @@
 }
 
 .error-text {
-  color: $govuk-error-colour;
+  color: govuk-functional-colour("error");
 }
 
 .feature-row {
   display: flex;
   margin-bottom: 30px;
-  border-bottom: 1px solid #b1b4b6;
+  border-bottom: 1px solid govuk-functional-colour("border");
 }
 
 .feature-column {

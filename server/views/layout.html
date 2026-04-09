@@ -33,10 +33,10 @@
 {% endblock %}
 
 {% block header %}
-<header class="govuk-header " role="banner" data-module="header">
+<header class="govuk-header" role="banner" data-module="govuk-header">
   <div class="govuk-header__container govuk-width-container">
     <div class="govuk-header__logo">
-      <a href="/" class="govuk-header__link govuk-header__link--homepage">
+      <a href="/" class="govuk-header__homepage-link">
         <div class="ea-logo"></div>
       </a>
     </div>
@@ -70,9 +70,11 @@
 </div>
 <h1 class="govuk-heading-l">Check your long term flood risk console</h1>
 {% block body %}{% endblock %}
-<div>For help and information please contact: <a
-    href="mailto:FCRM_risk_assessment@environment-agency.gov.uk">FCRM_risk_assessment@environment-agency.gov.uk</a>
-</div>
+<footer class="console-footer">
+  <p class="govuk-body">For help and information please contact: 
+    <a href="mailto:FCRM_risk_assessment@environment-agency.gov.uk">FCRM_risk_assessment@environment-agency.gov.uk</a>
+  </p>
+</footer>
 {% endblock %}
 
 {% block bodyEnd %}
