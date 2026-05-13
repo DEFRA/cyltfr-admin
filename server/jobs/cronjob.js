@@ -62,7 +62,7 @@ const onJobCalled = async (providerInstance, notifyClient) => {
 const scheduledJob = async () => {
   const providerInstance = new S3Provider()
   const notifyClient = new NotifyClient(config.govNotifyApiKey)
-  onJobCalled(providerInstance, notifyClient)
+  await onJobCalled(providerInstance, notifyClient)
 }
 
 const createCronJob = async () => {

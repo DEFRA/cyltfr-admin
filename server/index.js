@@ -69,9 +69,11 @@ async function createServer (Provider = require('./providers/s3')) {
   })
   await server.register(require('./plugins/logging'))
   await server.register(require('blipp'))
-  // Run cron job to send reminder emails
-  const { createCronJob } = require('./jobs/cronjob')
-  createCronJob()
+  // Run cron job to send reminder emails only when explicitly enabled
+  if (config.enableNotifyCron) {
+    const { createCronJob } = require('./jobs/cronjob')
+    createCronJob()
+  }
 
   server.ext('onPostHandler', (request, h) => {
     const response = request.response
