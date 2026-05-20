@@ -44,7 +44,6 @@ Docker v20.10.0+
 | AWS_BUCKET_NAME         |                       |    yes   |                         |                    |       |
 | GOV_NOTIFY_API_KEY      |                       |    yes   |                         |                    |       |
 | TEMPLATE_ID             | Notify template       |    yes   |                         |                    |       |
-| ENABLE_NOTIFY_CRON      | Enable reminder cron  |    no    | false                   |                    |       |
 | NOTIFY_CRON             |                       |    no    | 0 0 9 * * mon-fri       |                    |       |
 | SEND_EMAILS_ON_STARTUP  | Run cron job on start |    no    | false                   |                    |       |
 | APPROVERS_PREFIX        |                       |    no    | email-notified-approvers|                    |       |
