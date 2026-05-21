@@ -1,6 +1,7 @@
 const { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand, HeadObjectCommand, ListObjectsV2Command } = require('@aws-sdk/client-s3')
 const config = require('../../config')
 const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`
+const httpPreconditionFailed = 412
 
 const s3Client = new S3Client({
   region: config.awsBucketRegion
@@ -168,7 +169,7 @@ class S3Provider {
       }))
       return true // Lock acquired
     } catch (err) {
-      if (err.name === 'PreconditionFailed' || err.$metadata?.httpStatusCode === 412) {
+      if (err.name === 'PreconditionFailed' || err.$metadata?.httpStatusCode === httpPreconditionFailed) {
         return false // Another process created the lock
       }
       throw err
