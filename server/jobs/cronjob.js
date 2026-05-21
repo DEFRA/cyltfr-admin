@@ -3,8 +3,17 @@ const S3Provider = require('../providers/s3')
 const config = require('../config')
 const NotifyClient = require('notifications-node-client').NotifyClient
 
+const lockKey = 'cron-notify-lock'
+const lockDuration = 300
+
 const onJobCalled = async (providerInstance, notifyClient) => {
   console.log('Running cron job: Checking pending approvals...')
+
+  const lockAcquired = await providerInstance.acquireLock(lockKey, lockDuration)
+  if (!lockAcquired) {
+    console.log('Cron job: Could not acquire distributed lock, another process is handling this run.')
+    return
+  }
 
   try {
     const { getApprovedUsers } = await import('../helpers.mjs')
@@ -56,6 +65,8 @@ const onJobCalled = async (providerInstance, notifyClient) => {
     }
   } catch (error) {
     console.error('Error in cron job:', error)
+  } finally {
+    await providerInstance.releaseLock(lockKey)
   }
 }
 
