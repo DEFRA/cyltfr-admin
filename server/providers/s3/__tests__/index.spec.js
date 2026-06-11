@@ -21,7 +21,7 @@ describe('S3Provider distributed locking', () => {
       // PutObject succeeds (lock acquired)
       mockSend.mockResolvedValueOnce({})
 
-      const result = await provider.acquireLock('test-lock', 300)
+      const result = await provider.acquireLock('test-lock')
 
       expect(result).toBe(true)
       expect(mockSend).toHaveBeenCalledTimes(2)
@@ -73,6 +73,13 @@ describe('S3Provider distributed locking', () => {
       mockSend.mockRejectedValueOnce(new Error('S3 service error'))
 
       await expect(provider.acquireLock('test-lock', 300)).rejects.toThrow('S3 service error')
+    })
+
+    test('throws when lock creation fails with unexpected error', async () => {
+      mockSend.mockRejectedValueOnce({ name: 'NoSuchKey' })
+      mockSend.mockRejectedValueOnce(new Error('PutObject failed'))
+
+      await expect(provider.acquireLock('test-lock', 300)).rejects.toThrow('PutObject failed')
     })
   })
 
