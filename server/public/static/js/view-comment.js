@@ -12,16 +12,27 @@
     window.LTFMGMT.commentMap(geo, 'map_' + index, capabilities)
   })
 
-  allFeatures.forEach(function (feature) {
-    feature.features.forEach(function (singleF) {
-      const geo = {
-        ...singleF,
-        features: singleF.filter(f => f === singleF)
-      }
+  // This flattens allFeatures so the map modal function still works correctly
+  const flattenedFeatures = (allFeatures || []).flatMap(function (featureGroup) {
+    if (Array.isArray(featureGroup)) {
+      return featureGroup
+    }
 
-      window.LTFMGMT.commentMap(geo, 'map_whole', capabilities)
-    })
+    if (featureGroup && Array.isArray(featureGroup.features)) {
+      return featureGroup.features
+    }
+
+    return []
   })
+
+  if (flattenedFeatures.length) {
+    const geo = {
+      ...geometry,
+      features: flattenedFeatures
+    }
+
+    window.LTFMGMT.commentMap(geo, 'map_whole', capabilities)
+  }
 
   if (geometry.features.length > 1) {
     window.LTFMGMT.commentMap(geometry, 'map', capabilities)
