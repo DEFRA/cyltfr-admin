@@ -1,4 +1,4 @@
-@import "govuk-frontend/dist/govuk/index";
+@use "govuk-frontend/dist/govuk/index" as *;
 
 .nojs-hidden {
   display: none;
