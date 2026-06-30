@@ -36,7 +36,7 @@
     "@turf/turf": "^7.3.4",
     "blipp": "4.0.2",
     "dotenv": "^17.3.1",
-    "govuk-frontend": "^6.0.0",
+    "govuk-frontend": "^6.3.0",
     "hapi-pino": "^13.0.0",
     "joi": "^18.1.2",
     "jsonexport": "3.2.0",
