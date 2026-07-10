@@ -66,11 +66,20 @@ module.exports = [
     method: 'GET',
     path: '/comment/edit/{id}',
     handler: async (request, h) => {
-      const { params } = request
+      const { params, auth } = request
       const { id } = params
       const provider = request.provider
       const { getCommentById } = await import('../helpers.mjs')
       const { comment } = await getCommentById(provider, id)
+
+      // Only approvers or comment authors can edit
+      const allowEdit = auth.credentials.isApprover ||
+      comment.createdBy === auth.credentials.profile.email
+
+      if (!allowEdit) {
+        return boom.forbidden('You do not have permission to edit this comment')
+      }
+
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
       const geometry = await provider.getFile(key)
       const features = geometry.features
@@ -133,6 +142,15 @@ module.exports = [
       const provider = request.provider
       const { getCommentById } = await import('../helpers.mjs')
       const { comment, comments } = await getCommentById(provider, id)
+
+      // Only approvers or comment authors can edit
+      const allowEdit = auth.credentials.isApprover ||
+      comment.createdBy === auth.credentials.profile.email
+
+      if (!allowEdit) {
+        return boom.forbidden('You do not have permission to edit this comment')
+      }
+
       const key = `${config.holdingCommentsPrefix}/${comment.keyname}`
       const geometry = await provider.getFile(key)
       const features = geometry.features
