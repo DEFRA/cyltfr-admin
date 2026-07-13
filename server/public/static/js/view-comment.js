@@ -88,10 +88,10 @@
       return
     }
 
-      const mapModal = document.getElementById('mapModal')
-      if (mapModal && mapModal.style.display === 'block' && typeof window.closeMapModal === 'function') {
-        window.closeMapModal()
-      }
+    const mapModal = document.getElementById('mapModal')
+    if (mapModal && mapModal.style.display === 'block' && typeof window.closeMapModal === 'function') {
+      window.closeMapModal()
+    }
 
     if (!permissionModal.open) {
       document.documentElement.style.setProperty('--scroll-y', `-${window.scrollY}px`)
