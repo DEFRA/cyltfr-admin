@@ -77,4 +77,43 @@
   }
   closeButton.addEventListener('click', handleClose)
   closeButton.addEventListener('keydown', handleClose)
+
+  // Permission modal function
+  const permissionModal = document.getElementById('permission-modal')
+  const permissionModalClose = document.getElementById('permission-modal-close')
+  const editButton = document.getElementById('edit-comment-button')
+
+  function openPermissionModal () {
+    if (!permissionModal || !permissionModalClose) {
+      return
+    }
+
+    permissionModal.classList.add('visible')
+    permissionModalClose.focus()
+  }
+
+  function closePermissionModal () {
+    if (permissionModal) {
+      permissionModal.classList.remove('visible')
+    }
+  }
+
+  if (permissionModal && permissionModalClose) {
+    permissionModalClose.addEventListener('click', function () {
+      closePermissionModal()
+    })
+
+    permissionModal.addEventListener('click', function (event) {
+      if (event.target === permissionModal) {
+        closePermissionModal()
+      }
+    })
+  }
+
+  if (editButton && editButton.dataset.allowEdit === 'false') {
+    editButton.addEventListener('click', function (event) {
+      event.preventDefault()
+      openPermissionModal()
+    })
+  }
 })()

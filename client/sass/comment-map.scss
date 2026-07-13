@@ -61,3 +61,25 @@
   width: 100%;
   top: var(--scroll-y);
 }
+
+#permission-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(11, 12, 12, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+}
+
+#permission-modal.visible {
+  display: flex;
+}
+
+.permission-modal-content {
+  max-width: 520px;
+  width: 90%;
+  background: #fff;
+  border: 3px solid #0b0c0c;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
