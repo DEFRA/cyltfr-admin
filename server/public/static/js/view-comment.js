@@ -87,7 +87,7 @@
     if (!permissionModal || !permissionModalClose) {
       return
     }
-    
+
       const mapModal = document.getElementById('mapModal')
       if (mapModal && mapModal.style.display === 'block' && typeof window.closeMapModal === 'function') {
         window.closeMapModal()
