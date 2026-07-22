@@ -1,11 +1,7 @@
 const { DATETIMEFORMAT } = require('../constants')
 
 const escapeHtml = (value) => {
-  if (value === undefined || value === null) {
-    return ''
-  }
-
-  return String(value)
+  return String(value ?? '')
     .replaceAll('&', '&amp;')
     .replaceAll('<', '&lt;')
     .replaceAll('>', '&gt;')
