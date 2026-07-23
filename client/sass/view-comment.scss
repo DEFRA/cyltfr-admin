@@ -61,3 +61,16 @@
   width: 100%;
   top: var(--scroll-y);
 }
+
+#permission-modal {
+  padding: 0;
+  max-width: 450px;
+  background: #fff;
+  border: 3px solid #0b0c0c;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: visible;
+}
+
+#permission-modal::backdrop {
+  background: rgba(11, 12, 12, 0.55);
+}

@@ -9,6 +9,8 @@ async function commentView (comment, geometry, auth, capabilities, allFeatures) 
     allFeatures,
     capabilities,
     isApprover: auth.credentials.isApprover,
+    allowEdit: auth.credentials.isApprover ||
+    comment.createdBy === auth.credentials.profile.email,
     allowDelete: auth.credentials.isApprover ||
     comment.createdBy === auth.credentials.profile.email
   }

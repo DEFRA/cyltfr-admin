@@ -26,7 +26,7 @@
   <div>
     <div class="comment-options govuk-!-margin-top-4 govuk-!-margin-bottom-4">
       <div class="options-buttons">
-        <a class="govuk-button" href="/comment/edit/{{comment.id}}">Edit comment details</a>
+        <a class="govuk-button" id="edit-comment-button" href="/comment/edit/{{comment.id}}" data-allow-edit="{% if allowEdit %}true{% else %}false{% endif %}">Edit comment details</a>
       </div>
       {% if (isApprover) %}
       {% if (not comment.approvedAt) %}
@@ -72,6 +72,11 @@
 
 {% block bodyEnd %}
 
+<dialog id="permission-modal" aria-labelledby="permission-modal-title" class="govuk-!-padding-6">
+  <h2 id="permission-modal-title" class="govuk-heading-s">You do not have permission to edit this comment.</h2>
+  <button id="permission-modal-close" type="button" class="govuk-button govuk-!-margin-bottom-0">OK</button>
+</dialog>
+
 <div id="mapModal" class="map-modal">
   <div class="map-modal-content">
     <span class="map-modal-close" tabindex="0">&times;</span>
@@ -79,10 +84,10 @@
   </div>
 </div>
 
-  <script>
-    window.LTFMGMT.geometry = {{ geometry | dump | safe }}
-    window.LTFMGMT.allFeatures = {{ allFeatures | dump | safe }}
-    window.LTFMGMT.capabilities = {{ capabilities | dump | safe }}
-  </script>
-  <script src="/assets/js/view-comment.js"></script>
+<script>
+  window.LTFMGMT.geometry = {{ geometry | dump | safe }}
+  window.LTFMGMT.allFeatures = {{ allFeatures | dump | safe }}
+  window.LTFMGMT.capabilities = {{ capabilities | dump | safe }}
+</script>
+<script src="/assets/js/view-comment.js"></script>
 {% endblock %}
