@@ -77,4 +77,63 @@
   }
   closeButton.addEventListener('click', handleClose)
   closeButton.addEventListener('keydown', handleClose)
+
+  // Permission modal function
+  const permissionModal = document.getElementById('permission-modal')
+  const permissionModalClose = document.getElementById('permission-modal-close')
+  const editButton = document.getElementById('edit-comment-button')
+
+  function openPermissionModal () {
+    if (!permissionModal || !permissionModalClose) {
+      return
+    }
+
+    const mapModal = document.getElementById('mapModal')
+    if (mapModal && mapModal.style.display === 'block' && typeof window.closeMapModal === 'function') {
+      window.closeMapModal()
+    }
+
+    if (!permissionModal.open) {
+      document.documentElement.style.setProperty('--scroll-y', `-${window.scrollY}px`)
+      document.body.classList.add('disable-scroll')
+      permissionModal.showModal()
+    }
+    permissionModalClose.focus()
+  }
+
+  function closePermissionModal () {
+    if (permissionModal && permissionModal.open) {
+      permissionModal.close()
+
+      const pagePosition = document.documentElement.style.getPropertyValue('--scroll-y')
+      document.body.classList.remove('disable-scroll')
+      window.scrollTo(0, parseInt(pagePosition || '0') * -1)
+    }
+  }
+
+  if (permissionModal && permissionModalClose) {
+    permissionModalClose.addEventListener('click', function () {
+      closePermissionModal()
+    })
+
+    permissionModal.addEventListener('click', function (event) {
+      const rect = permissionModal.getBoundingClientRect()
+      const outsideModal =
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom
+
+      if (outsideModal) {
+        closePermissionModal()
+      }
+    })
+  }
+
+  if (editButton && editButton.dataset.allowEdit === 'false') {
+    editButton.addEventListener('click', function (event) {
+      event.preventDefault()
+      openPermissionModal()
+    })
+  }
 })()
