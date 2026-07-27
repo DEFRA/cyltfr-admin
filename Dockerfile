@@ -30,6 +30,8 @@ RUN mkdir -p ./node_modules
 
 COPY --chown=root:root ./package*.json ./
 
+COPY --chown=root:root ./.npmrc ./
+
 COPY --chown=root:root ./bin ./bin
 
 COPY --chown=root:root ./client ./client

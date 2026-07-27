@@ -44,7 +44,7 @@
     "node-cron": "4.6.0",
     "notifications-node-client": "8.4.0",
     "nunjucks": "3.2.4",
-    "ogr2ogr": "6.0.1"
+    "ogr2ogr": "7.0.0"
   },
   "devDependencies": {
     "eslint": "9.39.5",
