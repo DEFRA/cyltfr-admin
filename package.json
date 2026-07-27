@@ -22,17 +22,17 @@
   "author": "defra.gov.uk",
   "license": "OGL-UK-3.0",
   "dependencies": {
-    "@aws-sdk/client-s3": "3.1093.0",
+    "@aws-sdk/client-s3": "3.1090.0",
     "@hapi/bell": "13.1.0",
     "@hapi/boom": "10.0.1",
     "@hapi/catbox-object": "3.0.1",
     "@hapi/cookie": "12.0.1",
-    "@hapi/hapi": "21.4.10",
+    "@hapi/hapi": "21.4.9",
     "@hapi/inert": "7.1.2",
     "@hapi/vision": "7.0.3",
-    "@turf/bbox": "7.3.4",
-    "@turf/helpers": "7.3.4",
-    "@turf/intersect": "7.3.4",
+    "@turf/bbox": "7.3.5",
+    "@turf/helpers": "7.3.5",
+    "@turf/intersect": "7.3.5",
     "@turf/turf": "7.3.5",
     "blipp": "4.0.2",
     "dotenv": "17.4.2",
@@ -44,13 +44,13 @@
     "node-cron": "4.6.0",
     "notifications-node-client": "8.4.0",
     "nunjucks": "3.2.4",
-    "ogr2ogr": "6.0.1"
+    "ogr2ogr": "7.0.0"
   },
   "devDependencies": {
     "eslint": "9.39.5",
     "jest": "30.4.2",
     "neostandard": "0.13.0",
-    "sass": "1.101.6"
+    "sass": "1.101.0"
   },
   "jest": {
     "setupFiles": [

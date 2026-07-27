@@ -1,5 +1,14 @@
 const { DATETIMEFORMAT } = require('../constants')
 
+const escapeHtml = (value) => {
+  return String(value ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;')
+}
+
 async function homeView (comments, currentUser) {
   const { formatDate } = await import('../helpers.mjs')
   const defaultMapper = (field, row) => ({
@@ -14,7 +23,7 @@ async function homeView (comments, currentUser) {
     }
 
     return {
-      html: `<span class="govuk-tag govuk-tag--green" title="Approved by ${approvedBy} at ${formatDate(approvedAt, DATETIMEFORMAT)}">Approved</span>`,
+      html: `<span class="govuk-tag govuk-tag--green" title="Approved by ${escapeHtml(approvedBy)} at ${formatDate(approvedAt, DATETIMEFORMAT)}">Approved</span>`,
       attributes: { style: 'text-align: center;', 'data-sort': approvedAt }
     }
   }
@@ -24,14 +33,14 @@ async function homeView (comments, currentUser) {
       name: 'description',
       title: 'Description',
       mapper: (_field, row) => ({
-        html: `<a href="/comment/view/${row.id}" class="home-page-table description-column">${row.description}</a>`
+        html: `<a href="/comment/view/${encodeURIComponent(row.id || '')}" class="home-page-table description-column">${escapeHtml(row.description)}</a>`
       })
     },
     {
       name: 'riskType',
       title: 'Flood Risk',
       mapper: (_field, row) => ({
-        html: `<span class="home-page-table flood-risk-column">${row[_field.name] || ''}</span>`
+        html: `<span class="home-page-table flood-risk-column">${escapeHtml(row[_field.name])}</span>`
       })
     },
     {
@@ -45,7 +54,7 @@ async function homeView (comments, currentUser) {
       name: 'createdBy',
       title: 'Created By',
       mapper: (field, row) => ({
-        html: `<span class="home-page-table created-by-column">${row[field.name] || ''}</span>`
+        html: `<span class="home-page-table created-by-column">${escapeHtml(row[field.name])}</span>`
       })
     },
     { name: 'featureCount', title: 'Features' },
