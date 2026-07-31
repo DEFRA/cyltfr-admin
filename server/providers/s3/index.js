@@ -1,6 +1,7 @@
 const { S3Client, GetObjectCommand, PutObjectCommand, DeleteObjectCommand, HeadObjectCommand, ListObjectsV2Command } = require('@aws-sdk/client-s3')
 const config = require('../../config')
 const manifestKey = `${config.holdingCommentsPrefix}/${config.manifestFilename}`
+const httpPreconditionFailed = 412
 
 const s3Client = new S3Client({
   region: config.awsBucketRegion
@@ -132,6 +133,60 @@ class S3Provider {
       } else {
         throw err
       }
+    }
+  }
+
+  // Acquires a distributed lock via S3 so only one process runs the job
+  // If a lock exists but is older than ttlSeconds, it is treated as stale and overwritten
+  async acquireLock (lockKey, ttlSeconds = 300) {
+    const lockPath = `${config.holdingCommentsPrefix}/locks/${lockKey}.json`
+    const now = Date.now()
+
+    // Check for a stale lock first and remove it if expired
+    try {
+      const existing = await s3Client.send(new GetObjectCommand({
+        Bucket: config.awsBucketName,
+        Key: lockPath
+      }))
+      const lockData = JSON.parse(await existing.Body.transformToString())
+      if (now - lockData.acquiredAt < ttlSeconds * 1000) {
+        return false // Lock is still valid
+      }
+      console.log(`Distributed lock '${lockKey}' is stale, overwriting.`)
+    } catch (err) {
+      if (err.name !== 'NoSuchKey') {
+        throw err
+      }
+    }
+
+    // Create the lock using IfNoneMatch (fails if object already exists)
+    try {
+      await s3Client.send(new PutObjectCommand({
+        Bucket: config.awsBucketName,
+        Key: lockPath,
+        Body: JSON.stringify({ acquiredAt: now }),
+        IfNoneMatch: '*'
+      }))
+      return true // Lock acquired
+    } catch (err) {
+      if (err.name === 'PreconditionFailed' || err.$metadata?.httpStatusCode === httpPreconditionFailed) {
+        return false // Another process created the lock
+      }
+      throw err
+    }
+  }
+
+  // Releases the distributed lock by deleting the lock file from S3
+  // Always called in a finally block to ensure cleanup on success or failure
+  async releaseLock (lockKey) {
+    const lockPath = `${config.holdingCommentsPrefix}/locks/${lockKey}.json`
+    try {
+      await s3Client.send(new DeleteObjectCommand({
+        Bucket: config.awsBucketName,
+        Key: lockPath
+      }))
+    } catch (err) {
+      console.error(`Error releasing distributed lock '${lockKey}':`, err)
     }
   }
 
