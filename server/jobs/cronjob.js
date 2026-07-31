@@ -81,9 +81,16 @@ const createCronJob = async () => {
   const options = {
     scheduled: true,
     recoverMissedExecutions: false,
-    runOnInit: config.sendEmailsOnStartup
+    maxRandomDelay: 30000
   }
   cron.schedule(config.notifyCron, scheduledJob, options)
+  if (config.sendEmailsOnStartup) {
+    cron.schedule('* * * * *', scheduledJob,
+      {
+        maxRandomDelay: 30000,
+        maxExecutions: 1
+      })
+  }
 }
 
 module.exports = { createCronJob, onJobCalled }

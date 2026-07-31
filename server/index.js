@@ -69,9 +69,6 @@ async function createServer (Provider = require('./providers/s3')) {
   })
   await server.register(require('./plugins/logging'))
   await server.register(require('blipp'))
-  // Run cron job to send reminder emails
-  const { createCronJob } = require('./jobs/cronjob')
-  createCronJob()
 
   server.ext('onPostHandler', (request, h) => {
     const response = request.response
@@ -118,6 +115,9 @@ async function createServer (Provider = require('./providers/s3')) {
       generateTimeout: CACHE_GENERATE_TIMEOUT * 1000
     }
   })
+  // Run cron job to send reminder emails
+  const { createCronJob } = require('./jobs/cronjob')
+  createCronJob()
 
   return server
 }
