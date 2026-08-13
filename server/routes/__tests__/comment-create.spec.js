@@ -4,7 +4,7 @@ const config = require('../../config')
 
 let server
 
-const AUTH = {
+const auth = {
   credentials: { profile: { email: 'test@example.com' } },
   strategy: 'session'
 }
@@ -30,7 +30,7 @@ describe('GET /comment/create/{type}', () => {
     const response = await server.inject({
       method: 'GET',
       url: '/comment/create/holding',
-      auth: AUTH
+      auth
     })
     expect(response.statusCode).toEqual(STATUS_CODES.HTTP_STATUS_OK)
   })
@@ -50,7 +50,7 @@ describe('POST /comment/create/{type}', () => {
     const response = await server.inject({
       method: 'POST',
       url: '/comment/create/holding',
-      auth: AUTH,
+      auth,
       payload: validPayload
     })
 
@@ -66,7 +66,7 @@ describe('POST /comment/create/{type}', () => {
         boundary: validPayload.boundary,
         featureCount: validPayload.features.length,
         riskType: validPayload.features[0].properties.riskType,
-        createdBy: AUTH.credentials.profile.email
+        createdBy: auth.credentials.profile.email
       })
     )
     expect(server.provider.uploadObject).toHaveBeenCalled()
@@ -78,7 +78,7 @@ describe('POST /comment/create/{type}', () => {
     const response = await server.inject({
       method: 'POST',
       url: '/comment/create/holding',
-      auth: AUTH,
+      auth,
       payload: validPayload
     })
 
@@ -95,7 +95,7 @@ describe('POST /comment/create/{type}', () => {
     await server.inject({
       method: 'POST',
       url: '/comment/create/holding',
-      auth: AUTH,
+      auth,
       payload: validPayload
     })
 
@@ -111,7 +111,7 @@ describe('POST /comment/create/{type}', () => {
     const response = await server.inject({
       method: 'POST',
       url: '/comment/create/holding',
-      auth: AUTH,
+      auth,
       payload: { features: [] } // missing required `name`
     })
 
