@@ -2,10 +2,13 @@ name: UNITTEST
 
 on:
   push:
+    branches-ignore:
+      - development
+  workflow_call:
   workflow_dispatch:
 
 jobs:
-  build:
+  unit-tests:
     runs-on: ubuntu-latest
     env:
       RISK_DATA_URL: unittest
