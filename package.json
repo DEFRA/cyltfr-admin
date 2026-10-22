@@ -4,7 +4,7 @@
   "description": "CYLTFR Admin Web App",
   "main": "index.js",
   "engines": {
-    "node": ">=22.14.0"
+    "node": ">=22.23.4"
   },
   "scripts": {
     "build:css": "bin/build-css",
@@ -38,7 +38,7 @@
     "dotenv": "17.4.2",
     "govuk-frontend": "6.4.0",
     "hapi-pino": "13.0.0",
-    "joi": "18.2.3",
+    "joi": "18.2.9",
     "jsonexport": "3.2.0",
     "moment-timezone": "0.6.3",
     "node-cron": "4.6.0",
