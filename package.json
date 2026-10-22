@@ -4,7 +4,7 @@
   "description": "CYLTFR Admin Web App",
   "main": "index.js",
   "engines": {
-    "node": ">=22.14.0"
+    "node": ">=22.23.4"
   },
   "scripts": {
     "build:css": "bin/build-css",
